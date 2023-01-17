@@ -37,7 +37,7 @@ const fetchProducts = () => {
         .get('https://fakestoreapi.com/products')
         .then((res) =>{
             console.log(res); // response // response.data
-            setProducts(res.data) // take note it must be res.data.data because res.data is an object not an array // passing data into our setProducts function so that we can set our state to the data
+            setProducts(res.data) // for storerestapi, take note it must be res.data.data because res.data is an object not an array // passing data into our setProducts function so that we can set our state to the data
         })
         .catch((err) => {
             console.log(err);
