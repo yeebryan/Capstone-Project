@@ -22,6 +22,7 @@ const Product = () => {
 
   return (
     <div>
+        
       <div className="product-container" key={data.id}>
         <div>
           <img className="prod-image" src={data.image} alt="" />

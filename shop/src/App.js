@@ -1,8 +1,7 @@
 import React from 'react';
 import {Routes, Route } from 'react-router-dom';
-
-import FeaturedProduct from './FeaturedProduct';
 import Product from './Product';
+import FeaturedProduct from './FeaturedProduct';
 import './App.css';
 
 
