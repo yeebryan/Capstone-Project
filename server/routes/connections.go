@@ -8,9 +8,13 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
+// Define database name
+const dbName = "cluster0"
 
 // DBinstance func
 func DBinstance() *mongo.Client {
@@ -45,7 +49,13 @@ var Client *mongo.Client = DBinstance()
 // OpenCollection is a  function makes a connection with a collection in the database
 func OpenCollection(client *mongo.Client, collectionName string) *mongo.Collection {
 
-	var collection *mongo.Collection = client.Database("cluster0").Collection(collectionName)
+	var collection *mongo.Collection = client.Database(dbName).Collection(collectionName)
 
 	return collection
+}
+
+// FindRestaurantByName is a function to find restaurant given the restaurant name
+func FindRestaurantByName(nameToFind string) *mongo.SingleResult {
+	result := Client.Database(dbName).Collection("restaurant").FindOne(context.Background(), bson.M{"restaurant_name": nameToFind})
+	return result
 }
