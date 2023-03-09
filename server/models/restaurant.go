@@ -4,8 +4,8 @@ import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type Restaurant struct {
 	ID             primitive.ObjectID `bson:"_id,omitempty" json:"id"`
-	CuisineType    string             `bson:"cuisine_type" json:"cuisine_type"`
-	RestaurantName string             `bson:"restaurant_name" json:"restaurant_name"`
+	CuisineType    string             `bson:"cuisine_type,omitempty" json:"cuisine_type"`
+	RestaurantName string             `bson:"restaurant_name,omitempty" json:"restaurant_name"`
 	// Rating         float32            `bson:"rating" json:"rating"`
 	// Location       string             `bson:"location" json:"location"`
 	// PostalCode     int                `bson:"postal_code" json:"postal_code"`
