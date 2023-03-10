@@ -1,21 +1,14 @@
 import React from 'react';
-import {Routes, Route } from 'react-router-dom';
-import Product from './Product';
-import FeaturedProduct from './FeaturedProduct';
-import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
-
+import Orders from './components/orders.components';
 
 function App() {
   return (
-    <div className='App'>
-      <Routes>
-        <Route path="/" element={<FeaturedProduct/>} />
-        <Route path="/products/:id" element={<Product/>} />
-      </Routes>
+    <div>
+      <Orders />
     </div>
   );
 }
+
 export default App;
-
-
