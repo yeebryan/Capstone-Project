@@ -22,18 +22,29 @@ func main() {
 
 	router.Use(cors.Default())
 
-	// C
-	//create timing
-	// Create one item
-	router.POST("/playlist/create", routes.AddPlaylist)
-	router.POST("/food/create", routes.AddFood)
-	router.POST("/restaurant/create", routes.AddRestaurant)
+	//ADMIN USE
+	router.POST("admin/playlist/createToDB", routes.AdminAddPlaylistToDB)
+	router.POST("admin/food/createToDB", routes.AdminAddFoodToDB)
+	router.POST("admin/restaurant/createToDB", routes.AdminAddRestaurantToDB)
 
-	// R
 	// Get All items
-	router.GET("/playlists", routes.GetPlaylists)
-	router.GET("/food", routes.GetFood)
+	router.GET("admin/playlists", routes.AdminGetPlaylists)
+	router.GET("admin/food", routes.AdminGetFood)
+
+	// USER USAGE
+	// router.POST("/cart/createPlaylist", routes.createPlaylist)
+
 	router.GET("/restaurants", routes.GetRestaurants)
+	// GET /restaurantByCuisine
+	router.GET("/food/:restaurant_id", routes.GetFoodByRestaurantID) //need to test
+	// router.GET("/playlist/:user_id", routes.GetPlaylistByUserID)
+	// router.GET("/cart/:user_id", routes.GetCartByUserID)
+	// router.GET("/user", routes.GetUserByID)
+
+	// router.POST("/restaurants/:food_id", routes.AddFoodItemToCart)
+	// router.POST("/login", routes.userLogin)
+
+	// router.DELETE("/cart/:food_id", routes.DeleteCartFoodItem)
 	//get by id
 
 	// U
@@ -43,5 +54,10 @@ func main() {
 	// router.DELETE("/order/delete/:id", routes.DeleteOrder)
 
 	//this runs the server and allows it to listen to requests.
+
+	//FOR TESTDATA
+	// testdata.InsertData()
+	// testdata.DropTestData()
+
 	router.Run(":" + port)
 }
