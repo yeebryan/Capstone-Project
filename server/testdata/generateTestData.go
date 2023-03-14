@@ -4,9 +4,16 @@ import (
 	"context"
 	"server/models"
 	"server/routes"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
+
+type foodData struct {
+	ID    primitive.ObjectID
+	Name  string
+	Price float64
+}
 
 // Insert test data into the respective collections
 func InsertData() error {
@@ -14,11 +21,17 @@ func InsertData() error {
 	userCollection := routes.OpenCollection(routes.Client, "user")
 	foodCollection := routes.OpenCollection(routes.Client, "food")
 	restaurantCollection := routes.OpenCollection(routes.Client, "restaurant")
+	cartCollection := routes.OpenCollection(routes.Client, "cart")
+	orderCollection := routes.OpenCollection(routes.Client, "order")
 
 	//_id of respective data
 	userID := make([]primitive.ObjectID, 3)
-	foodID := make([]primitive.ObjectID, 19)
+	// foodData := make([]primitive.ObjectID, 19)
 	restaurantID := make([]primitive.ObjectID, 10)
+
+	foodData := make([]foodData, 19)
+	// // name of food
+	// foodData := make ([]string,19)
 
 	// User collection
 	userData := []models.User{
@@ -57,7 +70,7 @@ func InsertData() error {
 	}
 
 	// Food collection
-	foodData := []models.Food{
+	foodCollectionData := []models.Food{
 		{
 			ID:          primitive.NewObjectID(),
 			Name:        "Hamburger",
@@ -212,12 +225,14 @@ func InsertData() error {
 		},
 	}
 	// Insert each food item into the collection
-	for i, food := range foodData {
+	for i, food := range foodCollectionData {
 		result, err := foodCollection.InsertOne(context.Background(), food)
 		if err != nil {
 			return err
 		}
-		foodID[i] = result.InsertedID.(primitive.ObjectID)
+		foodData[i].ID = result.InsertedID.(primitive.ObjectID)
+		foodData[i].Name = food.Name
+		foodData[i].Price = food.Price
 	}
 
 	// Restaurant collection
@@ -229,7 +244,7 @@ func InsertData() error {
 			Categories: []string{"Burgers", "Fast Food"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-				foodID[0],
+				foodData[0].ID,
 			},
 		},
 		{
@@ -239,8 +254,8 @@ func InsertData() error {
 			Categories: []string{"Pizza", "Italian"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-				foodID[1],
-				foodID[2],
+				foodData[1].ID,
+				foodData[2].ID,
 			},
 		},
 		{
@@ -250,8 +265,8 @@ func InsertData() error {
 			Categories: []string{"Sushi", "Japanese"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-				foodID[3],
-				foodID[4],
+				foodData[3].ID,
+				foodData[4].ID,
 			},
 		},
 		{
@@ -261,8 +276,8 @@ func InsertData() error {
 			Categories: []string{"Mexican", "Tacos"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-				foodID[5],
-				foodID[6],
+				foodData[5].ID,
+				foodData[6].ID,
 			},
 		},
 		{
@@ -272,8 +287,8 @@ func InsertData() error {
 			Categories: []string{"Chinese", "Asian"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-				foodID[7],
-				foodID[8],
+				foodData[7].ID,
+				foodData[8].ID,
 			},
 		},
 		{
@@ -283,8 +298,8 @@ func InsertData() error {
 			Categories: []string{"American", "Breakfast"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-				foodID[9],
-				foodID[10],
+				foodData[9].ID,
+				foodData[10].ID,
 			},
 		},
 		{
@@ -294,8 +309,8 @@ func InsertData() error {
 			Categories: []string{"Indian", "Spicy"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-				foodID[11],
-				foodID[12],
+				foodData[11].ID,
+				foodData[12].ID,
 			},
 		},
 		{
@@ -305,8 +320,8 @@ func InsertData() error {
 			Categories: []string{"Mexican", "Tacos"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-				foodID[13],
-				foodID[14],
+				foodData[13].ID,
+				foodData[14].ID,
 			},
 		},
 		{
@@ -316,8 +331,8 @@ func InsertData() error {
 			Categories: []string{"Asian", "Noodles"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-				foodID[15],
-				foodID[16],
+				foodData[15].ID,
+				foodData[16].ID,
 			},
 		},
 		{
@@ -327,8 +342,8 @@ func InsertData() error {
 			Categories: []string{"Vegetarian", "Healthy"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-				foodID[17],
-				foodID[18],
+				foodData[17].ID,
+				foodData[18].ID,
 			},
 		},
 	}
@@ -340,15 +355,181 @@ func InsertData() error {
 		}
 		restaurantID[i] = result.InsertedID.(primitive.ObjectID)
 	}
+
+	// Cart collection
+	cartData := []models.Cart{
+		{
+			ID:     primitive.NewObjectID(),
+			UserID: userID[0],
+			Items: &[]models.FoodItems{
+				{
+					ID:       foodData[0].ID,
+					Name:     foodData[0].Name,
+					Quantity: 2,
+					Price:    foodData[0].Price,
+				},
+				{
+					ID:       foodData[1].ID,
+					Name:     foodData[1].Name,
+					Quantity: 1,
+					Price:    foodData[1].Price,
+				},
+			},
+
+			TotalPrice: 32.97,
+			CreatedAt:  time.Date(2022, 2, 10, 8, 35, 0, 0, time.UTC),
+		},
+		{
+			ID:     primitive.NewObjectID(),
+			UserID: userID[0],
+			Items: &[]models.FoodItems{
+				{
+					ID:       foodData[4].ID,
+					Name:     foodData[4].Name,
+					Quantity: 1,
+					Price:    foodData[4].Price,
+				},
+				{
+					ID:       foodData[2].ID,
+					Name:     foodData[2].Name,
+					Quantity: 2,
+					Price:    foodData[2].Price,
+				},
+				{
+					ID:       foodData[3].ID,
+					Name:     foodData[3].Name,
+					Quantity: 1,
+					Price:    foodData[3].Price,
+				},
+			},
+			TotalPrice: 49.96,
+			CreatedAt:  time.Date(2022, 3, 5, 18, 20, 0, 0, time.UTC),
+		},
+		{
+			ID:     primitive.NewObjectID(),
+			UserID: userID[1],
+			Items: &[]models.FoodItems{
+				{
+					ID:       foodData[5].ID,
+					Name:     foodData[5].Name,
+					Quantity: 1,
+					Price:    foodData[5].Price,
+				},
+				{
+					ID:       foodData[6].ID,
+					Name:     foodData[6].Name,
+					Quantity: 2,
+					Price:    foodData[6].Price,
+				},
+			},
+			TotalPrice: 10.97,
+			CreatedAt:  time.Date(2022, 2, 28, 13, 45, 0, 0, time.UTC),
+		},
+	}
+	// Insert each cart into the collection
+	for _, cart := range cartData {
+		_, err := cartCollection.InsertOne(context.Background(), cart)
+		if err != nil {
+			return err
+		}
+	}
+
+	// Order collection
+	orderData := []models.Order{
+		{
+			ID:     primitive.NewObjectID(),
+			UserID: userID[0],
+			Items: &[]models.FoodItems{
+				{
+					ID:       foodData[0].ID,
+					Name:     foodData[0].Name,
+					Quantity: 2,
+					Price:    foodData[0].Price,
+				},
+				{
+					ID:       foodData[1].ID,
+					Name:     foodData[1].Name,
+					Quantity: 1,
+					Price:    foodData[1].Price,
+				},
+			},
+			TotalPrice:    32.97,
+			PaymentMethod: "credit",
+			DeliveryTime:  time.Date(2022, 3, 22, 15, 0, 0, 0, time.UTC),
+			CreatedAt:     time.Date(2022, 3, 12, 8, 0, 0, 0, time.UTC),
+		},
+		{
+			ID:     primitive.NewObjectID(),
+			UserID: userID[1],
+			Items: &[]models.FoodItems{
+				{
+					ID:       foodData[2].ID,
+					Name:     foodData[2].Name,
+					Quantity: 1,
+					Price:    foodData[2].Price,
+				},
+				{
+					ID:       foodData[3].ID,
+					Name:     foodData[3].Name,
+					Quantity: 2,
+					Price:    foodData[3].Price,
+				},
+			},
+			TotalPrice:    32.97,
+			PaymentMethod: "cash",
+			DeliveryTime:  time.Date(2022, 3, 13, 20, 0, 0, 0, time.UTC),
+			CreatedAt:     time.Date(2022, 3, 11, 18, 30, 0, 0, time.UTC),
+		},
+		{
+			ID:     primitive.NewObjectID(),
+			UserID: userID[2],
+			Items: &[]models.FoodItems{
+				{
+					ID:       foodData[4].ID,
+					Name:     foodData[4].Name,
+					Quantity: 1,
+					Price:    foodData[4].Price,
+				},
+				{
+					ID:       foodData[5].ID,
+					Name:     foodData[5].Name,
+					Quantity: 1,
+					Price:    foodData[5].Price,
+				},
+				{
+					ID:       foodData[6].ID,
+					Name:     foodData[6].Name,
+					Quantity: 2,
+					Price:    foodData[6].Price,
+				},
+			},
+			TotalPrice:    21.96,
+			PaymentMethod: "debit",
+			DeliveryTime:  time.Date(2022, 3, 14, 18, 0, 0, 0, time.UTC),
+			CreatedAt:     time.Date(2022, 3, 10, 10, 45, 0, 0, time.UTC),
+		},
+	}
+	// Insert each order into the collection
+	for _, order := range orderData {
+		_, err := orderCollection.InsertOne(context.Background(), order)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
-func DropTestData(){
+func DropTestData() {
 	userCollection := routes.OpenCollection(routes.Client, "user")
 	foodCollection := routes.OpenCollection(routes.Client, "food")
 	restaurantCollection := routes.OpenCollection(routes.Client, "restaurant")
+	cartCollection := routes.OpenCollection(routes.Client, "cart")
+	orderCollection := routes.OpenCollection(routes.Client, "order")
 
 	userCollection.Drop(context.Background())
 	foodCollection.Drop(context.Background())
 	restaurantCollection.Drop(context.Background())
+	cartCollection.Drop(context.Background())
+	orderCollection.Drop(context.Background())
 }

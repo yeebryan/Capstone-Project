@@ -37,7 +37,7 @@ func main() {
 
 	router.GET("/restaurants", routes.GetRestaurants)
 	// GET /restaurantByCuisine
-	router.GET("/food/:restaurant_id", routes.GetFoodByRestaurantID) //need to test
+	router.GET("/restaurant/:restaurant_id", routes.GetFoodByRestaurantID) //need to test
 	// router.GET("/playlist/:user_id", routes.GetPlaylistByUserID)
 	// router.GET("/cart/:user_id", routes.GetCartByUserID)
 	// router.GET("/user", routes.GetUserByID)
@@ -57,8 +57,8 @@ func main() {
 	//this runs the server and allows it to listen to requests.
 
 	//FOR TESTDATA
-	// testdata.InsertData()
 	// testdata.DropTestData()
+	// testdata.InsertData()
 
 	router.Run(":" + port)
 }
