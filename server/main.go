@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 
+	"server/middleware"
 	"server/routes"
 	// "server/testdata"
 
@@ -11,7 +12,6 @@ import (
 )
 
 func main() {
-
 	port := os.Getenv("PORT")
 
 	if port == "" {
@@ -20,8 +20,10 @@ func main() {
 
 	router := gin.New()
 	router.Use(gin.Logger())
-
+	routes.UserRoutes(router)
 	router.Use(cors.Default())
+
+	router.Use(middleware.Authentication())
 
 	//ADMIN USE
 	router.POST("admin/playlist/createToDB", routes.AdminAddPlaylistToDB)

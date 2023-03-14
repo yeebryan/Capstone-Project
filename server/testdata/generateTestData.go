@@ -2,10 +2,12 @@ package testdata
 
 import (
 	"context"
+	"server/database"
 	"server/models"
 	"server/routes"
 	"time"
 
+	"github.com/xorcare/pointer"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -18,55 +20,49 @@ type foodData struct {
 // Insert test data into the respective collections
 func InsertData() error {
 	// Collections
-	userCollection := routes.OpenCollection(routes.Client, "user")
-	foodCollection := routes.OpenCollection(routes.Client, "food")
-	restaurantCollection := routes.OpenCollection(routes.Client, "restaurant")
-	cartCollection := routes.OpenCollection(routes.Client, "cart")
-	orderCollection := routes.OpenCollection(routes.Client, "order")
+	foodCollection := database.OpenCollection(database.Client, "food")
+	restaurantCollection := database.OpenCollection(database.Client, "restaurant")
+	cartCollection := database.OpenCollection(database.Client, "cart")
+	orderCollection := database.OpenCollection(database.Client, "order")
 
-	//_id of respective data
+	// _id of respective data
 	userID := make([]primitive.ObjectID, 3)
-	// foodData := make([]primitive.ObjectID, 19)
 	restaurantID := make([]primitive.ObjectID, 10)
 
+	// food data
 	foodData := make([]foodData, 19)
-	// // name of food
-	// foodData := make ([]string,19)
 
 	// User collection
 	userData := []models.User{
 		{
-			ID:          primitive.NewObjectID(),
-			Name:        "Bryan",
-			Email:       "b@panda.com",
-			Password:    "p123",
+			FirstName:   pointer.String("Bryan"),
+			LastName:    pointer.String("fp"),
+			Email:       pointer.String("b@panda.com"),
+			Password:    pointer.String("p12345"),
 			Address:     "88 Marina Bay",
-			PhoneNumber: "8000-5555",
+			PhoneNumber: pointer.String("8000-5555"),
 		},
 		{
-			ID:          primitive.NewObjectID(),
-			Name:        "Daniel",
-			Email:       "d@panda.com",
-			Password:    "p1234",
+			FirstName:   pointer.String("Daniel"),
+			LastName:    pointer.String("fp"),
+			Email:       pointer.String("d@panda.com"),
+			Password:    pointer.String("p12345"),
 			Address:     "88 Orchard",
-			PhoneNumber: "8001-5555",
+			PhoneNumber: pointer.String("8001-5555"),
 		},
 		{
-			ID:          primitive.NewObjectID(),
-			Name:        "Chek Wee",
-			Email:       "cw@panda.com",
-			Password:    "p12345",
+			FirstName:   pointer.String("Chek Wee"),
+			LastName:    pointer.String("fp"),
+			Email:       pointer.String("cw@panda.com"),
+			Password:    pointer.String("p12345"),
 			Address:     "88 Holland",
-			PhoneNumber: "8002-5555",
+			PhoneNumber: pointer.String("8002-5555"),
 		},
 	}
 	// Insert each user into the collection
 	for i, user := range userData {
-		result, err := userCollection.InsertOne(context.Background(), user)
-		if err != nil {
-			return err
-		}
-		userID[i] = result.InsertedID.(primitive.ObjectID)
+		createdUser := routes.AdminSignUp(user)
+		userID[i] = createdUser.ID
 	}
 
 	// Food collection
@@ -521,11 +517,11 @@ func InsertData() error {
 }
 
 func DropTestData() {
-	userCollection := routes.OpenCollection(routes.Client, "user")
-	foodCollection := routes.OpenCollection(routes.Client, "food")
-	restaurantCollection := routes.OpenCollection(routes.Client, "restaurant")
-	cartCollection := routes.OpenCollection(routes.Client, "cart")
-	orderCollection := routes.OpenCollection(routes.Client, "order")
+	userCollection := database.OpenCollection(database.Client, "user")
+	foodCollection := database.OpenCollection(database.Client, "food")
+	restaurantCollection := database.OpenCollection(database.Client, "restaurant")
+	cartCollection := database.OpenCollection(database.Client, "cart")
+	orderCollection := database.OpenCollection(database.Client, "order")
 
 	userCollection.Drop(context.Background())
 	foodCollection.Drop(context.Background())

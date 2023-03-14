@@ -2,8 +2,8 @@ package routes
 
 import (
 	"context"
-	"fmt"
 	"net/http"
+	"server/database"
 	"server/models"
 	"time"
 
@@ -11,14 +11,15 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // var validate = validator.New()
 
-var restaurantCollection *mongo.Collection = OpenCollection(Client, "restaurant")
+var restaurantCollection *mongo.Collection = database.OpenCollection(database.Client, "restaurant")
 
-// add a restaurant
-func AddRestaurant(c *gin.Context) {
+// add a restaurant to db (admin side)
+func AdminAddRestaurantToDB(c *gin.Context) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
@@ -26,14 +27,12 @@ func AddRestaurant(c *gin.Context) {
 
 	if err := c.BindJSON(&restaurant); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		fmt.Println(err)
 		return
 	}
 
 	validationErr := validate.Struct(restaurant)
 	if validationErr != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": validationErr.Error()})
-		fmt.Println(validationErr)
 		return
 	}
 	restaurant.ID = primitive.NewObjectID()
@@ -41,7 +40,6 @@ func AddRestaurant(c *gin.Context) {
 	result, insertErr := restaurantCollection.InsertOne(ctx, restaurant)
 	if insertErr != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error adding restaurant": insertErr.Error()})
-		fmt.Println(insertErr)
 		return
 	}
 
@@ -59,17 +57,13 @@ func GetRestaurants(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error finding restaurant collection": err.Error()})
-		fmt.Println(err)
 		return
 	}
 
 	if err = cursor.All(ctx, &restaurants); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting restaurant cursor": err.Error()})
-		fmt.Println(err)
 		return
 	}
-
-	fmt.Println(restaurants)
 
 	c.JSON(http.StatusOK, restaurants)
 }
@@ -103,28 +97,35 @@ func GetRestaurants(c *gin.Context) {
 // 	c.JSON(http.StatusOK, orders)
 // }
 
-// // get an order by its id
-// func GetOrderById(c *gin.Context) {
+// get all food items by the restaurant's id
+func GetFoodByRestaurantID(c *gin.Context) {
+	//have restaurant id
+	//get all food id
+	//search food with food id
+	//return food array
+	restaurantID := c.Params.ByName("restaurant_id")
+	docID, _ := primitive.ObjectIDFromHex(restaurantID)
 
-// 	orderID := c.Params.ByName("id")
-// 	docID, _ := primitive.ObjectIDFromHex(orderID)
+	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
 
-// 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+	var food []bson.M
 
-// 	var order bson.M
+	opts := options.Find().SetSort(bson.D{{"_id", 1}})
+	cursor, err := foodCollection.Find(ctx, bson.M{"restaurant_id": docID}, opts)
 
-// 	if err := orderCollection.FindOne(ctx, bson.M{"_id": docID}).Decode(&order); err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-// 		fmt.Println(err)
-// 		return
-// 	}
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error finding food by restaurant ID": err.Error()})
+		return
+	}
 
-// 	defer cancel()
+	if err = cursor.All(ctx, &food); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting food by restaurant ID cursor": err.Error()})
+		return
+	}
 
-// 	fmt.Println(order)
-
-// 	c.JSON(http.StatusOK, order)
-// }
+	c.JSON(http.StatusOK, food)
+}
 
 // // update a waiter's name for an order
 // func UpdateWaiter(c *gin.Context) {
