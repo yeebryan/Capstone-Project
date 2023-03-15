@@ -5,6 +5,7 @@ import (
 
 	"server/middleware"
 	"server/routes"
+
 	// "server/testdata"
 
 	"github.com/gin-contrib/cors"
@@ -26,9 +27,9 @@ func main() {
 	router.Use(middleware.Authentication())
 
 	//ADMIN USE
-	router.POST("admin/playlist/createToDB", routes.AdminAddPlaylistToDB)
+	router.POST("admin/playlists/createToDB", routes.AdminAddPlaylistToDB)
 	router.POST("admin/food/createToDB", routes.AdminAddFoodToDB)
-	router.POST("admin/restaurant/createToDB", routes.AdminAddRestaurantToDB)
+	router.POST("admin/restaurants/createToDB", routes.AdminAddRestaurantToDB)
 
 	// Get All items
 	router.GET("admin/playlists", routes.AdminGetPlaylists)
@@ -39,7 +40,7 @@ func main() {
 
 	router.GET("/restaurants", routes.GetRestaurants)
 	// GET /restaurantByCuisine
-	router.GET("/restaurant/:restaurant_id", routes.GetFoodByRestaurantID) //need to test
+	router.GET("/restaurants/:restaurant_id", routes.GetFoodByRestaurantID) //need to test
 	// router.GET("/playlist/:user_id", routes.GetPlaylistByUserID)
 	router.GET("/cart/:user_id", routes.GetCartByUserID)
 	// router.GET("/user", routes.GetUserByID)
