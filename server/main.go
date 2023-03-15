@@ -45,7 +45,7 @@ func main() {
 	router.GET("/cart/:user_id", routes.GetCartByUserID)
 	// router.GET("/user", routes.GetUserByID)
 
-	// router.POST("/restaurants/:food_id", routes.AddFoodItemToCart)
+	router.PUT("/restaurants/:food_id", routes.AddFoodItemToCart)
 	// router.POST("/login", routes.userLogin)
 
 	// router.DELETE("/cart/:food_id", routes.DeleteCartFoodItem)

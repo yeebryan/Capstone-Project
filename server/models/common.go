@@ -13,3 +13,10 @@ type FoodItems struct {
 	Quantity int                `bson:"quantity,omitempty" json:"quantity"`
 	Price    float64            `bson:"price,omitempty" json:"price"`
 }
+
+type State string
+
+const (
+	StateCompleted State = "completed"
+	StateInProcess State = "InProcess"
+)

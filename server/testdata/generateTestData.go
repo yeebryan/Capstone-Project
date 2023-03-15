@@ -239,8 +239,10 @@ func InsertData() error {
 			Address:    "123 Main St, Anytown USA",
 			Categories: []string{"Burgers", "Fast Food"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
-				foodData[0].ID,
+			Menu: models.Menu{
+				[]primitive.ObjectID{
+					foodData[0].ID,
+				},
 			},
 		},
 		{
@@ -249,9 +251,11 @@ func InsertData() error {
 			Address:    "456 Elm St, Anytown USA",
 			Categories: []string{"Pizza", "Italian"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
+			Menu: models.Menu{
+				[]primitive.ObjectID{
 				foodData[1].ID,
 				foodData[2].ID,
+				},
 			},
 		},
 		{
@@ -260,31 +264,38 @@ func InsertData() error {
 			Address:    "789 Oak St, Anytown USA",
 			Categories: []string{"Sushi", "Japanese"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
+			Menu: models.Menu{
+				[]primitive.ObjectID{
 				foodData[3].ID,
 				foodData[4].ID,
+				},
 			},
 		},
+	
 		{
 			ID:         primitive.NewObjectID(),
 			Name:       "Taco Truck",
 			Address:    "321 Maple St, Anytown USA",
 			Categories: []string{"Mexican", "Tacos"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
+			Menu: models.Menu{
+				[]primitive.ObjectID{
 				foodData[5].ID,
 				foodData[6].ID,
 			},
 		},
+		},	
 		{
 			ID:         primitive.NewObjectID(),
 			Name:       "The Golden Wok",
 			Address:    "555 Pine St, Anytown USA",
 			Categories: []string{"Chinese", "Asian"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
+			Menu: models.Menu{
+				[]primitive.ObjectID{
 				foodData[7].ID,
 				foodData[8].ID,
+				},
 			},
 		},
 		{
@@ -293,9 +304,11 @@ func InsertData() error {
 			Address:    "888 Oak St, Anytown USA",
 			Categories: []string{"American", "Breakfast"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
+			Menu: models.Menu{
+				[]primitive.ObjectID{
 				foodData[9].ID,
 				foodData[10].ID,
+				},
 			},
 		},
 		{
@@ -304,9 +317,11 @@ func InsertData() error {
 			Address:    "222 Maple St, Anytown USA",
 			Categories: []string{"Indian", "Spicy"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
+			Menu: models.Menu{
+				[]primitive.ObjectID{
 				foodData[11].ID,
 				foodData[12].ID,
+				},
 			},
 		},
 		{
@@ -315,9 +330,11 @@ func InsertData() error {
 			Address:    "777 Main St, Anytown USA",
 			Categories: []string{"Mexican", "Tacos"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
+			Menu: models.Menu{
+				[]primitive.ObjectID{
 				foodData[13].ID,
 				foodData[14].ID,
+				},
 			},
 		},
 		{
@@ -326,9 +343,11 @@ func InsertData() error {
 			Address:    "444 Elm St, Anytown USA",
 			Categories: []string{"Asian", "Noodles"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
+			Menu: models.Menu{
+				[]primitive.ObjectID{
 				foodData[15].ID,
 				foodData[16].ID,
+				},
 			},
 		},
 		{
@@ -337,9 +356,11 @@ func InsertData() error {
 			Address:    "333 Oak St, Anytown USA",
 			Categories: []string{"Vegetarian", "Healthy"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
+			Menu: models.Menu{
+				[]primitive.ObjectID{
 				foodData[17].ID,
 				foodData[18].ID,
+				},
 			},
 		},
 	}
@@ -357,7 +378,7 @@ func InsertData() error {
 		{
 			ID:     primitive.NewObjectID(),
 			UserID: userID[0],
-			Items: &[]models.FoodItems{
+			Items: []models.FoodItems{
 				{
 					ID:       foodData[0].ID,
 					Name:     foodData[0].Name,
@@ -371,14 +392,14 @@ func InsertData() error {
 					Price:    foodData[1].Price,
 				},
 			},
-
 			TotalPrice: 32.97,
 			CreatedAt:  time.Date(2022, 2, 10, 8, 35, 0, 0, time.UTC),
+			State:      models.StateInProcess,
 		},
 		{
 			ID:     primitive.NewObjectID(),
 			UserID: userID[0],
-			Items: &[]models.FoodItems{
+			Items: []models.FoodItems{
 				{
 					ID:       foodData[4].ID,
 					Name:     foodData[4].Name,
@@ -400,11 +421,12 @@ func InsertData() error {
 			},
 			TotalPrice: 49.96,
 			CreatedAt:  time.Date(2022, 3, 5, 18, 20, 0, 0, time.UTC),
+			State:      models.StateInProcess,
 		},
 		{
 			ID:     primitive.NewObjectID(),
 			UserID: userID[1],
-			Items: &[]models.FoodItems{
+			Items: []models.FoodItems{
 				{
 					ID:       foodData[5].ID,
 					Name:     foodData[5].Name,
@@ -420,6 +442,7 @@ func InsertData() error {
 			},
 			TotalPrice: 10.97,
 			CreatedAt:  time.Date(2022, 2, 28, 13, 45, 0, 0, time.UTC),
+			State:      models.StateInProcess,
 		},
 	}
 	// Insert each cart into the collection

@@ -2,6 +2,7 @@ package routes
 
 import (
 	"context"
+	"log"
 	"net/http"
 	"server/database"
 	"server/models"
@@ -126,6 +127,82 @@ func GetFoodByRestaurantID(c *gin.Context) {
 		}
 	}
 	c.JSON(http.StatusOK, food)
+}
+
+// add food item to cart
+func AddFoodItemToCart(c *gin.Context) {
+	//get userid from claims??
+	//get foodid
+	//get cart using userid + state != Completed
+	//if found
+	//	TODO:check if createdAt time more than 24h
+	//		if yes
+	//			clear cart
+	//	see if food item exists
+	//		yes = quantity + 1
+	//	else add to array
+	//if not found upsert new cart??
+	//status ok,nil
+	// userID := c.Value("uid")
+	userID, _ := primitive.ObjectIDFromHex("64120324ad2f446ce6114330")
+	log.Println(userID)
+	foodID := c.Params.ByName("food_id")
+	foodDocID, err := primitive.ObjectIDFromHex(foodID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error finding food ID": err.Error()})
+		return
+	}
+
+	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
+
+	var cart models.Cart
+
+	err = cartCollection.FindOne(ctx, bson.M{"user_id": userID, "state": models.StateInProcess}).Decode(&cart)
+	if err == mongo.ErrNoDocuments {
+		//upsert cart
+		log.Println("found nothing")
+	} else if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error finding cart while adding food item": err.Error()})
+		return
+	}
+	//found cart
+	log.Println("cart before:", cart)
+	var found bool
+	for i, food := range cart.Items {
+		log.Println(i, food)
+		if food.ID == foodDocID {
+			cart.Items[i].Quantity += 1
+			cart.TotalPrice += food.Price
+			found = true
+			log.Println("adding")
+			break
+		}
+	}
+	//food not found in cart
+	//get food info
+	//append to cart.items
+	if !found {
+		var tempFood models.FoodItems
+		err = foodCollection.FindOne(ctx, bson.M{"_id": foodDocID}).Decode(&tempFood)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error finding food item": err.Error()})
+			return
+		}
+		tempFood.ID = foodDocID
+		tempFood.Quantity = 1
+		log.Println("Tempfood:", tempFood)
+		cart.Items = append(cart.Items, tempFood)
+	}
+
+	log.Println("cart after:", cart) //should change quantity and cart total price
+	update := bson.M{"$set": cart}
+	_, err = cartCollection.UpdateByID(ctx, cart.ID, update)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error updating cart while adding food item": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, nil)
 }
 
 // // update a waiter's name for an order
