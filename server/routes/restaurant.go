@@ -11,7 +11,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // var validate = validator.New()
@@ -99,31 +98,33 @@ func GetRestaurants(c *gin.Context) {
 
 // get all food items by the restaurant's id
 func GetFoodByRestaurantID(c *gin.Context) {
-	//have restaurant id
-	//get all food id
-	//search food with food id
-	//return food array
 	restaurantID := c.Params.ByName("restaurant_id")
-	docID, _ := primitive.ObjectIDFromHex(restaurantID)
+	docID, err := primitive.ObjectIDFromHex(restaurantID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error finding restaurant ID": err.Error()})
+		return
+	}
 
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
-	var food []bson.M
+	var menu models.Menu
 
-	opts := options.Find().SetSort(bson.D{{"_id", 1}})
-	cursor, err := foodCollection.Find(ctx, bson.M{"restaurant_id": docID}, opts)
+	err = restaurantCollection.FindOne(ctx, bson.M{"_id": docID}).Decode(&menu)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error finding food by restaurant ID": err.Error()})
 		return
 	}
 
-	if err = cursor.All(ctx, &food); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error getting food by restaurant ID cursor": err.Error()})
-		return
+	var food = make([]models.Food, len(menu.Menu))
+	for i, foodID := range menu.Menu {
+		err = foodCollection.FindOne(ctx, bson.M{"_id": foodID}).Decode(&food[i])
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error finding food by restaurant ID": err.Error()})
+			return
+		}
 	}
-
 	c.JSON(http.StatusOK, food)
 }
 
