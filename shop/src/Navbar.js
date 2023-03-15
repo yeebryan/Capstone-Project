@@ -9,7 +9,7 @@ const Navbar1 = (props) => {
       <Navbar expand="lg">
         <Container>
           <Navbar.Brand href="/">
-            <img src="imgs/panda.png" alt="Logo" />
+            <img src="/imgs/panda.png" alt="Logo" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
