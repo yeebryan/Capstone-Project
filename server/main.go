@@ -41,7 +41,7 @@ func main() {
 	// GET /restaurantByCuisine
 	router.GET("/restaurant/:restaurant_id", routes.GetFoodByRestaurantID) //need to test
 	// router.GET("/playlist/:user_id", routes.GetPlaylistByUserID)
-	// router.GET("/cart/:user_id", routes.GetCartByUserID)
+	router.GET("/cart/:user_id", routes.GetCartByUserID)
 	// router.GET("/user", routes.GetUserByID)
 
 	// router.POST("/restaurants/:food_id", routes.AddFoodItemToCart)
