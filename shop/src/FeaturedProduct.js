@@ -164,7 +164,10 @@ const ThreeColumnCard = ({ handleClickCat }) => {
               <div className="threeCards" onClick={() => handleClickCat("Japanese")}>Japanese</div>
             </Col>
             <Col className='row-three'>
-              <div className="threeCards" onClick={() => handleClickCat("Thai")}>Thai</div>
+              <div className="threeCards" onClick={() => handleClickCat("Indian")}>Indian</div>
+            </Col>
+            <Col className='row-three'>
+              <div className="threeCards" onClick={() => handleClickCat("Mexican")}>Mexican</div>
             </Col>
             <Col className='row-three'>
               <div className="threeCards" onClick={() => handleClickCat("Vegetarian")}>Vegetarian</div>
@@ -207,7 +210,7 @@ const ThreeColumnCard = ({ handleClickCat }) => {
                 {products.map((product) =>(
                     <div className='tile card' key={product.id}> 
                         <Link to={`/products/${product.id}`}>
-                        <img src={product.image} alt={product.image} />
+                        <img src={product.image.url} alt={product.image.url} />
                         </Link>
                         <div className='card-body' style={{ textAlign: 'center' }}>
                         <h3>{product.name}</h3>
@@ -215,7 +218,7 @@ const ThreeColumnCard = ({ handleClickCat }) => {
                         <div className='buttons'>
                         <AddToCartButton onAddToCart={() => onAddToCart(product)} />
                         </div>
-                    </div>
+                        </div>
                     </div>
                 ))}
                 </Carousel>
@@ -240,21 +243,26 @@ const ThreeColumnCard = ({ handleClickCat }) => {
     itemClass="carousel-item-padding-40-px">
       {restaurants.map((restaurant) => (
         <div className='tile card' key={restaurant.id}>
-        <Link to={`/products/${restaurant.id}`}>
-          <img src={restaurant.image} alt={restaurant.image} />
+        <Link to={`/products/${restaurant._id}`}>
+          <img src={restaurant.image.url} alt={restaurant.image.url} />
         </Link>
+        <div className='card-body' style={{ textAlign: 'center' }}>
           <h3>{restaurant.name}</h3>
           <p>{restaurant.description}</p>
+          <div className='buttons'>
           <AddToCartButton onAddToCart={() => onAddToCart(restaurant)} />
         </div>
+        </div>
+        </div>
       ))}
+
   </Carousel>
 )}
              
 <div className='footer'>
         <p>Capstone Mar 2023</p>
-                </div>
-        </div>
+</div>
+</div>
         </div>
 
     )
