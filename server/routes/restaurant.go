@@ -109,20 +109,20 @@ func GetFoodByRestaurantID(c *gin.Context) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
-	var menu models.Menu
+	var restaurant models.Restaurant
 
-	err = restaurantCollection.FindOne(ctx, bson.M{"_id": docID}).Decode(&menu)
+	err = restaurantCollection.FindOne(ctx, bson.M{"_id": docID}).Decode(&restaurant)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error finding food by restaurant ID": err.Error()})
 		return
 	}
 
-	var food = make([]models.Food, len(menu.Menu))
-	for i, foodID := range menu.Menu {
+	var food = make([]models.Food, len(restaurant.Menu.Menu))
+	for i, foodID := range restaurant.Menu.Menu {
 		err = foodCollection.FindOne(ctx, bson.M{"_id": foodID}).Decode(&food[i])
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error finding food by restaurant ID": err.Error()})
+			c.JSON(http.StatusInternalServerError, gin.H{"error finding food": err.Error()})
 			return
 		}
 	}
