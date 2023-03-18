@@ -1,6 +1,13 @@
 h1 {
   text-align: center;
 }
+
+.main-body {
+  padding-top: 1rem;
+}
+
+
+
 .item-container {
   display: flex;
   justify-content: center;
@@ -21,13 +28,13 @@ h1 {
   
 }
 
-.tile .card-body {
+/* .tile .card-body { 
   display: block;
   flex-direction: column;
   justify-content: center;
   height: 100%;
   padding: 1rem;
-}
+} */
 
 
 .tile .buttons {
@@ -40,15 +47,8 @@ h1 {
   margin-top: 1rem;
 }
 
-
-
- img {
-  height: 100px;
-  width: auto;
-} 
-
 h3 {
-  color:blueviolet;
+  color:#d61063;
   font-size: 0.875rem;
   line-height: 1.8;
 }
@@ -100,7 +100,7 @@ button {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: #de2121;
+  background-color: #d61063;
   color: #fff;
   font-size: 12px;
   font-weight: bold;
@@ -115,10 +115,14 @@ button {
   position: fixed;
   bottom: 0;
   width: 100%;
+  box-shadow: 0 0.2rem 1rem rgba(0,0,0,.12);
+
 }
 
+/* end */
+
 .threeCards{
-  background-color: #f1f1f1;
+  background-color: #d61063;
   text-align: center;
   padding: 16px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -137,7 +141,7 @@ button {
 }
 
 .my-carousel {
-  padding-bottom: 300px;
+  padding-bottom: 30px;
 }
 
 .footer {
@@ -168,3 +172,79 @@ button {
 }
 
 
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  margin: 0 10px;
+  border: none; /* Set the border property to none */
+  margin-bottom: 10px; /* Add margin between each card */
+  padding: 10px; /* Add padding to each card */
+
+
+}
+
+.card-wrapper img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  
+}
+
+.card-body {
+  text-align: center;
+  line-height: 1.5em; /* Adjust the line-height */
+}
+
+@media screen and (max-width: 768px) {
+  .cards-container {
+    padding: 10px;
+  }
+
+  .card-wrapper {
+    width: 150px;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+}
+
+/* @media screen and (max-width: 576px) {
+  .card-wrapper {
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+  }
+} */
+
+.carousel-container .card-wrapper {
+  padding: 0 10px;   /* set spacing between each product items */
+  width: 100%
+}
+
+.title-mainpage{
+  font-size: 1.5rem;
+  font-weight: bolder;
+}
+
+.title2-mainpage{
+  font-size: 1rem;
+}
+
+
+/* navbar */
+
+.navbar-style {
+  padding-top: 1rem;
+  box-shadow: 0 0.2rem 1rem rgba(0,0,0,.12);
+}
+
+.logo-text {
+  color: #d61063;
+  font-weight: bold;
+}
+
+.logo-img {
+  height: 50px;
+}

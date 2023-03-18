@@ -4,6 +4,7 @@ import Product from './Product';
 import About from './About';
 import FeaturedProduct from './FeaturedProduct';
 import Checkout from './Checkout';
+
 import './App.css';
 
 

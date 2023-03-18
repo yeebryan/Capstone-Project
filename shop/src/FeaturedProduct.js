@@ -11,35 +11,10 @@ import "./App.css";
 
 // this .js is functional hence we can use HOOK
 
-
-// responsive for carousel
-const responsive = {
-    desktop: {breakpoint: { max: 3000, min: 1024},
-    items: 4,
-    slidesToSlide: 4
-},
-    tablet: {
-        breakpoint: {max: 1024, min: 464},
-        items: 2,
-        slidesToSlide: 2
-    },
-    mobile: {
-        breakpoint: {max: 464, min: 0},
-        items: 1,
-        slidesToSlide: 1
-    }
-}
-
-
-
-
-
-
-
 // arrow function 
 const FeaturedProduct = (props) => {
-    // `products` is the current state // `setProducts` function that updates the state //
-    const [products, setProducts] = useState([]);
+    
+    const [products, setProducts] = useState([]); // `products` is the current state // `setProducts` function that updates the state 
     const [cartCount, setCartCount] = useState(0);
     const [showCart, setShowCart] = useState(false);
     const [cart, setCart] = useState([]);
@@ -47,7 +22,13 @@ const FeaturedProduct = (props) => {
     const [selectedCat, setSelectedCat] = useState(null);
 
 
-
+// rwd
+const settings = 
+    {
+    desktop: {breakpoint: { max: 3000, min: 600}, items: 5, slidesToSlide: 5},
+    tablet: {breakpoint: {max: 600, min: 480}, items: 5, slidesToSlide: 5},
+    mobile: {breakpoint: {max: 480, min: 0}, items: 2, slidesToSlide: 2}
+    }
 
 
 // | useEFFECTS | 
@@ -67,7 +48,7 @@ useEffect(() =>{
     fetchProducts();
 }, []);
 
-// fetch data from API
+// fetch data from API (restaurants)
 const fetchProducts = () => {
     axios
         .get('http://localhost:3000/restaurants')
@@ -91,7 +72,6 @@ const handleClickCat = async (category) => {
 
 
 // cart count, and keep track of item added
-
 const onAddToCart = (item) => {
     setCartCount(cartCount + 1);
     const userCart = JSON.parse(localStorage.getItem(props.userId)) || [];
@@ -121,7 +101,9 @@ const clearCart = () => {
 const CartModal = () => {
     let total = 0;
     let quantity = 0;
+
     const userCart = JSON.parse(localStorage.getItem(props.userId)) || [];
+
     return (
       <Modal show={showCart} onHide={() => setShowCart(false)}>
         <Modal.Header closeButton>
@@ -147,6 +129,145 @@ const CartModal = () => {
     );
   };
   
+// carousel for pre-made playlists
+const CarouselPlaylist = () => {
+
+    return (
+      <Carousel 
+        className="first-carousel"
+        responsive={settings}
+        swipeable={true}
+        draggable={true}
+        showDots={false}
+        ssr={true} // means rendering carousel on server-side
+        infinite={true}
+        autoPlay={true}
+        autoPlaySpeed={10000}
+        keyBoardControl={true}
+        customTransition="all .5"
+        transitionDuration={500}
+        containerClass="carousel-container"
+        //removeArrowOnDeviceType={["tablet", "mobile"]}
+        dotListClass="custom-dot-list-style">
+        {products.map((product) => (
+          <div className='card-wrapper' key={product.id}>
+            <Link to={`/products/${product._id}`}>
+              <img src={product.image.url} alt={product.image.url} />
+            </Link>
+            <div className='card-body' style={{ textAlign: 'center' }}>
+              <h3>{product.name}</h3>
+              <p>{product.description}</p>
+            </div>
+          </div>
+      ))}
+      </Carousel>
+)}
+
+
+
+
+
+
+// 2nd carousel for featured restaurants
+const CarouselRestaurants = () => {
+
+  return (
+    <Carousel 
+      className="my-carousel"
+      responsive={settings}
+      swipeable={true}
+      draggable={true}
+      showDots={false}
+      ssr={true} // means rendering carousel on server-side
+      infinite={true}
+      autoPlay={true}
+      autoPlaySpeed={10000}
+      keyBoardControl={true}
+      customTransition="all .5"
+      transitionDuration={500}
+      containerClass="carousel-container"
+      //removeArrowOnDeviceType={["tablet", "mobile"]}
+      dotListClass="custom-dot-list-style">
+      {products.map((product) => (
+        <div className='card-wrapper' key={product.id}>
+          <Link to={`/products/${product._id}`}>
+            <img src={product.image.url} alt={product.image.url} />
+          </Link>
+          <div className='card-body' style={{ textAlign: 'center' }}>
+            <h3>{product.name}</h3>
+            <p>{product.description}</p>
+          </div>
+        </div>
+    ))}
+    </Carousel>
+)}
+
+
+// carousel for category
+const CarouselCategory = () => {
+
+  return (
+    <Carousel 
+      className="my-carousel"
+      responsive={settings}
+      swipeable={true}
+      draggable={true}
+      showDots={false}
+      ssr={true} // means rendering carousel on server-side
+      infinite={true}
+      autoPlay={true}
+      autoPlaySpeed={10000}
+      keyBoardControl={true}
+      customTransition="all .5"
+      transitionDuration={500}
+      containerClass="carousel-container"
+      //removeArrowOnDeviceType={["tablet", "mobile"]}
+      dotListClass="custom-dot-list-style">
+      {products.map((product) => (
+        <div className='card-wrapper' key={product.id}>
+          <Link to={`/products/${product._id}`}>
+            <img src={product.image.url} alt={product.image.url} />
+          </Link>
+          <div className='card-body' style={{ textAlign: 'center' }}>
+            <h3>{product.name}</h3>
+            <p>{product.description}</p>
+          </div>
+        </div>
+    ))}
+    </Carousel>
+)}
+
+
+// footer
+const Footer = () => {
+  return (
+    <footer className="bg-primary-500 text-white p-4">
+      <div className="container mx-auto">
+        <div className="flex flex-wrap items-center justify-between">
+          <p className="text-sm">© 2023 Your Company. All rights reserved.</p>
+          <ul className="flex space-x-4">
+            <li>
+              <a href="/" className="text-black hover:text-primary-100">
+                Terms of Service
+              </a>
+            </li>
+            <li>
+              <a href="/" className="text-black hover:text-primary-100">
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a href="/" className="text-black hover:text-primary-100">
+                Contact Us
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
 
 // CARD MENU home page - PENDING
 const ThreeColumnCard = ({ handleClickCat }) => {
@@ -186,88 +307,19 @@ const ThreeColumnCard = ({ handleClickCat }) => {
 // display the data (JSX corner)
     return (
         <div className='page'>
-            <Navbar1 cartCount={cartCount} onOpenCart = {onOpenCart}/>
-            <CartModal/>
-            <div className="main-content">
-            <h1>Featured Product</h1>
-            <Carousel 
-                responsive={responsive}
-                swipeable={true}
-                draggable={true}
-                showDots={false}
-                ssr={true} // means rendering carousel on server-side
-                infinite={true}
-                autoPlay={true}
-                autoPlaySpeed={10000}
-                keyBoardControl={true}
-                customTransition="all .5"
-                transitionDuration={500}
-                containerClass="carousel-container"
-                //removeArrowOnDeviceType={["tablet", "mobile"]}
-                dotListClass="custom-dot-list-style"
-                itemClass="carousel-item-padding-40-px"
-                >
-                {products.map((product) =>(
-                    <div className='tile card' key={product.id}> 
-                        <Link to={`/products/${product.id}`}>
-                        <img src={product.image.url} alt={product.image.url} />
-                        </Link>
-                        <div className='card-body' style={{ textAlign: 'center' }}>
-                        <h3>{product.name}</h3>
-                        {/*<p>{product.description}</p>*/}
-                        <div className='buttons'>
-                        <AddToCartButton onAddToCart={() => onAddToCart(product)} />
-                        </div>
-                        </div>
-                    </div>
-                ))}
-                </Carousel>
-                <ThreeColumnCard handleClickCat={handleClickCat}/>
-                {selectedCat && (
-  <Carousel 
-    className="my-carousel"
-    responsive={responsive}
-    swipeable={true}
-    draggable={true}
-    showDots={false}
-    ssr={true} // means rendering carousel on server-side
-    infinite={true}
-    autoPlay={true}
-    autoPlaySpeed={10000}
-    keyBoardControl={true}
-    customTransition="all .5"
-    transitionDuration={500}
-    containerClass="carousel-container"
-    //removeArrowOnDeviceType={["tablet", "mobile"]}
-    dotListClass="custom-dot-list-style"
-    itemClass="carousel-item-padding-40-px">
-      {restaurants.map((restaurant) => (
-        <div className='tile card' key={restaurant.id}>
-        <Link to={`/products/${restaurant._id}`}>
-          <img src={restaurant.image.url} alt={restaurant.image.url} />
-        </Link>
-        <div className='card-body' style={{ textAlign: 'center' }}>
-          <h3>{restaurant.name}</h3>
-          <p>{restaurant.description}</p>
-          <div className='buttons'>
-          <AddToCartButton onAddToCart={() => onAddToCart(restaurant)} />
+          <Navbar1 cartCount={cartCount} onOpenCart = {onOpenCart}/>
+          <CartModal/>
+          <div className='main-body'>
+            <h1 className="title-mainpage" style={{ textAlign: 'center' }}>Featured Playlists</h1>
+            <h2 className="title2-mainpage" style={{ textAlign: 'center' }}>DIY your own playlists or choose popular pre-made playlists!</h2>
+          <CarouselPlaylist />
+          <CarouselRestaurants />
+          <ThreeColumnCard handleClickCat={handleClickCat}/>
+          {selectedCat && (CarouselCategory)}
         </div>
+          <Footer/>
         </div>
-        </div>
-      ))}
-
-  </Carousel>
-)}
-             
-<div className='footer'>
-        <p>Capstone Mar 2023</p>
-</div>
-</div>
-        </div>
-
-    )
+          )
 }
 
-export default FeaturedProduct
-
-// test 
+export default FeaturedProduct;
