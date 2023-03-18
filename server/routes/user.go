@@ -9,68 +9,93 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-var validate = validator.New()
+var userCollection *mongo.Collection = database.OpenCollection(database.Client, "user")
 
-var playlistCollection *mongo.Collection = database.OpenCollection(database.Client, "playlist")
-
-// add a playlist to db (admin side)
-func AdminAddPlaylistToDB(c *gin.Context) {
+// add a user to db (admin side)
+func AdminAddUserToDB(c *gin.Context) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
-	var playlist models.Playlist
+	var user models.User
 
-	if err := c.BindJSON(&playlist); err != nil {
+	if err := c.BindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		fmt.Println(err)
 		return
 	}
 
-	validationErr := validate.Struct(playlist)
+	validationErr := validate.Struct(user)
 	if validationErr != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": validationErr.Error()})
+		fmt.Println(validationErr)
 		return
 	}
-	playlist.ID = primitive.NewObjectID()
+	user.ID = primitive.NewObjectID()
 
-	result, insertErr := playlistCollection.InsertOne(ctx, playlist)
+	result, insertErr := userCollection.InsertOne(ctx, user)
 	if insertErr != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error adding playlist": insertErr.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error adding user": insertErr.Error()})
+		fmt.Println(insertErr)
 		return
 	}
 
 	c.JSON(http.StatusOK, result)
 }
 
-// get all playlists (admin side)
-func AdminGetPlaylists(c *gin.Context) {
+// add multiple users to db (admin side)
+func AdminAddMultipleUserToDB(c *gin.Context, users []models.User) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
-	var playlists []bson.M
+	if err := c.BindJSON(&users); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-	cursor, err := playlistCollection.Find(ctx, bson.M{})
+	validationErr := validate.Struct(users)
+	if validationErr != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": validationErr.Error()})
+		return
+	}
+	for _, user := range users {
+		user.ID = primitive.NewObjectID()
+		_, err := userCollection.InsertOne(ctx, user)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error adding multiple user": err.Error()})
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, nil)
+}
+
+// get all users (admin side)
+func AdminGetUsers(c *gin.Context) {
+	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
+
+	var users []bson.M
+
+	cursor, err := userCollection.Find(ctx, bson.M{})
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error finding playlist collection": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error finding user collection": err.Error()})
 		fmt.Println(err)
 		return
 	}
 
-	if err = cursor.All(ctx, &playlists); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error getting playlist cursor": err.Error()})
+	if err = cursor.All(ctx, &users); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting user cursor": err.Error()})
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(playlists)
-
-	c.JSON(http.StatusOK, playlists)
+	c.JSON(http.StatusOK, users)
 }
 
 // // get all orders by the waiter's name

@@ -2,8 +2,8 @@ package routes
 
 import (
 	"context"
-	"fmt"
 	"net/http"
+	"server/database"
 	"server/models"
 	"time"
 
@@ -13,10 +13,10 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-var foodCollection *mongo.Collection = OpenCollection(Client, "food")
+var foodCollection *mongo.Collection = database.OpenCollection(database.Client, "food")
 
-// add a food item
-func AddFood(c *gin.Context) {
+// add a food item to db (admin side)
+func AdminAddFoodToDB(c *gin.Context) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
@@ -24,14 +24,12 @@ func AddFood(c *gin.Context) {
 
 	if err := c.BindJSON(&food); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		fmt.Println(err)
 		return
 	}
 
 	validationErr := validate.Struct(food)
 	if validationErr != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": validationErr.Error()})
-		fmt.Println(validationErr)
 		return
 	}
 	food.ID = primitive.NewObjectID()
@@ -39,15 +37,14 @@ func AddFood(c *gin.Context) {
 	result, insertErr := foodCollection.InsertOne(ctx, food)
 	if insertErr != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error adding food": insertErr.Error()})
-		fmt.Println(insertErr)
 		return
 	}
 
 	c.JSON(http.StatusOK, result)
 }
 
-// get all food item
-func GetFood(c *gin.Context) {
+// get all food item (admin side)
+func AdminGetFood(c *gin.Context) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
@@ -57,23 +54,18 @@ func GetFood(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error finding food collection": err.Error()})
-		fmt.Println(err)
 		return
 	}
 
 	if err = cursor.All(ctx, &food); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting food cursor": err.Error()})
-		fmt.Println(err)
 		return
 	}
-
-	fmt.Println(food)
 
 	c.JSON(http.StatusOK, food)
 }
 
-// // get all orders by the waiter's name
-// func GetOrdersByWaiter(c *gin.Context) {
+// func GetFoodByRestaurantID(c *gin.Context) {
 
 // 	waiter := c.Params.ByName("waiter")
 
@@ -101,27 +93,31 @@ func GetFood(c *gin.Context) {
 // 	c.JSON(http.StatusOK, orders)
 // }
 
-// // get an order by its id
-// func GetOrderById(c *gin.Context) {
+// // get all food items by the restaurant's id
+// func GetFoodByRestaurantID(c *gin.Context) {
 
-// 	orderID := c.Params.ByName("id")
-// 	docID, _ := primitive.ObjectIDFromHex(orderID)
+// 	restaurantID := c.Params.ByName("restaurant_id")
+// 	docID, _ := primitive.ObjectIDFromHex(restaurantID)
 
 // 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+// 	defer cancel()
 
-// 	var order bson.M
+// 	var food []bson.M
 
-// 	if err := orderCollection.FindOne(ctx, bson.M{"_id": docID}).Decode(&order); err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-// 		fmt.Println(err)
+// 	opts := options.Find().SetSort(bson.D{{"_id", 1}})
+// 	cursor, err := foodCollection.Find(ctx, bson.M{"restaurant_id": docID}, opts)
+
+// 	if err != nil {
+// 		c.JSON(http.StatusInternalServerError, gin.H{"error finding food by restaurant ID": err.Error()})
 // 		return
 // 	}
 
-// 	defer cancel()
+// 	if err = cursor.All(ctx, &food); err != nil {
+// 		c.JSON(http.StatusInternalServerError, gin.H{"error getting food by restaurant ID cursor": err.Error()})
+// 		return
+// 	}
 
-// 	fmt.Println(order)
-
-// 	c.JSON(http.StatusOK, order)
+// 	c.JSON(http.StatusOK, food)
 // }
 
 // // update a waiter's name for an order
