@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css"
 import {Link} from 'react-router-dom'
-import AddToCartButton from './AddtoCart';
+//import AddToCartButton from './AddtoCart';
 import {Modal, Col, Row, Card, Button} from "react-bootstrap"
 import Navbar1 from './Navbar';
 import axios from 'axios';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+
 import "./App.css";
 
 // this .js is functional hence we can use HOOK
+
+
+
+
+
+
+
 
 // arrow function 
 const FeaturedProduct = (props) => {
@@ -98,12 +106,17 @@ const clearCart = () => {
 
 // modal component for Cart
 // group items by ID, storing their quantity separately
+// group items by ID, storing their quantity separately
 const CartModal = () => {
     let total = 0;
     let quantity = 0;
 
     const userCart = JSON.parse(localStorage.getItem(props.userId)) || [];
 
+    cart.forEach((item) => {
+        total += item.price;
+        quantity++;
+    })
     return (
       <Modal show={showCart} onHide={() => setShowCart(false)}>
         <Modal.Header closeButton>
@@ -322,4 +335,7 @@ const ThreeColumnCard = ({ handleClickCat }) => {
           )
 }
 
-export default FeaturedProduct;
+export default FeaturedProduct
+
+// test 
+
