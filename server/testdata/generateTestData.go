@@ -238,7 +238,7 @@ func InsertData() error {
 			Name:       "The Burger Joint",
 			Address:    "123 Main St, Anytown USA",
 			Categories: "Western",
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
+			Image:      &models.ImageData{URL: "https://i.ibb.co/K59sMZc/burger-joint.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[0].ID,
@@ -250,7 +250,7 @@ func InsertData() error {
 			Name:       "Pizzeria del Mondo",
 			Address:    "456 Elm St, Anytown USA",
 			Categories: "Western",
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
+			Image:      &models.ImageData{URL: "https://i.ibb.co/Bckz4tb/del-mondo.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[1].ID,
@@ -263,7 +263,7 @@ func InsertData() error {
 			Name:       "Sushi Palace",
 			Address:    "789 Oak St, Anytown USA",
 			Categories: "Japanese",
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
+			Image:      &models.ImageData{URL: "https://i.ibb.co/SmVw8Qg/sushi.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[3].ID,
@@ -277,7 +277,7 @@ func InsertData() error {
 			Name:       "Taco Truck",
 			Address:    "321 Maple St, Anytown USA",
 			Categories: "Mexican",
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
+			Image:      &models.ImageData{URL: "https://i.ibb.co/YjtLtfV/taco-truck.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[5].ID,
@@ -290,7 +290,7 @@ func InsertData() error {
 			Name:       "The Golden Wok",
 			Address:    "555 Pine St, Anytown USA",
 			Categories: "Chinese",
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
+			Image:      &models.ImageData{URL: "https://i.ibb.co/qgkT4zx/golden-wok.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[7].ID,
@@ -303,7 +303,7 @@ func InsertData() error {
 			Name:       "The Sizzling Skillet",
 			Address:    "888 Oak St, Anytown USA",
 			Categories: "Western",
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
+			Image:      &models.ImageData{URL: "https://i.ibb.co/Vqn1TzP/sizzling-skillet.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[9].ID,
@@ -316,7 +316,7 @@ func InsertData() error {
 			Name:       "The Spice House",
 			Address:    "222 Maple St, Anytown USA",
 			Categories: "Indian",
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
+			Image:      &models.ImageData{URL: "https://i.ibb.co/fCpSvJ1/spice-house.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[11].ID,
@@ -329,7 +329,7 @@ func InsertData() error {
 			Name:       "La Taqueria",
 			Address:    "777 Main St, Anytown USA",
 			Categories: "Mexican",
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
+			Image:      &models.ImageData{URL: "https://i.ibb.co/GtDwXPx/la-taqueria.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[13].ID,
@@ -342,7 +342,7 @@ func InsertData() error {
 			Name:       "Noodle House",
 			Address:    "444 Elm St, Anytown USA",
 			Categories: "Chinese",
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
+			Image:      &models.ImageData{URL: "https://i.ibb.co/FX3DTtg/noodle-house.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[15].ID,
@@ -355,7 +355,7 @@ func InsertData() error {
 			Name:       "The Green Garden",
 			Address:    "333 Oak St, Anytown USA",
 			Categories: "Vegetarian",
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
+			Image:      &models.ImageData{URL: "https://i.ibb.co/Rzzzk3v/green-garden.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[17].ID,
