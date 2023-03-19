@@ -3,6 +3,7 @@ package routes
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"server/database"
 	"server/models"
@@ -12,7 +13,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // var validate = validator.New()
@@ -102,32 +102,110 @@ func GetRestaurants(c *gin.Context) {
 
 // get all food items by the restaurant's id
 func GetFoodByRestaurantID(c *gin.Context) {
-	//have restaurant id
-	//get all food id
-	//search food with food id
-	//return food array
 	restaurantID := c.Params.ByName("restaurant_id")
-	docID, _ := primitive.ObjectIDFromHex(restaurantID)
+	docID, err := primitive.ObjectIDFromHex(restaurantID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error finding restaurant ID": err.Error()})
+		return
+	}
 
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
-	var food []bson.M
+	var restaurant models.Restaurant
 
-	opts := options.Find().SetSort(bson.D{{"_id", 1}})
-	cursor, err := foodCollection.Find(ctx, bson.M{"restaurant_id": docID}, opts)
+	err = restaurantCollection.FindOne(ctx, bson.M{"_id": docID}).Decode(&restaurant)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error finding food by restaurant ID": err.Error()})
 		return
 	}
 
-	if err = cursor.All(ctx, &food); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error getting food by restaurant ID cursor": err.Error()})
+	var food = make([]models.Food, len(restaurant.Menu.Menu))
+	for i, foodID := range restaurant.Menu.Menu {
+		err = foodCollection.FindOne(ctx, bson.M{"_id": foodID}).Decode(&food[i])
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error finding food": err.Error()})
+			return
+		}
+	}
+	c.JSON(http.StatusOK, food)
+}
+
+// add food item to cart
+func AddFoodItemToCart(c *gin.Context) {
+	//get userid from claims??
+	//get foodid
+	//get cart using userid + state != Completed
+	//if found
+	//	TODO:check if createdAt time more than 24h
+	//		if yes
+	//			clear cart
+	//	see if food item exists
+	//		yes = quantity + 1
+	//	else add to array
+	//if not found upsert new cart??
+	//status ok,nil
+	// userID := c.Value("uid")
+	userID, _ := primitive.ObjectIDFromHex("64120324ad2f446ce6114330")
+	log.Println(userID)
+	foodID := c.Params.ByName("food_id")
+	foodDocID, err := primitive.ObjectIDFromHex(foodID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error finding food ID": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, food)
+	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
+
+	var cart models.Cart
+
+	err = cartCollection.FindOne(ctx, bson.M{"user_id": userID, "state": models.StateInProcess}).Decode(&cart)
+	if err == mongo.ErrNoDocuments {
+		//upsert cart
+		log.Println("found nothing")
+	} else if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error finding cart while adding food item": err.Error()})
+		return
+	}
+	//found cart
+	log.Println("cart before:", cart)
+	var found bool
+	for i, food := range cart.Items {
+		log.Println(i, food)
+		if food.ID == foodDocID {
+			cart.Items[i].Quantity += 1
+			cart.TotalPrice += food.Price
+			found = true
+			log.Println("adding")
+			break
+		}
+	}
+	//food not found in cart
+	//get food info
+	//append to cart.items
+	if !found {
+		var tempFood models.FoodItems
+		err = foodCollection.FindOne(ctx, bson.M{"_id": foodDocID}).Decode(&tempFood)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error finding food item": err.Error()})
+			return
+		}
+		tempFood.ID = foodDocID
+		tempFood.Quantity = 1
+		log.Println("Tempfood:", tempFood)
+		cart.Items = append(cart.Items, tempFood)
+	}
+
+	log.Println("cart after:", cart) //should change quantity and cart total price
+	update := bson.M{"$set": cart}
+	_, err = cartCollection.UpdateByID(ctx, cart.ID, update)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error updating cart while adding food item": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, nil)
 }
 
 // // update a waiter's name for an order

@@ -2,8 +2,9 @@ package main
 
 import (
 	"os"
-
+	"server/middleware"
 	"server/routes"
+
 	// "server/testdata"
 
 	"github.com/gin-contrib/cors"
@@ -19,15 +20,27 @@ func main() {
 
 	router := gin.New()
 	router.Use(gin.Logger())
-	routes.UserRoutes(router)
-	router.Use(cors.Default())
+
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:3001"}
+	config.AllowCredentials = true
+	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
+	config.AllowHeaders = []string{"Origin", "Content-Type", "Accept", "Authorization", "token"}
+	router.Use(cors.New(config))
+
+	userRoutes := router.Group("/users")
+	routes.UserRoutes(userRoutes)
+
+	authRequired := router.Group("/")
+	authRequired.Use(middleware.Authentication())
+	routes.UserRoutes(authRequired)
 
 	// router.Use(middleware.Authentication())
 
 	//ADMIN USE
-	router.POST("admin/playlist/createToDB", routes.AdminAddPlaylistToDB)
+	router.POST("admin/playlists/createToDB", routes.AdminAddPlaylistToDB)
 	router.POST("admin/food/createToDB", routes.AdminAddFoodToDB)
-	router.POST("admin/restaurant/createToDB", routes.AdminAddRestaurantToDB)
+	router.POST("admin/restaurants/createToDB", routes.AdminAddRestaurantToDB)
 
 	// Get All items
 	router.GET("admin/playlists", routes.AdminGetPlaylists)
@@ -38,13 +51,13 @@ func main() {
 
 	router.GET("/restaurants", routes.GetRestaurants)
 	// GET /restaurantByCuisine
-	router.GET("/restaurant/:restaurant_id", routes.GetFoodByRestaurantID) //need to test
+	router.GET("/restaurants/:restaurant_id", routes.GetFoodByRestaurantID) //need to test
 	// router.GET("/playlist/:user_id", routes.GetPlaylistByUserID)
-	// router.GET("/cart/:user_id", routes.GetCartByUserID)
+	router.GET("/cart/:user_id", routes.GetCartByUserID)
 	// router.GET("/user", routes.GetUserByID)
 
-	// router.POST("/restaurants/:food_id", routes.AddFoodItemToCart)
-	// router.POST("/login", routes.userLogin)
+	router.PUT("/restaurants/:food_id", routes.AddFoodItemToCart)
+	//router.POST("/login", controller.Login)
 
 	// router.DELETE("/cart/:food_id", routes.DeleteCartFoodItem)
 	//get by id
