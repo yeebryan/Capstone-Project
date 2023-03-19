@@ -2,6 +2,7 @@ package routes
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"server/database"
 	"server/models"
@@ -48,6 +49,8 @@ func AdminAddRestaurantToDB(c *gin.Context) {
 
 // get all restaurants
 func GetRestaurants(c *gin.Context) {
+	fmt.Println("GetRestaurants function called")
+
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
