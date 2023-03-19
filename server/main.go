@@ -55,7 +55,6 @@ func main() {
 	// router.GET("/user", routes.GetUserByID)
 
 	router.PUT("/restaurants/:food_id", routes.AddFoodItemToCart)
-	//router.POST("/login", controller.Login)
 
 	router.GET("/playlists", routes.GetPremadePlaylists)
 	router.GET("/playlists/:playlist_id", routes.GetFoodByPlaylistID)
@@ -68,8 +67,6 @@ func main() {
 
 	// D
 	// router.DELETE("/order/delete/:id", routes.DeleteOrder)
-
-	//this runs the server and allows it to listen to requests.
 
 	//FOR TESTDATA
 	// testdata.DropTestData()
