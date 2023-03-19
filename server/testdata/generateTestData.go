@@ -24,6 +24,7 @@ func InsertData() error {
 	restaurantCollection := database.OpenCollection(database.Client, "restaurant")
 	cartCollection := database.OpenCollection(database.Client, "cart")
 	orderCollection := database.OpenCollection(database.Client, "order")
+	playlistCollection := database.OpenCollection(database.Client, "playlist")
 
 	// _id of respective data
 	userID := make([]primitive.ObjectID, 3)
@@ -63,6 +64,77 @@ func InsertData() error {
 	for i, user := range userData {
 		createdUser := routes.AdminSignUp(user)
 		userID[i] = createdUser.ID
+	}
+
+	// Playlist collection
+	playlistData := []models.Playlist{
+		{
+			ID:         primitive.NewObjectID(),
+			Name:       "TGIF",
+			FoodID:     []primitive.ObjectID {
+							foodData[0].ID,
+							foodData[1].ID,
+							foodData[2].ID,
+							foodData[3].ID,
+						},
+			UserId:     primitive.NilObjectID,
+			Image:      &models.ImageData{URL: "https://i.ibb.co/FX3DTtg/noodle-house.jpg"},
+		},
+		{
+			ID:         primitive.NewObjectID,
+			Name:       "Tasty Thursday",
+			FoodID:     []primitive.ObjectID {
+							foodData[0].ID,
+							foodData[1].ID,
+							foodData[2].ID,
+							foodData[3].ID,
+						},
+			UserId:     primitive.NilObjectID,
+			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+		},
+		{
+			ID:         primitive.NewObjectID,
+			Name:       "Funky Wednesday",
+			FoodID:     []primitive.ObjectID {
+							foodData[0].ID,
+							foodData[1].ID,
+							foodData[2].ID,
+							foodData[3].ID,
+						},
+			UserId:     primitive.NilObjectID,
+			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+		},
+		{
+			ID:         primitive.NewObjectID,
+			Name:       "Totally Tuesday",
+			FoodID:     []primitive.ObjectID {
+							foodData[0].ID,
+							foodData[1].ID,
+							foodData[2].ID,
+							foodData[3].ID,
+						},
+			UserId:     primitive.NilObjectID,
+			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+		},
+		{
+			ID:         primitive.NewObjectID,
+			Name:       "Monday Blues",
+			FoodID:     []primitive.ObjectID {
+							foodData[0].ID,
+							foodData[1].ID,
+							foodData[2].ID,
+							foodData[3].ID,
+						},
+			UserId:     primitive.NilObjectID,
+			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+		},
+	}
+	// Insert each playlist into the collection
+	for _, playlist := range playlistData {
+		_, err := playlistCollection.InsertOne(context.Background(), playlist)
+		if err != nil {
+			return err
+		}
 	}
 
 	// Food collection
@@ -419,6 +491,7 @@ func InsertData() error {
 					Price:    foodData[3].Price,
 				},
 			},
+
 			TotalPrice: 49.96,
 			CreatedAt:  time.Date(2022, 3, 5, 18, 20, 0, 0, time.UTC),
 			State:      models.StateInProcess,
@@ -545,10 +618,12 @@ func DropTestData() {
 	restaurantCollection := database.OpenCollection(database.Client, "restaurant")
 	cartCollection := database.OpenCollection(database.Client, "cart")
 	orderCollection := database.OpenCollection(database.Client, "order")
+	playlistCollection := database.OpenCollection(database.Client, "playlist")
 
 	userCollection.Drop(context.Background())
 	foodCollection.Drop(context.Background())
 	restaurantCollection.Drop(context.Background())
 	cartCollection.Drop(context.Background())
 	orderCollection.Drop(context.Background())
+	playlistCollection.Drop(context.Background())
 }
