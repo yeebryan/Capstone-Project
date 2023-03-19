@@ -541,64 +541,64 @@ func InsertData() error {
 	// Playlist collection
 	playlistData := []models.Playlist{
 		{
-			ID:         primitive.NewObjectID(),
-			Name:       "TGIF",
-			FoodID:     []primitive.ObjectID {
-							foodData[0].ID,
-							foodData[1].ID,
-							foodData[2].ID,
-							foodData[3].ID,
-						},
-			UserId:     primitive.NilObjectID,
-			Image:      &models.ImageData{URL: "https://i.ibb.co/FX3DTtg/noodle-house.jpg"},
+			ID:   primitive.NewObjectID(),
+			Name: "TGIF",
+			FoodID: []primitive.ObjectID{
+				foodData[0].ID,
+				foodData[1].ID,
+				foodData[2].ID,
+				foodData[3].ID,
+			},
+			UserID: primitive.NilObjectID,
+			Image:  &models.ImageData{URL: "https://i.ibb.co/FX3DTtg/noodle-house.jpg"},
 		},
 		{
-			ID:         primitive.NewObjectID,
-			Name:       "Tasty Thursday",
-			FoodID:     []primitive.ObjectID {
-							foodData[0].ID,
-							foodData[1].ID,
-							foodData[2].ID,
-							foodData[3].ID,
-						},
-			UserId:     primitive.NilObjectID,
-			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+			ID:   primitive.NewObjectID(),
+			Name: "Tasty Thursday",
+			FoodID: []primitive.ObjectID{
+				foodData[0].ID,
+				foodData[1].ID,
+				foodData[2].ID,
+				foodData[3].ID,
+			},
+			UserID: primitive.NilObjectID,
+			Image:  &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
 		},
 		{
-			ID:         primitive.NewObjectID,
-			Name:       "Funky Wednesday",
-			FoodID:     []primitive.ObjectID {
-							foodData[0].ID,
-							foodData[1].ID,
-							foodData[2].ID,
-							foodData[3].ID,
-						},
-			UserId:     primitive.NilObjectID,
-			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+			ID:   primitive.NewObjectID(),
+			Name: "Funky Wednesday",
+			FoodID: []primitive.ObjectID{
+				foodData[0].ID,
+				foodData[1].ID,
+				foodData[2].ID,
+				foodData[3].ID,
+			},
+			UserID: primitive.NilObjectID,
+			Image:  &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
 		},
 		{
-			ID:         primitive.NewObjectID,
-			Name:       "Totally Tuesday",
-			FoodID:     []primitive.ObjectID {
-							foodData[0].ID,
-							foodData[1].ID,
-							foodData[2].ID,
-							foodData[3].ID,
-						},
-			UserId:     primitive.NilObjectID,
-			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+			ID:   primitive.NewObjectID(),
+			Name: "Totally Tuesday",
+			FoodID: []primitive.ObjectID{
+				foodData[0].ID,
+				foodData[1].ID,
+				foodData[2].ID,
+				foodData[3].ID,
+			},
+			UserID: primitive.NilObjectID,
+			Image:  &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
 		},
 		{
-			ID:         primitive.NewObjectID,
-			Name:       "Monday Blues",
-			FoodID:     []primitive.ObjectID {
-							foodData[0].ID,
-							foodData[1].ID,
-							foodData[2].ID,
-							foodData[3].ID,
-						},
-			UserId:     primitive.NilObjectID,
-			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+			ID:   primitive.NewObjectID(),
+			Name: "Monday Blues",
+			FoodID: []primitive.ObjectID{
+				foodData[0].ID,
+				foodData[1].ID,
+				foodData[2].ID,
+				foodData[3].ID,
+			},
+			UserID: primitive.NilObjectID,
+			Image:  &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
 		},
 	}
 	// Insert each playlist into the collection
@@ -608,7 +608,7 @@ func InsertData() error {
 			return err
 		}
 	}
-	
+
 	return nil
 }
 
