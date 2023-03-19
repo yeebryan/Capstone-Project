@@ -3,7 +3,6 @@ package main
 import (
 	"os"
 
-	"server/middleware"
 	"server/routes"
 
 	// "server/testdata"
@@ -24,7 +23,7 @@ func main() {
 	routes.UserRoutes(router)
 	router.Use(cors.Default())
 
-	router.Use(middleware.Authentication())
+	// router.Use(middleware.Authentication())
 
 	//ADMIN USE
 	router.POST("admin/playlists/createToDB", routes.AdminAddPlaylistToDB)

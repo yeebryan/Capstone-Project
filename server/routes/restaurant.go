@@ -100,6 +100,7 @@ func GetRestaurants(c *gin.Context) {
 // get all food items by the restaurant's id
 func GetFoodByRestaurantID(c *gin.Context) {
 	restaurantID := c.Params.ByName("restaurant_id")
+	log.Println(restaurantID)
 	docID, err := primitive.ObjectIDFromHex(restaurantID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error finding restaurant ID": err.Error()})
