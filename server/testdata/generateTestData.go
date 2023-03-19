@@ -77,11 +77,11 @@ func InsertData() error {
 							foodData[2].ID,
 							foodData[3].ID,
 						},
-			UserId:     primitive.NilObjectID(),
+			UserId:     primitive.NilObjectID,
 			Image:      &models.ImageData{URL: "https://i.ibb.co/FX3DTtg/noodle-house.jpg"},
 		},
 		{
-			ID:         primitive.NewObjectID(),
+			ID:         primitive.NewObjectID,
 			Name:       "Tasty Thursday",
 			FoodID:     []primitive.ObjectID {
 							foodData[0].ID,
@@ -93,7 +93,7 @@ func InsertData() error {
 			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
 		},
 		{
-			ID:         primitive.NewObjectID(),
+			ID:         primitive.NewObjectID,
 			Name:       "Funky Wednesday",
 			FoodID:     []primitive.ObjectID {
 							foodData[0].ID,
@@ -105,7 +105,7 @@ func InsertData() error {
 			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
 		},
 		{
-			ID:         primitive.NewObjectID(),
+			ID:         primitive.NewObjectID,
 			Name:       "Totally Tuesday",
 			FoodID:     []primitive.ObjectID {
 							foodData[0].ID,
@@ -117,7 +117,7 @@ func InsertData() error {
 			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
 		},
 		{
-			ID:         primitive.NewObjectID(),
+			ID:         primitive.NewObjectID,
 			Name:       "Monday Blues",
 			FoodID:     []primitive.ObjectID {
 							foodData[0].ID,
@@ -313,7 +313,6 @@ func InsertData() error {
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
 					foodData[0].ID,
-				},
 			},
 		},
 		{
@@ -323,10 +322,9 @@ func InsertData() error {
 			Categories: []string{"Pizza", "Italian"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-					foodData[1].ID,
-					foodData[2].ID,
+				foodData[1].ID,
+				foodData[2].ID,
 				},
-			},
 		},
 		{
 			ID:         primitive.NewObjectID(),
@@ -335,12 +333,10 @@ func InsertData() error {
 			Categories: []string{"Sushi", "Japanese"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-					foodData[3].ID,
-					foodData[4].ID,
+				foodData[3].ID,
+				foodData[4].ID,
 				},
-			},
 		},
-
 		{
 			ID:         primitive.NewObjectID(),
 			Name:       "Taco Truck",
@@ -348,10 +344,9 @@ func InsertData() error {
 			Categories: []string{"Mexican", "Tacos"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-					foodData[5].ID,
-					foodData[6].ID,
+				foodData[5].ID,
+				foodData[6].ID,
 				},
-			},
 		},
 		{
 			ID:         primitive.NewObjectID(),
@@ -360,10 +355,9 @@ func InsertData() error {
 			Categories: []string{"Chinese", "Asian"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-					foodData[7].ID,
-					foodData[8].ID,
+				foodData[7].ID,
+				foodData[8].ID,
 				},
-			},
 		},
 		{
 			ID:         primitive.NewObjectID(),
@@ -372,10 +366,9 @@ func InsertData() error {
 			Categories: []string{"American", "Breakfast"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-					foodData[9].ID,
-					foodData[10].ID,
+				foodData[9].ID,
+				foodData[10].ID,
 				},
-			},
 		},
 		{
 			ID:         primitive.NewObjectID(),
@@ -384,10 +377,9 @@ func InsertData() error {
 			Categories: []string{"Indian", "Spicy"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-					foodData[11].ID,
-					foodData[12].ID,
+				foodData[11].ID,
+				foodData[12].ID,
 				},
-			},
 		},
 		{
 			ID:         primitive.NewObjectID(),
@@ -396,10 +388,9 @@ func InsertData() error {
 			Categories: []string{"Mexican", "Tacos"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-					foodData[13].ID,
-					foodData[14].ID,
+				foodData[13].ID,
+				foodData[14].ID,
 				},
-			},
 		},
 		{
 			ID:         primitive.NewObjectID(),
@@ -408,10 +399,9 @@ func InsertData() error {
 			Categories: []string{"Asian", "Noodles"},
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: []primitive.ObjectID{
-					foodData[15].ID,
-					foodData[16].ID,
+				foodData[15].ID,
+				foodData[16].ID,
 				},
-			},
 		},
 		{
 			ID:         primitive.NewObjectID(),
@@ -423,7 +413,6 @@ func InsertData() error {
 				foodData[17].ID,
 				foodData[18].ID,
 				},
-			},
 		},
 	}
 	// Insert each restaurant into the collection
@@ -454,13 +443,14 @@ func InsertData() error {
 					Price:    foodData[1].Price,
 				},
 			},
+
 			TotalPrice: 32.97,
 			CreatedAt:  time.Date(2022, 2, 10, 8, 35, 0, 0, time.UTC),
 		},
 		{
 			ID:     primitive.NewObjectID(),
 			UserID: userID[0],
-			Items: [&]models.FoodItems{
+			Items: &[]models.FoodItems{
 				{
 					ID:       foodData[4].ID,
 					Name:     foodData[4].Name,
@@ -480,6 +470,7 @@ func InsertData() error {
 					Price:    foodData[3].Price,
 				},
 			},
+
 			TotalPrice: 49.96,
 			CreatedAt:  time.Date(2022, 3, 5, 18, 20, 0, 0, time.UTC),
 		},
