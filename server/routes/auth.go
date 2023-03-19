@@ -13,9 +13,9 @@ import (
 )
 
 // UserRoutes function
-func UserRoutes(incomingRoutes *gin.Engine) {
-	incomingRoutes.POST("/users/signup", controller.SignUp)
-	incomingRoutes.POST("/users/login", controller.Login)
+func UserRoutes(incomingRoutes *gin.RouterGroup) {
+	incomingRoutes.POST("/signup", controller.SignUp)
+	incomingRoutes.POST("/login", controller.Login)
 }
 
 // SignUp (Admin use)

@@ -44,7 +44,7 @@ func VerifyPassword(userPassword string, providedPassword string) (bool, string)
 	return true, ""
 }
 
-// SignUp 
+// SignUp
 func SignUp(c *gin.Context) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
@@ -105,7 +105,7 @@ func SignUp(c *gin.Context) {
 	c.JSON(http.StatusOK, resultInsertionNumber)
 }
 
-// Login 
+// Login
 func Login(c *gin.Context) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
@@ -139,5 +139,6 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, nil)
 	}
 
-	c.JSON(http.StatusOK, foundUser)
+	c.JSON(http.StatusOK, gin.H{"token": token, "user": foundUser})
+
 }
