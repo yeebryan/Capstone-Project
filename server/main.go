@@ -35,8 +35,6 @@ func main() {
 	authRequired.Use(middleware.Authentication())
 	routes.UserRoutes(authRequired)
 
-	// router.Use(middleware.Authentication())
-
 	//ADMIN USE
 	router.POST("admin/playlists/createToDB", routes.AdminAddPlaylistToDB)
 	router.POST("admin/food/createToDB", routes.AdminAddFoodToDB)

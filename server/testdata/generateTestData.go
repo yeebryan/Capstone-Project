@@ -66,77 +66,6 @@ func InsertData() error {
 		userID[i] = createdUser.ID
 	}
 
-	// Playlist collection
-	playlistData := []models.Playlist{
-		{
-			ID:         primitive.NewObjectID(),
-			Name:       "TGIF",
-			FoodID:     []primitive.ObjectID {
-							foodData[0].ID,
-							foodData[1].ID,
-							foodData[2].ID,
-							foodData[3].ID,
-						},
-			UserId:     primitive.NilObjectID,
-			Image:      &models.ImageData{URL: "https://i.ibb.co/FX3DTtg/noodle-house.jpg"},
-		},
-		{
-			ID:         primitive.NewObjectID,
-			Name:       "Tasty Thursday",
-			FoodID:     []primitive.ObjectID {
-							foodData[0].ID,
-							foodData[1].ID,
-							foodData[2].ID,
-							foodData[3].ID,
-						},
-			UserId:     primitive.NilObjectID,
-			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
-		},
-		{
-			ID:         primitive.NewObjectID,
-			Name:       "Funky Wednesday",
-			FoodID:     []primitive.ObjectID {
-							foodData[0].ID,
-							foodData[1].ID,
-							foodData[2].ID,
-							foodData[3].ID,
-						},
-			UserId:     primitive.NilObjectID,
-			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
-		},
-		{
-			ID:         primitive.NewObjectID,
-			Name:       "Totally Tuesday",
-			FoodID:     []primitive.ObjectID {
-							foodData[0].ID,
-							foodData[1].ID,
-							foodData[2].ID,
-							foodData[3].ID,
-						},
-			UserId:     primitive.NilObjectID,
-			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
-		},
-		{
-			ID:         primitive.NewObjectID,
-			Name:       "Monday Blues",
-			FoodID:     []primitive.ObjectID {
-							foodData[0].ID,
-							foodData[1].ID,
-							foodData[2].ID,
-							foodData[3].ID,
-						},
-			UserId:     primitive.NilObjectID,
-			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
-		},
-	}
-	// Insert each playlist into the collection
-	for _, playlist := range playlistData {
-		_, err := playlistCollection.InsertOne(context.Background(), playlist)
-		if err != nil {
-			return err
-		}
-	}
-
 	// Food collection
 	foodCollectionData := []models.Food{
 		{
@@ -464,7 +393,7 @@ func InsertData() error {
 					Price:    foodData[1].Price,
 				},
 			},
-			TotalPrice: 32.97,
+			TotalPrice: foodData[0].Price + foodData[1].Price,
 			CreatedAt:  time.Date(2022, 2, 10, 8, 35, 0, 0, time.UTC),
 			State:      models.StateInProcess,
 		},
@@ -472,12 +401,6 @@ func InsertData() error {
 			ID:     primitive.NewObjectID(),
 			UserID: userID[0],
 			Items: []models.FoodItems{
-				{
-					ID:       foodData[4].ID,
-					Name:     foodData[4].Name,
-					Quantity: 1,
-					Price:    foodData[4].Price,
-				},
 				{
 					ID:       foodData[2].ID,
 					Name:     foodData[2].Name,
@@ -490,9 +413,15 @@ func InsertData() error {
 					Quantity: 1,
 					Price:    foodData[3].Price,
 				},
+				{
+					ID:       foodData[4].ID,
+					Name:     foodData[4].Name,
+					Quantity: 1,
+					Price:    foodData[4].Price,
+				},
 			},
 
-			TotalPrice: 49.96,
+			TotalPrice: (foodData[2].Price * 2) + foodData[3].Price + foodData[4].Price,
 			CreatedAt:  time.Date(2022, 3, 5, 18, 20, 0, 0, time.UTC),
 			State:      models.StateInProcess,
 		},
@@ -513,7 +442,7 @@ func InsertData() error {
 					Price:    foodData[6].Price,
 				},
 			},
-			TotalPrice: 10.97,
+			TotalPrice: foodData[5].Price + (foodData[6].Price * 2),
 			CreatedAt:  time.Date(2022, 2, 28, 13, 45, 0, 0, time.UTC),
 			State:      models.StateInProcess,
 		},
@@ -545,7 +474,7 @@ func InsertData() error {
 					Price:    foodData[1].Price,
 				},
 			},
-			TotalPrice:    32.97,
+			TotalPrice:    (foodData[0].Price * 2) + foodData[1].Price,
 			PaymentMethod: "credit",
 			DeliveryTime:  time.Date(2022, 3, 22, 15, 0, 0, 0, time.UTC),
 			CreatedAt:     time.Date(2022, 3, 12, 8, 0, 0, 0, time.UTC),
@@ -567,7 +496,7 @@ func InsertData() error {
 					Price:    foodData[3].Price,
 				},
 			},
-			TotalPrice:    32.97,
+			TotalPrice:    foodData[2].Price + (foodData[3].Price * 2),
 			PaymentMethod: "cash",
 			DeliveryTime:  time.Date(2022, 3, 13, 20, 0, 0, 0, time.UTC),
 			CreatedAt:     time.Date(2022, 3, 11, 18, 30, 0, 0, time.UTC),
@@ -595,7 +524,7 @@ func InsertData() error {
 					Price:    foodData[6].Price,
 				},
 			},
-			TotalPrice:    21.96,
+			TotalPrice:    foodData[4].Price + foodData[5].Price + (foodData[6].Price * 2),
 			PaymentMethod: "debit",
 			DeliveryTime:  time.Date(2022, 3, 14, 18, 0, 0, 0, time.UTC),
 			CreatedAt:     time.Date(2022, 3, 10, 10, 45, 0, 0, time.UTC),
@@ -609,6 +538,77 @@ func InsertData() error {
 		}
 	}
 
+	// Playlist collection
+	playlistData := []models.Playlist{
+		{
+			ID:         primitive.NewObjectID(),
+			Name:       "TGIF",
+			FoodID:     []primitive.ObjectID {
+							foodData[0].ID,
+							foodData[1].ID,
+							foodData[2].ID,
+							foodData[3].ID,
+						},
+			UserId:     primitive.NilObjectID,
+			Image:      &models.ImageData{URL: "https://i.ibb.co/FX3DTtg/noodle-house.jpg"},
+		},
+		{
+			ID:         primitive.NewObjectID,
+			Name:       "Tasty Thursday",
+			FoodID:     []primitive.ObjectID {
+							foodData[0].ID,
+							foodData[1].ID,
+							foodData[2].ID,
+							foodData[3].ID,
+						},
+			UserId:     primitive.NilObjectID,
+			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+		},
+		{
+			ID:         primitive.NewObjectID,
+			Name:       "Funky Wednesday",
+			FoodID:     []primitive.ObjectID {
+							foodData[0].ID,
+							foodData[1].ID,
+							foodData[2].ID,
+							foodData[3].ID,
+						},
+			UserId:     primitive.NilObjectID,
+			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+		},
+		{
+			ID:         primitive.NewObjectID,
+			Name:       "Totally Tuesday",
+			FoodID:     []primitive.ObjectID {
+							foodData[0].ID,
+							foodData[1].ID,
+							foodData[2].ID,
+							foodData[3].ID,
+						},
+			UserId:     primitive.NilObjectID,
+			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+		},
+		{
+			ID:         primitive.NewObjectID,
+			Name:       "Monday Blues",
+			FoodID:     []primitive.ObjectID {
+							foodData[0].ID,
+							foodData[1].ID,
+							foodData[2].ID,
+							foodData[3].ID,
+						},
+			UserId:     primitive.NilObjectID,
+			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+		},
+	}
+	// Insert each playlist into the collection
+	for _, playlist := range playlistData {
+		_, err := playlistCollection.InsertOne(context.Background(), playlist)
+		if err != nil {
+			return err
+		}
+	}
+	
 	return nil
 }
 
