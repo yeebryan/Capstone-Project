@@ -78,7 +78,6 @@ const handleClickCat = async (category) => {
     setRestaurants(data);
   }
 
-
 // cart count, and keep track of item added
 const onAddToCart = (item) => {
     setCartCount(cartCount + 1);
@@ -87,15 +86,12 @@ const onAddToCart = (item) => {
     localStorage.setItem(props.userId, JSON.stringify(userCart));
   };
   
-
 // open the cart
-
 const onOpenCart = () => {
     setShowCart(true)
 }
 
 // clear cart btn function - setState back to 0
-
 const clearCart = () => {
     setCartCount(0); // the counter to 0 
     setCart([]);
@@ -164,7 +160,7 @@ const CarouselPlaylist = () => {
         dotListClass="custom-dot-list-style">
         {products.map((product) => (
           <div className='card-wrapper' key={product.id}>
-            <Link to={`/products/${product._id}`}>
+            <Link to={`/restaurants/${product._id}`}>
               <img src={product.image.url} alt={product.image.url} />
             </Link>
             <div className='card-body' style={{ textAlign: 'center' }}>
@@ -175,11 +171,6 @@ const CarouselPlaylist = () => {
       ))}
       </Carousel>
 )}
-
-
-
-
-
 
 // 2nd carousel for featured restaurants
 const CarouselRestaurants = () => {
@@ -203,7 +194,7 @@ const CarouselRestaurants = () => {
       dotListClass="custom-dot-list-style">
       {products.map((product) => (
         <div className='card-wrapper' key={product.id}>
-          <Link to={`/products/${product._id}`}>
+          <Link to={`/product/${product._id}`}>
             <img src={product.image.url} alt={product.image.url} />
           </Link>
           <div className='card-body' style={{ textAlign: 'center' }}>
@@ -236,14 +227,14 @@ const CarouselCategory = () => {
       containerClass="carousel-container"
       //removeArrowOnDeviceType={["tablet", "mobile"]}
       dotListClass="custom-dot-list-style">
-      {products.map((product) => (
-        <div className='card-wrapper' key={product.id}>
-          <Link to={`/products/${product._id}`}>
-            <img src={product.image.url} alt={product.image.url} />
+      {restaurants.map((restaurant) => (
+        <div className='card-wrapper' key={restaurant.id}>
+          <Link to={`/restaurants/${restaurant._id}`}>
+            <img src={restaurant.image.url} alt={restaurant.image.url} />
           </Link>
           <div className='card-body' style={{ textAlign: 'center' }}>
-            <h3>{product.name}</h3>
-            <p>{product.description}</p>
+            <h3>{restaurant.name}</h3>
+            <p>{restaurant.description}</p>
           </div>
         </div>
     ))}

@@ -27,7 +27,7 @@ const Navbar1 = (props) => {
             <Cart cartCount={props.cartCount} onOpenCart={props.onOpenCart} />
           </Nav>
           <Navbar.Text className="me-4">
-            Hello <a href="/">Bryan</a>
+             <a href="/login">Login</a>
           </Navbar.Text>
         </Nav>
       </Container>
