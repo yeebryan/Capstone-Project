@@ -5,7 +5,7 @@ import (
 	"server/middleware"
 	"server/routes"
 
-	"server/testdata"
+	// "server/testdata"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -72,8 +72,8 @@ func main() {
 	//this runs the server and allows it to listen to requests.
 
 	//FOR TESTDATA
-	testdata.DropTestData()
-	testdata.InsertData()
+	// testdata.DropTestData()
+	// testdata.InsertData()
 
 	router.Run(":" + port)
 }
