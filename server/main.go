@@ -5,7 +5,7 @@ import (
 	"server/middleware"
 	"server/routes"
 
-	// "server/testdata"
+	"server/testdata"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -57,6 +57,9 @@ func main() {
 	router.PUT("/restaurants/:food_id", routes.AddFoodItemToCart)
 	//router.POST("/login", controller.Login)
 
+	router.GET("/playlists", routes.GetPremadePlaylists)
+	router.GET("/playlists/:playlist_id", routes.GetFoodByPlaylistID)
+	router.POST("playlists/:playlist_id/create/:user_id", routes.CreateUserPremadePlaylist) //?interval={interval}
 	// router.DELETE("/cart/:food_id", routes.DeleteCartFoodItem)
 	//get by id
 
@@ -69,8 +72,8 @@ func main() {
 	//this runs the server and allows it to listen to requests.
 
 	//FOR TESTDATA
-	// testdata.DropTestData()
-	// testdata.InsertData()
+	testdata.DropTestData()
+	testdata.InsertData()
 
 	router.Run(":" + port)
 }

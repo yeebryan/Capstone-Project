@@ -105,7 +105,7 @@ func GetFoodByRestaurantID(c *gin.Context) {
 	restaurantID := c.Params.ByName("restaurant_id")
 	docID, err := primitive.ObjectIDFromHex(restaurantID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error finding restaurant ID": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting restaurant ID": err.Error()})
 		return
 	}
 
@@ -152,7 +152,7 @@ func AddFoodItemToCart(c *gin.Context) {
 	foodID := c.Params.ByName("food_id")
 	foodDocID, err := primitive.ObjectIDFromHex(foodID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error finding food ID": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting food ID": err.Error()})
 		return
 	}
 
