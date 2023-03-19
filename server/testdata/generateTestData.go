@@ -237,7 +237,7 @@ func InsertData() error {
 			ID:         primitive.NewObjectID(),
 			Name:       "The Burger Joint",
 			Address:    "123 Main St, Anytown USA",
-			Categories: "Fast Food",
+			Categories: "Western",
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
@@ -249,7 +249,7 @@ func InsertData() error {
 			ID:         primitive.NewObjectID(),
 			Name:       "Pizzeria del Mondo",
 			Address:    "456 Elm St, Anytown USA",
-			Categories: "Italian",
+			Categories: "Western",
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
@@ -302,7 +302,7 @@ func InsertData() error {
 			ID:         primitive.NewObjectID(),
 			Name:       "The Sizzling Skillet",
 			Address:    "888 Oak St, Anytown USA",
-			Categories: "American",
+			Categories: "Western",
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
@@ -341,7 +341,7 @@ func InsertData() error {
 			ID:         primitive.NewObjectID(),
 			Name:       "Noodle House",
 			Address:    "444 Elm St, Anytown USA",
-			Categories: "Asian",
+			Categories: "Chinese",
 			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
