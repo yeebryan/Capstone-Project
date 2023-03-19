@@ -35,8 +35,6 @@ func main() {
 	authRequired.Use(middleware.Authentication())
 	routes.UserRoutes(authRequired)
 
-	// router.Use(middleware.Authentication())
-
 	//ADMIN USE
 	router.POST("admin/playlists/createToDB", routes.AdminAddPlaylistToDB)
 	router.POST("admin/food/createToDB", routes.AdminAddFoodToDB)
@@ -57,8 +55,10 @@ func main() {
 	// router.GET("/user", routes.GetUserByID)
 
 	router.PUT("/restaurants/:food_id", routes.AddFoodItemToCart)
-	//router.POST("/login", controller.Login)
 
+	router.GET("/playlists", routes.GetPremadePlaylists)
+	router.GET("/playlists/:playlist_id", routes.GetFoodByPlaylistID)
+	router.POST("/playlists/:playlist_id/create/:user_id", routes.CreateUserPremadePlaylist) //?start_date={start_date}
 	// router.DELETE("/cart/:food_id", routes.DeleteCartFoodItem)
 	//get by id
 
@@ -67,8 +67,6 @@ func main() {
 
 	// D
 	// router.DELETE("/order/delete/:id", routes.DeleteOrder)
-
-	//this runs the server and allows it to listen to requests.
 
 	//FOR TESTDATA
 	// testdata.DropTestData()
