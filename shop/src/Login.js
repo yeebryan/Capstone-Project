@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { redirect } from 'react-router-dom';
-import Navbar1 from './Navbar';
 import axios from 'axios';
+import Navbar1 from './Navbar';
 
-const Login = (props) => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState({})
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('handleSubmit called');
+
 
     try {
       const response = await axios.post('http://localhost:3000/users/login', {
@@ -18,9 +20,21 @@ const Login = (props) => {
         password,
       });
 
-      if (response.data.token) {
-        localStorage.setItem('userToken', response.data.token);
-        setIsLoggedIn(true);
+      console.log('before response:', response); // Add this line
+      if (response.status === 200) {
+        const { user: user1, token } = response.data;
+        console.log(response.data)
+
+        // Update state to indicate user is logged in
+        setLoggedIn(true);
+        setUser(user1)
+
+        // Do something with the user data, such as storing it in localStorage
+        localStorage.setItem('user', JSON.stringify(user1));
+        localStorage.setItem('token', token);
+        console.log(`this is: ${user1}`)
+           // Redirect to the main page
+      window.location.href = '/';
       } else {
         setError('Invalid email or password');
       }
@@ -29,13 +43,9 @@ const Login = (props) => {
     }
   };
 
-  if (isLoggedIn) {
-    return <redirect to="/" />;
-  }
-
   return (
     <div>
-    <Navbar1 cartCount={props.cartCount} onOpenCart = {props.onOpenCart}/>
+    <Navbar1 loggedIn={loggedIn} user={user.first_name} />
       <h2>Login</h2>
       {error && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
