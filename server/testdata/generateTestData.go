@@ -24,6 +24,7 @@ func InsertData() error {
 	restaurantCollection := database.OpenCollection(database.Client, "restaurant")
 	cartCollection := database.OpenCollection(database.Client, "cart")
 	orderCollection := database.OpenCollection(database.Client, "order")
+	playlistCollection := database.OpenCollection(database.Client, "playlist")
 
 	// _id of respective data
 	userID := make([]primitive.ObjectID, 3)
@@ -63,6 +64,77 @@ func InsertData() error {
 	for i, user := range userData {
 		createdUser := routes.AdminSignUp(user)
 		userID[i] = createdUser.ID
+	}
+
+	// Playlist collection
+	playlistData := []models.Playlist{
+		{
+			ID:         primitive.NewObjectID(),
+			Name:       "TGIF",
+			FoodID:     []primitive.ObjectID {
+							foodData[0].ID,
+							foodData[1].ID,
+							foodData[2].ID,
+							foodData[3].ID,
+						},
+			UserId:     primitive.NilObjectID(),
+			Image:      &models.ImageData{URL: "https://i.ibb.co/FX3DTtg/noodle-house.jpg"},
+		},
+		{
+			ID:         primitive.NewObjectID(),
+			Name:       "Tasty Thursday",
+			FoodID:     []primitive.ObjectID {
+							foodData[0].ID,
+							foodData[1].ID,
+							foodData[2].ID,
+							foodData[3].ID,
+						},
+			UserId:     primitive.NilObjectID,
+			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+		},
+		{
+			ID:         primitive.NewObjectID(),
+			Name:       "Funky Wednesday",
+			FoodID:     []primitive.ObjectID {
+							foodData[0].ID,
+							foodData[1].ID,
+							foodData[2].ID,
+							foodData[3].ID,
+						},
+			UserId:     primitive.NilObjectID,
+			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+		},
+		{
+			ID:         primitive.NewObjectID(),
+			Name:       "Totally Tuesday",
+			FoodID:     []primitive.ObjectID {
+							foodData[0].ID,
+							foodData[1].ID,
+							foodData[2].ID,
+							foodData[3].ID,
+						},
+			UserId:     primitive.NilObjectID,
+			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+		},
+		{
+			ID:         primitive.NewObjectID(),
+			Name:       "Monday Blues",
+			FoodID:     []primitive.ObjectID {
+							foodData[0].ID,
+							foodData[1].ID,
+							foodData[2].ID,
+							foodData[3].ID,
+						},
+			UserId:     primitive.NilObjectID,
+			Image:      &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+		},
+	}
+	// Insert each playlist into the collection
+	for _, playlist := range playlistData {
+		_, err := playlistCollection.InsertOne(context.Background(), playlist)
+		if err != nil {
+			return err
+		}
 	}
 
 	// Food collection
@@ -237,109 +309,130 @@ func InsertData() error {
 			ID:         primitive.NewObjectID(),
 			Name:       "The Burger Joint",
 			Address:    "123 Main St, Anytown USA",
-			Categories: []string{"Burgers", "Fast Food"},
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
-				foodData[0].ID,
+			Categories: "Western",
+			Image:      &models.ImageData{URL: "https://i.ibb.co/K59sMZc/burger-joint.jpg"},
+			Menu: models.Menu{
+				[]primitive.ObjectID{
+					foodData[0].ID,
+				},
 			},
 		},
 		{
 			ID:         primitive.NewObjectID(),
 			Name:       "Pizzeria del Mondo",
 			Address:    "456 Elm St, Anytown USA",
-			Categories: []string{"Pizza", "Italian"},
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
-				foodData[1].ID,
-				foodData[2].ID,
+			Categories: "Western",
+			Image:      &models.ImageData{URL: "https://i.ibb.co/Bckz4tb/del-mondo.jpg"},
+			Menu: models.Menu{
+				[]primitive.ObjectID{
+					foodData[1].ID,
+					foodData[2].ID,
+				},
 			},
 		},
 		{
 			ID:         primitive.NewObjectID(),
 			Name:       "Sushi Palace",
 			Address:    "789 Oak St, Anytown USA",
-			Categories: []string{"Sushi", "Japanese"},
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
-				foodData[3].ID,
-				foodData[4].ID,
+			Categories: "Japanese",
+			Image:      &models.ImageData{URL: "https://i.ibb.co/SmVw8Qg/sushi.jpg"},
+			Menu: models.Menu{
+				[]primitive.ObjectID{
+					foodData[3].ID,
+					foodData[4].ID,
+				},
 			},
 		},
+
 		{
 			ID:         primitive.NewObjectID(),
 			Name:       "Taco Truck",
 			Address:    "321 Maple St, Anytown USA",
-			Categories: []string{"Mexican", "Tacos"},
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
-				foodData[5].ID,
-				foodData[6].ID,
+			Categories: "Mexican",
+			Image:      &models.ImageData{URL: "https://i.ibb.co/YjtLtfV/taco-truck.jpg"},
+			Menu: models.Menu{
+				[]primitive.ObjectID{
+					foodData[5].ID,
+					foodData[6].ID,
+				},
 			},
 		},
 		{
 			ID:         primitive.NewObjectID(),
 			Name:       "The Golden Wok",
 			Address:    "555 Pine St, Anytown USA",
-			Categories: []string{"Chinese", "Asian"},
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
-				foodData[7].ID,
-				foodData[8].ID,
+			Categories: "Chinese",
+			Image:      &models.ImageData{URL: "https://i.ibb.co/qgkT4zx/golden-wok.jpg"},
+			Menu: models.Menu{
+				[]primitive.ObjectID{
+					foodData[7].ID,
+					foodData[8].ID,
+				},
 			},
 		},
 		{
 			ID:         primitive.NewObjectID(),
 			Name:       "The Sizzling Skillet",
 			Address:    "888 Oak St, Anytown USA",
-			Categories: []string{"American", "Breakfast"},
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
-				foodData[9].ID,
-				foodData[10].ID,
+			Categories: "Western",
+			Image:      &models.ImageData{URL: "https://i.ibb.co/Vqn1TzP/sizzling-skillet.jpg"},
+			Menu: models.Menu{
+				[]primitive.ObjectID{
+					foodData[9].ID,
+					foodData[10].ID,
+				},
 			},
 		},
 		{
 			ID:         primitive.NewObjectID(),
 			Name:       "The Spice House",
 			Address:    "222 Maple St, Anytown USA",
-			Categories: []string{"Indian", "Spicy"},
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
-				foodData[11].ID,
-				foodData[12].ID,
+			Categories: "Indian",
+			Image:      &models.ImageData{URL: "https://i.ibb.co/fCpSvJ1/spice-house.jpg"},
+			Menu: models.Menu{
+				[]primitive.ObjectID{
+					foodData[11].ID,
+					foodData[12].ID,
+				},
 			},
 		},
 		{
 			ID:         primitive.NewObjectID(),
 			Name:       "La Taqueria",
 			Address:    "777 Main St, Anytown USA",
-			Categories: []string{"Mexican", "Tacos"},
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
-				foodData[13].ID,
-				foodData[14].ID,
+			Categories: "Mexican",
+			Image:      &models.ImageData{URL: "https://i.ibb.co/GtDwXPx/la-taqueria.jpg"},
+			Menu: models.Menu{
+				[]primitive.ObjectID{
+					foodData[13].ID,
+					foodData[14].ID,
+				},
 			},
 		},
 		{
 			ID:         primitive.NewObjectID(),
 			Name:       "Noodle House",
 			Address:    "444 Elm St, Anytown USA",
-			Categories: []string{"Asian", "Noodles"},
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
-				foodData[15].ID,
-				foodData[16].ID,
+			Categories: "Chinese",
+			Image:      &models.ImageData{URL: "https://i.ibb.co/FX3DTtg/noodle-house.jpg"},
+			Menu: models.Menu{
+				[]primitive.ObjectID{
+					foodData[15].ID,
+					foodData[16].ID,
+				},
 			},
 		},
 		{
 			ID:         primitive.NewObjectID(),
 			Name:       "The Green Garden",
 			Address:    "333 Oak St, Anytown USA",
-			Categories: []string{"Vegetarian", "Healthy"},
-			Image:      &models.ImageData{URL: "https://picsum.photos/seed/picsum/400/400"},
-			Menu: []primitive.ObjectID{
-				foodData[17].ID,
-				foodData[18].ID,
+			Categories: "Vegetarian",
+			Image:      &models.ImageData{URL: "https://i.ibb.co/Rzzzk3v/green-garden.jpg"},
+			Menu: models.Menu{
+				[]primitive.ObjectID{
+					foodData[17].ID,
+					foodData[18].ID,
+				},
 			},
 		},
 	}
@@ -357,7 +450,7 @@ func InsertData() error {
 		{
 			ID:     primitive.NewObjectID(),
 			UserID: userID[0],
-			Items: &[]models.FoodItems{
+			Items: []models.FoodItems{
 				{
 					ID:       foodData[0].ID,
 					Name:     foodData[0].Name,
@@ -371,14 +464,14 @@ func InsertData() error {
 					Price:    foodData[1].Price,
 				},
 			},
-
 			TotalPrice: 32.97,
 			CreatedAt:  time.Date(2022, 2, 10, 8, 35, 0, 0, time.UTC),
+			State:      models.StateInProcess,
 		},
 		{
 			ID:     primitive.NewObjectID(),
 			UserID: userID[0],
-			Items: &[]models.FoodItems{
+			Items: []models.FoodItems{
 				{
 					ID:       foodData[4].ID,
 					Name:     foodData[4].Name,
@@ -400,11 +493,12 @@ func InsertData() error {
 			},
 			TotalPrice: 49.96,
 			CreatedAt:  time.Date(2022, 3, 5, 18, 20, 0, 0, time.UTC),
+			State:      models.StateInProcess,
 		},
 		{
 			ID:     primitive.NewObjectID(),
 			UserID: userID[1],
-			Items: &[]models.FoodItems{
+			Items: []models.FoodItems{
 				{
 					ID:       foodData[5].ID,
 					Name:     foodData[5].Name,
@@ -420,6 +514,7 @@ func InsertData() error {
 			},
 			TotalPrice: 10.97,
 			CreatedAt:  time.Date(2022, 2, 28, 13, 45, 0, 0, time.UTC),
+			State:      models.StateInProcess,
 		},
 	}
 	// Insert each cart into the collection
@@ -522,10 +617,12 @@ func DropTestData() {
 	restaurantCollection := database.OpenCollection(database.Client, "restaurant")
 	cartCollection := database.OpenCollection(database.Client, "cart")
 	orderCollection := database.OpenCollection(database.Client, "order")
+	playlistCollection := database.OpenCollection(database.Client, "playlist")
 
 	userCollection.Drop(context.Background())
 	foodCollection.Drop(context.Background())
 	restaurantCollection.Drop(context.Background())
 	cartCollection.Drop(context.Background())
 	orderCollection.Drop(context.Background())
+	playlistCollection.Drop(context.Background())
 }
