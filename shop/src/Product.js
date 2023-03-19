@@ -8,25 +8,31 @@ import { Card } from 'react-bootstrap';
 import "./App.css";
 
 
+
 // individual product
 // functional component
 
 const Product = (props) => {
-const Product = (props) => {
   const [data, setData] = useState([]); // set initial state (data) to an empty array
-  const { id } = useParams();
+  const { _id } = useParams();
+  const [cartCount, setCartCount] = useState(0);
+  const [cart, setCart] = useState([]);
+  const [total, setTotal] = useState(0)
 
-// axios 
+
+
+
+
 // axios 
   useEffect(() => {
     axios
-      .get(`https://fakestoreapi.com/products/${id}`) // change from ?id=${id} to ${id} because API url is .com/products/1  // But couldn't map due to not being array
+      .get(`http://localhost:3000/restaurants/${_id}`) // change from ?id=${id} to ${id} because API url is .com/products/1  // But couldn't map due to not being array
       .then((res) => {
         console.log(JSON.stringify(res)) 
         setData(res.data);
       })
       .catch((err) => console.log(err));
-  }, [id]);
+  }, [_id]);
 
 
 // cart count, and keep track of item added

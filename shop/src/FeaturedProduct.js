@@ -325,7 +325,9 @@ const ThreeColumnCard = ({ handleClickCat }) => {
           <div className='main-body'>
             <h1 className="title-mainpage" style={{ textAlign: 'center' }}>Featured Playlists</h1>
             <h2 className="title2-mainpage" style={{ textAlign: 'center' }}>DIY your own playlists or choose popular pre-made playlists!</h2>
+          <h3>Pre-made Playlists</h3>
           <CarouselPlaylist />
+          <h3>Featured Restaurants</h3>
           <CarouselRestaurants />
           <ThreeColumnCard handleClickCat={handleClickCat}/>
           {selectedCat && (CarouselCategory)}
