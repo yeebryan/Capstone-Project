@@ -287,26 +287,12 @@ const ThreeColumnCard = ({ handleClickCat }) => {
     return (
       <Card border="light" className='border-0'>
         <Card.Body>
-          <Row className="row-three">
-            <Col className='column-three'>
-              <div className="threeCards" onClick={() => handleClickCat("Western")}>Western</div>
-            </Col>
-            <Col className='row-three'>
-              <div className="threeCards" onClick={() => handleClickCat("Chinese")}>Chinese</div>
-            </Col>
-            <Col className='row-three'>
-              <div className="threeCards" onClick={() => handleClickCat("Japanese")}>Japanese</div>
-            </Col>
-            <Col className='row-three'>
-              <div className="threeCards" onClick={() => handleClickCat("Indian")}>Indian</div>
-            </Col>
-            <Col className='row-three'>
-              <div className="threeCards" onClick={() => handleClickCat("Mexican")}>Mexican</div>
-            </Col>
-            <Col className='row-three'>
-              <div className="threeCards" onClick={() => handleClickCat("Vegetarian")}>Vegetarian</div>
-            </Col>
-          </Row>
+              <input className="threeCards "type="button" value="Western"  id="btn" onClick={() => handleClickCat("Western")} />
+              <input className="threeCards "type="button" value="Chinese"  id="btn" onClick={() => handleClickCat("Chinese")} />
+              <input className="threeCards "type="button" value="Japanese"  id="btn" onClick={() => handleClickCat("Japanese")} />
+              <input className="threeCards "type="button" value="Indian"  id="btn" onClick={() => handleClickCat("Indian")} />
+              <input className="threeCards "type="button" value="Mexican"  id="btn" onClick={() => handleClickCat("Mexican")} />
+              <input className="threeCards "type="button" value="Vegetarian"  id="btn" onClick={() => handleClickCat("Vegetarian")} />
         </Card.Body>
       </Card>
     );
