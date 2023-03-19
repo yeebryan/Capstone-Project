@@ -154,6 +154,7 @@ func CreateUserPremadePlaylist(c *gin.Context) {
 	//--exclude those crossed []excludedFoodItems?
 	//change playlist by adding in new primitiveOID,userID, startdate
 	//insert
+	//think about diff between startdate and time.Now() to get array of food to order?
 	var playlist models.Playlist
 
 	err = playlistCollection.FindOne(ctx, bson.M{"_id": playlistOID}).Decode(&playlist)
