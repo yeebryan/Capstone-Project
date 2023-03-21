@@ -65,6 +65,27 @@ func AdminGetFood(c *gin.Context) {
 	c.JSON(http.StatusOK, food)
 }
 
+func GetFoodByCategory(c *gin.Context) {
+	category := c.Params.ByName("category")
+	//add validation
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
+
+	food := []models.Food{}
+	cursor, err := foodCollection.Find(ctx, bson.M{"category": bson.M{"$regex": category, "$options": "i"}})
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error finding food collection": err.Error()})
+		return
+	}
+
+	if err = cursor.All(ctx, &food); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting food cursor": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, food)
+}
+
 // func GetFoodByRestaurantID(c *gin.Context) {
 
 // 	waiter := c.Params.ByName("waiter")

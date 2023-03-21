@@ -74,7 +74,7 @@ func InsertData() error {
 			Description: "Our classic hamburger with all the fixings",
 			Price:       9.99,
 			Image:       &models.ImageData{URL: "https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"beef", "classic"},
+			Category:    "Western",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -82,7 +82,7 @@ func InsertData() error {
 			Description: "Our classic pizza with fresh tomato sauce, mozzarella cheese, and basil",
 			Price:       12.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"vegetarian", "classic"},
+			Category:    "Western",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -90,7 +90,7 @@ func InsertData() error {
 			Description: "Our classic pizza with tomato sauce, mozzarella cheese, and pepperoni",
 			Price:       14.99,
 			Image:       &models.ImageData{URL: " https://example.com/images/pepperoni-pizza.jpg"},
-			Tag:         []string{"meat", "classic"},
+			Category:    "Western",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -98,7 +98,7 @@ func InsertData() error {
 			Description: "Crab, avocado, and cucumber rolled in rice and seaweed",
 			Price:       8.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"seafood", "vegetarian"},
+			Category:    "Japanese",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -106,7 +106,7 @@ func InsertData() error {
 			Description: "Tuna and spicy mayo rolled in rice and seaweed",
 			Price:       10.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"seafood", "spicy"},
+			Category:    "Japanese",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -114,7 +114,7 @@ func InsertData() error {
 			Description: "Pork with pineapple and cilantro",
 			Price:       2.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"meat", "spicy"},
+			Category:    "Mexican",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -122,7 +122,7 @@ func InsertData() error {
 			Description: "Grilled vegetables with avocado and salsa",
 			Price:       3.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"vegetarian"},
+			Category:    "Mexican",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -130,7 +130,7 @@ func InsertData() error {
 			Description: "Stir-fried chicken with peanuts, vegetables, and spicy sauce",
 			Price:       12.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"meat", "spicy"},
+			Category:    "Chinese",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -138,7 +138,7 @@ func InsertData() error {
 			Description: "Stir-fried mixed vegetables in a light sauce",
 			Price:       9.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"vegetarian"},
+			Category:    "Chinese",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -146,7 +146,7 @@ func InsertData() error {
 			Description: "Three fluffy pancakes with butter and syrup",
 			Price:       6.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"classic", "breakfast"},
+			Category:    "Western",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -154,7 +154,7 @@ func InsertData() error {
 			Description: "Scrambled eggs, cheese, and bacon wrapped in a tortilla",
 			Price:       8.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"meat", "breakfast"},
+			Category:    "Western",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -162,7 +162,7 @@ func InsertData() error {
 			Description: "Grilled chicken in a creamy tomato sauce with spices",
 			Price:       13.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"meat", "spicy"},
+			Category:    "Indian",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -170,7 +170,7 @@ func InsertData() error {
 			Description: "Mixed vegetables in a spicy curry sauce",
 			Price:       11.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"vegetarian", "spicy"},
+			Category:    "Indian",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -178,7 +178,7 @@ func InsertData() error {
 			Description: "Grilled steak with cilantro and onion",
 			Price:       2.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"meat"},
+			Category:    "Mexican",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -186,15 +186,15 @@ func InsertData() error {
 			Description: "Rice, beans, cheese, and vegetables wrapped in a tortilla",
 			Price:       8.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"vegetarian"},
+			Category:    "Mexican",
 		},
 		{
 			ID:          primitive.NewObjectID(),
-			Name:        "Pad Thai",
-			Description: "Stir-fried rice noodles with egg, peanuts, and choice of meat",
+			Name:        "Yangzhou Fried Rice",
+			Description: "Stir-fried rice dish that is made with cooked rice, eggs, ham, shrimp, green onions, and other vegetables",
 			Price:       11.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"meat", "spicy"},
+			Category:    "Chinese",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -202,7 +202,7 @@ func InsertData() error {
 			Description: "Ramen noodles in a vegetable broth with mixed vegetables",
 			Price:       9.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"vegetarian"},
+			Category:    "Vegetarian",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -210,7 +210,7 @@ func InsertData() error {
 			Description: "Mixed greens, quinoa, avocado, and roasted vegetables with a citrus dressing",
 			Price:       10.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"vegetarian", "healthy"},
+			Category:    "Vegetarian",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -218,7 +218,7 @@ func InsertData() error {
 			Description: "Roasted sweet potatoes, mixed greens, and hummus wrapped in a whole wheat tortilla",
 			Price:       8.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Tag:         []string{"vegetarian", "healthy"},
+			Category:    "Vegetarian",
 		},
 	}
 	// Insert each food item into the collection
@@ -235,11 +235,11 @@ func InsertData() error {
 	// Restaurant collection
 	restaurantData := []models.Restaurant{
 		{
-			ID:         primitive.NewObjectID(),
-			Name:       "The Burger Joint",
-			Address:    "123 Main St, Anytown USA",
-			Categories: "Western",
-			Image:      &models.ImageData{URL: "https://i.ibb.co/K59sMZc/burger-joint.jpg"},
+			ID:       primitive.NewObjectID(),
+			Name:     "The Burger Joint",
+			Address:  "123 Main St, Anytown USA",
+			Category: "Western",
+			Image:    &models.ImageData{URL: "https://i.ibb.co/K59sMZc/burger-joint.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[0].ID,
@@ -247,11 +247,11 @@ func InsertData() error {
 			},
 		},
 		{
-			ID:         primitive.NewObjectID(),
-			Name:       "Pizzeria del Mondo",
-			Address:    "456 Elm St, Anytown USA",
-			Categories: "Western",
-			Image:      &models.ImageData{URL: "https://i.ibb.co/Bckz4tb/del-mondo.jpg"},
+			ID:       primitive.NewObjectID(),
+			Name:     "Pizzeria del Mondo",
+			Address:  "456 Elm St, Anytown USA",
+			Category: "Western",
+			Image:    &models.ImageData{URL: "https://i.ibb.co/Bckz4tb/del-mondo.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[1].ID,
@@ -260,11 +260,11 @@ func InsertData() error {
 			},
 		},
 		{
-			ID:         primitive.NewObjectID(),
-			Name:       "Sushi Palace",
-			Address:    "789 Oak St, Anytown USA",
-			Categories: "Japanese",
-			Image:      &models.ImageData{URL: "https://i.ibb.co/SmVw8Qg/sushi.jpg"},
+			ID:       primitive.NewObjectID(),
+			Name:     "Sushi Palace",
+			Address:  "789 Oak St, Anytown USA",
+			Category: "Japanese",
+			Image:    &models.ImageData{URL: "https://i.ibb.co/SmVw8Qg/sushi.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[3].ID,
@@ -274,11 +274,11 @@ func InsertData() error {
 		},
 
 		{
-			ID:         primitive.NewObjectID(),
-			Name:       "Taco Truck",
-			Address:    "321 Maple St, Anytown USA",
-			Categories: "Mexican",
-			Image:      &models.ImageData{URL: "https://i.ibb.co/YjtLtfV/taco-truck.jpg"},
+			ID:       primitive.NewObjectID(),
+			Name:     "Taco Truck",
+			Address:  "321 Maple St, Anytown USA",
+			Category: "Mexican",
+			Image:    &models.ImageData{URL: "https://i.ibb.co/YjtLtfV/taco-truck.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[5].ID,
@@ -287,11 +287,11 @@ func InsertData() error {
 			},
 		},
 		{
-			ID:         primitive.NewObjectID(),
-			Name:       "The Golden Wok",
-			Address:    "555 Pine St, Anytown USA",
-			Categories: "Chinese",
-			Image:      &models.ImageData{URL: "https://i.ibb.co/qgkT4zx/golden-wok.jpg"},
+			ID:       primitive.NewObjectID(),
+			Name:     "The Golden Wok",
+			Address:  "555 Pine St, Anytown USA",
+			Category: "Chinese",
+			Image:    &models.ImageData{URL: "https://i.ibb.co/qgkT4zx/golden-wok.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[7].ID,
@@ -300,11 +300,11 @@ func InsertData() error {
 			},
 		},
 		{
-			ID:         primitive.NewObjectID(),
-			Name:       "The Sizzling Skillet",
-			Address:    "888 Oak St, Anytown USA",
-			Categories: "Western",
-			Image:      &models.ImageData{URL: "https://i.ibb.co/Vqn1TzP/sizzling-skillet.jpg"},
+			ID:       primitive.NewObjectID(),
+			Name:     "The Sizzling Skillet",
+			Address:  "888 Oak St, Anytown USA",
+			Category: "Western",
+			Image:    &models.ImageData{URL: "https://i.ibb.co/Vqn1TzP/sizzling-skillet.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[9].ID,
@@ -313,11 +313,11 @@ func InsertData() error {
 			},
 		},
 		{
-			ID:         primitive.NewObjectID(),
-			Name:       "The Spice House",
-			Address:    "222 Maple St, Anytown USA",
-			Categories: "Indian",
-			Image:      &models.ImageData{URL: "https://i.ibb.co/fCpSvJ1/spice-house.jpg"},
+			ID:       primitive.NewObjectID(),
+			Name:     "The Spice House",
+			Address:  "222 Maple St, Anytown USA",
+			Category: "Indian",
+			Image:    &models.ImageData{URL: "https://i.ibb.co/fCpSvJ1/spice-house.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[11].ID,
@@ -326,11 +326,11 @@ func InsertData() error {
 			},
 		},
 		{
-			ID:         primitive.NewObjectID(),
-			Name:       "La Taqueria",
-			Address:    "777 Main St, Anytown USA",
-			Categories: "Mexican",
-			Image:      &models.ImageData{URL: "https://i.ibb.co/GtDwXPx/la-taqueria.jpg"},
+			ID:       primitive.NewObjectID(),
+			Name:     "La Taqueria",
+			Address:  "777 Main St, Anytown USA",
+			Category: "Mexican",
+			Image:    &models.ImageData{URL: "https://i.ibb.co/GtDwXPx/la-taqueria.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[13].ID,
@@ -339,11 +339,11 @@ func InsertData() error {
 			},
 		},
 		{
-			ID:         primitive.NewObjectID(),
-			Name:       "Noodle House",
-			Address:    "444 Elm St, Anytown USA",
-			Categories: "Chinese",
-			Image:      &models.ImageData{URL: "https://i.ibb.co/FX3DTtg/noodle-house.jpg"},
+			ID:       primitive.NewObjectID(),
+			Name:     "Noodle House",
+			Address:  "444 Elm St, Anytown USA",
+			Category: "Chinese",
+			Image:    &models.ImageData{URL: "https://i.ibb.co/FX3DTtg/noodle-house.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[15].ID,
@@ -352,11 +352,11 @@ func InsertData() error {
 			},
 		},
 		{
-			ID:         primitive.NewObjectID(),
-			Name:       "The Green Garden",
-			Address:    "333 Oak St, Anytown USA",
-			Categories: "Vegetarian",
-			Image:      &models.ImageData{URL: "https://i.ibb.co/Rzzzk3v/green-garden.jpg"},
+			ID:       primitive.NewObjectID(),
+			Name:     "The Green Garden",
+			Address:  "333 Oak St, Anytown USA",
+			Category: "Vegetarian",
+			Image:    &models.ImageData{URL: "https://i.ibb.co/Rzzzk3v/green-garden.jpg"},
 			Menu: models.Menu{
 				[]primitive.ObjectID{
 					foodData[17].ID,
@@ -542,7 +542,7 @@ func InsertData() error {
 	playlistData := []models.Playlist{
 		{
 			ID:   primitive.NewObjectID(),
-			Name: "TGIF",
+			Name: "Merry Monday",
 			FoodID: []primitive.ObjectID{
 				foodData[0].ID,
 				foodData[1].ID,
@@ -550,55 +550,79 @@ func InsertData() error {
 				foodData[3].ID,
 			},
 			UserID: primitive.NilObjectID,
-			Image:  &models.ImageData{URL: "https://i.ibb.co/FX3DTtg/noodle-house.jpg"},
-		},
-		{
-			ID:   primitive.NewObjectID(),
-			Name: "Tasty Thursday",
-			FoodID: []primitive.ObjectID{
-				foodData[0].ID,
-				foodData[1].ID,
-				foodData[2].ID,
-				foodData[3].ID,
-			},
-			UserID: primitive.NilObjectID,
-			Image:  &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
-		},
-		{
-			ID:   primitive.NewObjectID(),
-			Name: "Funky Wednesday",
-			FoodID: []primitive.ObjectID{
-				foodData[0].ID,
-				foodData[1].ID,
-				foodData[2].ID,
-				foodData[3].ID,
-			},
-			UserID: primitive.NilObjectID,
-			Image:  &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+			Image:  &models.ImageData{URL: "https://i.ibb.co/N3s0QmR/3.png"},
 		},
 		{
 			ID:   primitive.NewObjectID(),
 			Name: "Totally Tuesday",
 			FoodID: []primitive.ObjectID{
-				foodData[0].ID,
-				foodData[1].ID,
-				foodData[2].ID,
-				foodData[3].ID,
+				foodData[4].ID,
+				foodData[5].ID,
+				foodData[6].ID,
+				foodData[7].ID,
 			},
 			UserID: primitive.NilObjectID,
-			Image:  &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+			Image:  &models.ImageData{URL: "https://i.ibb.co/1v590Fs/4.png"},
 		},
 		{
 			ID:   primitive.NewObjectID(),
-			Name: "Monday Blues",
+			Name: "Wonder Wednesday",
 			FoodID: []primitive.ObjectID{
-				foodData[0].ID,
-				foodData[1].ID,
-				foodData[2].ID,
-				foodData[3].ID,
+				foodData[8].ID,
+				foodData[9].ID,
+				foodData[10].ID,
+				foodData[11].ID,
 			},
 			UserID: primitive.NilObjectID,
-			Image:  &models.ImageData{URL: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Tgi_fridays_logo13.svg/1200px-Tgi_fridays_logo13.svg.png"},
+			Image:  &models.ImageData{URL: "https://i.ibb.co/MPLsPJy/5.png"},
+		},
+		{
+			ID:   primitive.NewObjectID(),
+			Name: "Tasty Thursday",
+			FoodID: []primitive.ObjectID{
+				foodData[12].ID,
+				foodData[13].ID,
+				foodData[14].ID,
+				foodData[15].ID,
+			},
+			UserID: primitive.NilObjectID,
+			Image:  &models.ImageData{URL: "https://i.ibb.co/vQ0XqYL/2.png"},
+		},
+		{
+			ID:   primitive.NewObjectID(),
+			Name: "Funky Friday",
+			FoodID: []primitive.ObjectID{
+				foodData[16].ID,
+				foodData[17].ID,
+				foodData[18].ID,
+				foodData[0].ID,
+			},
+			UserID: primitive.NilObjectID,
+			Image:  &models.ImageData{URL: "https://i.ibb.co/dBQRs3n/1.png"},
+		},
+		{
+			ID:   primitive.NewObjectID(),
+			Name: "Sweet Saturday",
+			FoodID: []primitive.ObjectID{
+				foodData[1].ID,
+				foodData[5].ID,
+				foodData[8].ID,
+				foodData[11].ID,
+			},
+			UserID: primitive.NilObjectID,
+			Image:  &models.ImageData{URL: "https://i.ibb.co/hynpxj5/6.png"},
+		},
+		{
+			ID:   primitive.NewObjectID(),
+			Name: "Superb Sunday",
+			FoodID: []primitive.ObjectID{
+				foodData[2].ID,
+				foodData[10].ID,
+				foodData[15].ID,
+				foodData[17].ID,
+			},
+			UserID: primitive.NilObjectID,
+			Image:  &models.ImageData{URL: "https://i.ibb.co/PF6Wf08/7.png"},
 		},
 	}
 	// Insert each playlist into the collection

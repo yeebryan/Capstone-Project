@@ -8,5 +8,5 @@ type Food struct {
 	Description string             `bson:"description,omitempty" json:"description"`
 	Price       float64            `bson:"price,omitempty" json:"price,omitempty"`
 	Image       *ImageData         `bson:"image,omitempty" json:"image,omitempty"`
-	Tag         []string           `bson:"tag,omitempty" json:"tag,omitempty"`
+	Category    string             `bson:"category,omitempty" json:"category"`
 }

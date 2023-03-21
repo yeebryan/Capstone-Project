@@ -58,7 +58,9 @@ func main() {
 
 	router.GET("/playlists", routes.GetPremadePlaylists)
 	router.GET("/playlists/:playlist_id", routes.GetFoodByPlaylistID)
+	router.GET("/playlists/food/:category", routes.GetFoodByCategory)
 	router.POST("/playlists/:playlist_id/create/:user_id", routes.CreateUserPremadePlaylist) //?start_date={start_date}
+
 	// router.DELETE("/cart/:food_id", routes.DeleteCartFoodItem)
 	//get by id
 
