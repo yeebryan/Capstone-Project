@@ -177,6 +177,80 @@ button {
   flex-grow: 1;
 }
 
+/* tile for DIY playlist */
+.tile-main1 {
+  width: auto;
+  height: 150px;
+  background-color: #fff;
+  color: #d61063;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: xx-large;
+  overflow: hidden;
+  position: relative;
+  font-family: unset;
+}
+
+.tile-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 150px;
+  object-fit: contain;
+  transition: transform 3s ease-out;
+}
+
+.tile-text {
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  padding: 0 16px;
+  background-color: transparent;
+  color: #d61063;
+  font-size: 30px;
+  text-align: center;
+  transition: transform 3s ease;
+  transform: translateY(40px);
+  font-weight: bold;
+}
+
+.tile-text-1 {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  padding: 0 16px;
+  background-color: transparent;
+  color: #d61063;
+  font-size: 18px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.tile-para {
+  position: absolute;
+  bottom: 1px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  padding: 0 16px;
+  background-color: transparent;
+  color: #d61063;
+  font-size: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.tile-main1:hover .tile-image {
+  transform: translateX(260%);
+}
+
+/* end of DIY */
 
 .card-wrapper {
   display: flex;
@@ -260,4 +334,54 @@ button {
 
 .logo-img {
   height: 50px;
+}
+
+.login-container {
+  padding: 20px;
+}
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+/* For items (Product.Js) */
+
+.item-card {
+  width: 18rem;
+  margin-bottom: 1rem;
+}
+
+.item-card-img {
+  height: 10rem;
+  object-fit: cover;
+}
+
+.item-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.btn-add-to-cart {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+
+/* User Preference form */
+
+.uform-page {
+  padding: 100px;
 }
