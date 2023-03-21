@@ -75,6 +75,7 @@ func InsertData() error {
 			Price:       9.99,
 			Image:       &models.ImageData{URL: "https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Western",
+			FoodType:    "Burger",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -83,6 +84,7 @@ func InsertData() error {
 			Price:       12.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Western",
+			FoodType:    "Pizza",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -91,6 +93,7 @@ func InsertData() error {
 			Price:       14.99,
 			Image:       &models.ImageData{URL: " https://example.com/images/pepperoni-pizza.jpg"},
 			Category:    "Western",
+			FoodType:    "Pizza",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -98,7 +101,7 @@ func InsertData() error {
 			Description: "Crab, avocado, and cucumber rolled in rice and seaweed",
 			Price:       8.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Category:    "Japanese",
+			FoodType:    "Sushi",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -107,6 +110,7 @@ func InsertData() error {
 			Price:       10.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Japanese",
+			FoodType:    "Sushi",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -115,6 +119,7 @@ func InsertData() error {
 			Price:       2.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Mexican",
+			FoodType:    "Taco",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -123,6 +128,7 @@ func InsertData() error {
 			Price:       3.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Mexican",
+			FoodType:    "Taco",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -131,14 +137,16 @@ func InsertData() error {
 			Price:       12.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Chinese",
+			FoodType:    "Chicken",
 		},
 		{
 			ID:          primitive.NewObjectID(),
-			Name:        "Vegetable Stir-Fry",
-			Description: "Stir-fried mixed vegetables in a light sauce",
+			Name:        "Chow Mein",
+			Description: "Stir-fried Chow Mein in a light sauce",
 			Price:       9.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Chinese",
+			FoodType:    "Noodle",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -147,6 +155,7 @@ func InsertData() error {
 			Price:       6.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Western",
+			FoodType:    "Breakfast",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -155,6 +164,7 @@ func InsertData() error {
 			Price:       8.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Western",
+			FoodType:    "Breakfast",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -163,14 +173,16 @@ func InsertData() error {
 			Price:       13.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Indian",
+			FoodType:    "Chicken",
 		},
 		{
 			ID:          primitive.NewObjectID(),
-			Name:        "Vegetable Curry",
+			Name:        "Vegetable Curry Rice",
 			Description: "Mixed vegetables in a spicy curry sauce",
 			Price:       11.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Indian",
+			FoodType:    "Rice",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -179,6 +191,7 @@ func InsertData() error {
 			Price:       2.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Mexican",
+			FoodType:    "Taco",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -187,6 +200,7 @@ func InsertData() error {
 			Price:       8.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Mexican",
+			FoodType:    "Rice",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -195,14 +209,16 @@ func InsertData() error {
 			Price:       11.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Chinese",
+			FoodType:    "Rice",
 		},
 		{
 			ID:          primitive.NewObjectID(),
-			Name:        "Vegetable Ramen",
-			Description: "Ramen noodles in a vegetable broth with mixed vegetables",
+			Name:        "Vegetable Noodle",
+			Description: "Yellow noodles in a vegetable broth with mixed vegetables",
 			Price:       9.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
-			Category:    "Vegetarian",
+			Category:    "Chinese",
+			FoodType:    "Noodle",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -211,6 +227,7 @@ func InsertData() error {
 			Price:       10.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Vegetarian",
+			FoodType:    "Salad",
 		},
 		{
 			ID:          primitive.NewObjectID(),
@@ -219,6 +236,7 @@ func InsertData() error {
 			Price:       8.99,
 			Image:       &models.ImageData{URL: " https://picsum.photos/seed/picsum/200/200"},
 			Category:    "Vegetarian",
+			FoodType:    "Salad",
 		},
 	}
 	// Insert each food item into the collection

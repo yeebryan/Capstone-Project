@@ -86,6 +86,34 @@ func GetFoodByCategory(c *gin.Context) {
 	c.JSON(http.StatusOK, food)
 }
 
+// POST request FOOD
+// generate food playlist
+func FetchRandomFood(c *gin.Context) {
+	category := c.Query("category")
+	foodType := c.Query("foodType")
+
+	var query bson.M
+	if category != "" && foodType != "" {
+		query = bson.M{"category": category, "food_type": foodType}
+	} else if category != "" {
+		query = bson.M{"category": category}
+	} else if foodType != "" {
+		query = bson.M{"food_type": foodType}
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing category or foodType parameter"})
+		return
+	}
+
+	var food models.Food
+	err := foodCollection.FindOne(context.Background(), query).Decode(&food)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch food"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"foods": []models.Food{food}})
+}
+
 // func GetFoodByRestaurantID(c *gin.Context) {
 
 // 	waiter := c.Params.ByName("waiter")

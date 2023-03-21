@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css"
 import {Link} from 'react-router-dom'
 //import AddToCartButton from './AddtoCart';
-import {Modal, Col, Row, Card, Button} from "react-bootstrap"
+import {Modal, Card, Button} from "react-bootstrap"
 import Navbar1 from './Navbar';
 import axios from 'axios';
+import Playlist from './Playlist';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
@@ -85,12 +86,10 @@ const onAddToCart = (item) => {
     userCart.push(item);
     localStorage.setItem(props.userId, JSON.stringify(userCart));
   };
-  
 // open the cart
 const onOpenCart = () => {
     setShowCart(true)
 }
-
 // clear cart btn function - setState back to 0
 const clearCart = () => {
     setCartCount(0); // the counter to 0 
@@ -98,8 +97,6 @@ const clearCart = () => {
     setShowCart(false);
 
 }
-
-
 // modal component for Cart
 // group items by ID, storing their quantity separately
 // group items by ID, storing their quantity separately
@@ -136,48 +133,73 @@ const CartModal = () => {
         </Modal.Footer>
       </Modal>
     );
+};
+
+const PlaylistTile = () => {
+
+  const handleClick = () => {
+    window.location.href = '/userform';
   };
+
+  return (
+    <div 
+      className="tile-main1"
+      onClick={handleClick}
+    >
+      <img 
+        src="/imgs/foodpanda-panda.gif"
+        alt="DIY playlist" 
+        className="tile-image"
+      />
+      <span className="tile-text-1">Introducing ...</span>
+      <span className="tile-text">DIY PLAYLIST</span>
+      <p className='tile-para'>Click on me to begin!</p>
+    </div>
+  );
+};
+
   
 // carousel for pre-made playlists
-const CarouselPlaylist = () => {
+// const CarouselPlaylist = () => {
 
-    return (
-      <Carousel 
-        className="first-carousel"
-        responsive={settings}
-        swipeable={true}
-        draggable={true}
-        showDots={false}
-        ssr={true} // means rendering carousel on server-side
-        infinite={true}
-        autoPlay={true}
-        autoPlaySpeed={10000}
-        keyBoardControl={true}
-        customTransition="all .5"
-        transitionDuration={500}
-        containerClass="carousel-container"
-        //removeArrowOnDeviceType={["tablet", "mobile"]}
-        dotListClass="custom-dot-list-style">
-        {products.map((product) => (
-          <div className='card-wrapper' key={product.id}>
-            <Link to={`/restaurants/${product._id}`}>
-              <img src={product.image.url} alt={product.image.url} />
-            </Link>
-            <div className='card-body' style={{ textAlign: 'center' }}>
-              <h3>{product.name}</h3>
-              <p>{product.description}</p>
-            </div>
-          </div>
-      ))}
-      </Carousel>
-)}
+//     return (
+//       <Carousel 
+//         className="first-carousel"
+//         responsive={settings}
+//         swipeable={true}
+//         draggable={true}
+//         showDots={false}
+//         ssr={true} // means rendering carousel on server-side
+//         infinite={false}
+//         autoPlay={true}
+//         autoPlaySpeed={10000}
+//         keyBoardControl={true}
+//         customTransition="all .5"
+//         transitionDuration={500}
+//         containerClass="carousel-container"
+//         //removeArrowOnDeviceType={["tablet", "mobile"]}
+//         dotListClass="custom-dot-list-style">
+//         {products.map((product) => (
+//           <div className='card-wrapper' key={product._id}>
+//             <Link to={`/restaurants/${product._id}`}>
+//               <img src={product.image.url} alt={product.image.url} />
+//             </Link>
+//             <div className='card-body' style={{ textAlign: 'center' }}>
+//               <h3>{product.name}</h3>
+//               <p>{product.description}</p>
+//             </div>
+//           </div>
+//       ))}
+//       </Carousel>
+// )}
 
 // 2nd carousel for featured restaurants
 const CarouselRestaurants = () => {
 
+
   return (
     <Carousel 
-      className="my-carousel"
+      className="first-carousel"
       responsive={settings}
       swipeable={true}
       draggable={true}
@@ -193,8 +215,8 @@ const CarouselRestaurants = () => {
       //removeArrowOnDeviceType={["tablet", "mobile"]}
       dotListClass="custom-dot-list-style">
       {products.map((product) => (
-        <div className='card-wrapper' key={product.id}>
-          <Link to={`/product/${product._id}`}>
+        <div className='card-wrapper' key={product._id}>
+          <Link to={`/restaurants/${product._id}`}>
             <img src={product.image.url} alt={product.image.url} />
           </Link>
           <div className='card-body' style={{ textAlign: 'center' }}>
@@ -228,7 +250,7 @@ const CarouselCategory = () => {
       //removeArrowOnDeviceType={["tablet", "mobile"]}
       dotListClass="custom-dot-list-style">
       {restaurants.map((restaurant) => (
-        <div className='card-wrapper' key={restaurant.id}>
+        <div className='card-wrapper' key={restaurant._id}>
           <Link to={`/restaurants/${restaurant._id}`}>
             <img src={restaurant.image.url} alt={restaurant.image.url} />
           </Link>
@@ -291,19 +313,17 @@ const ThreeColumnCard = ({ handleClickCat }) => {
   
 
 
-
-
-
 // display the data (JSX corner)
     return (
         <div className='page'>
           <Navbar1 cartCount={cartCount} onOpenCart = {onOpenCart}/>
           <CartModal/>
           <div className='main-body'>
-            <h1 className="title-mainpage" style={{ textAlign: 'center' }}>Featured Playlists</h1>
-            <h2 className="title2-mainpage" style={{ textAlign: 'center' }}>DIY your own playlists or choose popular pre-made playlists!</h2>
-          <h3>Pre-made Playlists</h3>
-          <CarouselPlaylist />
+            <h1 className="title-mainpage" style={{ textAlign: 'center' }}>Food Playlists</h1>
+            <h2 className="title2-mainpage" style={{ textAlign: 'center' }}>Choose our generated playlists or DIY playlist!</h2>
+          <PlaylistTile/>
+          <h3>Foodpanda Playlists</h3>
+          <Playlist />
           <h3>Featured Restaurants</h3>
           <CarouselRestaurants />
           <ThreeColumnCard handleClickCat={handleClickCat}/>

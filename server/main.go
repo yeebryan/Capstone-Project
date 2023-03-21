@@ -5,7 +5,7 @@ import (
 	"server/middleware"
 	"server/routes"
 
-	// "server/testdata"
+	"server/testdata"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -53,6 +53,7 @@ func main() {
 	// router.GET("/playlist/:user_id", routes.GetPlaylistByUserID)
 	router.GET("/cart/:user_id", routes.GetCartByUserID)
 	// router.GET("/user", routes.GetUserByID)
+	router.GET("/food/random", routes.FetchRandomFood)
 
 	router.PUT("/restaurants/:food_id", routes.AddFoodItemToCart)
 
@@ -71,8 +72,8 @@ func main() {
 	// router.DELETE("/order/delete/:id", routes.DeleteOrder)
 
 	//FOR TESTDATA
-	// testdata.DropTestData()
-	// testdata.InsertData()
+	testdata.DropTestData()
+	testdata.InsertData()
 
 	router.Run(":" + port)
 }
