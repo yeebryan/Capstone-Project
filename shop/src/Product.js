@@ -13,7 +13,7 @@ import "./App.css";
 // functional component
 
 const Product = (props) => {
-  const [data, setData] = useState([]); // set initial state (data) to an empty array
+  const [data, setData] = useState([]); // set initial state (data) to an empty array [] not object {}
   const { restaurant_id } = useParams();
   const [cartCount, setCartCount] = useState(0);
   const [cart, setCart] = useState([]);
@@ -32,10 +32,10 @@ const Product = (props) => {
       .then((res) => {
         console.log(JSON.stringify(res)) 
         setData(res.data);
+
       })
       .catch((err) => console.log(err));
   }, [restaurant_id]);
-
 
 // cart count, and keep track of item added
 
@@ -67,24 +67,23 @@ const clearCart = () => {
 
 const ProductItem = (
   <div className="product-container" key={data.id}>
-    <div>
-      <img className="prod-image" src={data.image} alt="" />
-    </div>
-    <div>
-      <h1 className="brand">{data.name}</h1>
-      {data.menu &&
-        data.menu.map((item) => (
-          <Card key={item.id}>
+      {data &&
+        data.map((item) => (
+          <Card className="item-card" key={item.id}>
+            <Card.Img variant="top" src={item.image.url} alt={item.image.url} />
             <Card.Body>
-              <Card.Title>{item.name}</Card.Title>
-{/* <AddToCartButton onClick={() => onAddToCart(item)} /> */}
+            <Card.Title className="item-title">{item.name}</Card.Title>
+            <Card.Text>{item.price}</Card.Text>
+            <Card.Text>{item.description}</Card.Text>
+              {console.log(`yo log this: ${item} & this ${item.name}`)}
             </Card.Body>
+            <div className="center">
+            <AddToCartButton onClick={() => onAddToCart(item)} />
+            </div>
           </Card>
         ))}
-    </div>
   </div>
 );
-
 
 
   return (
