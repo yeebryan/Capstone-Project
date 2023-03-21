@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Navbar1 from './Navbar';
+import "./App.css";
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -46,6 +47,8 @@ const Login = () => {
   return (
     <div>
     <Navbar1 loggedIn={loggedIn} user={user.first_name} />
+    <div className="login-page">
+    <div className="login-container">
       <h2>Login</h2>
       {error && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
@@ -58,7 +61,7 @@ const Login = () => {
             required
           />
         </label>
-        <label>
+        <label s>
           Password:
           <input
             type="password"
@@ -70,6 +73,9 @@ const Login = () => {
         <button type="submit">Login</button>
       </form>
     </div>
+    </div>
+    </div>
+
   );
 };
 
