@@ -72,9 +72,9 @@ const ProductItem = (
           <Card className="item-card" key={item.id}>
             <Card.Img variant="top" src={item.image.url} alt={item.image.url} />
             <Card.Body>
-            <Card.Title className="item-title">{item.name}</Card.Title>
-            <Card.Text>{item.price}</Card.Text>
-            <Card.Text>{item.description}</Card.Text>
+            <div className="item-title">{item.name}</div>
+            <div>{item.price}</div>
+            <div>{item.description}</div>
               {console.log(`yo log this: ${item} & this ${item.name}`)}
             </Card.Body>
             <div className="center">
@@ -88,7 +88,7 @@ const ProductItem = (
 
   return (
     <div>
-          <Navbar1 cartCount={props.cartCount} onOpenCart = {props.onOpenCart}/>
+          {/* <Navbar1 cartCount={props.cartCount} onOpenCart = {props.onOpenCart}/> */}
       <div className="product_item">{ProductItem}</div>
     </div>
   );

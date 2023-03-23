@@ -319,8 +319,6 @@ const ThreeColumnCard = ({ handleClickCat }) => {
           <Navbar1 cartCount={cartCount} onOpenCart = {onOpenCart}/>
           <CartModal/>
           <div className='main-body'>
-            <h1 className="title-mainpage" style={{ textAlign: 'center' }}>Food Playlists</h1>
-            <h2 className="title2-mainpage" style={{ textAlign: 'center' }}>Choose our generated playlists or DIY playlist!</h2>
           <PlaylistTile/>
           <h3>Foodpanda Playlists</h3>
           <Playlist />

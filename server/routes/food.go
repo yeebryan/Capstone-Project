@@ -2,6 +2,8 @@ package routes
 
 import (
 	"context"
+	"fmt"
+	"math/rand"
 	"net/http"
 	"server/database"
 	"server/models"
@@ -104,12 +106,37 @@ func FetchRandomFood(c *gin.Context) {
 		return
 	}
 
-	var food models.Food
-	err := foodCollection.FindOne(context.Background(), query).Decode(&food)
+	fmt.Println("Query yaya:", query)
+
+	var foods []models.Food
+	cur, err := foodCollection.Find(context.Background(), query)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch food"})
 		return
 	}
+
+	for cur.Next(context.Background()) {
+		var food models.Food
+		err := cur.Decode(&food)
+		if err != nil {
+			fmt.Println("Failed to decode food:", err)
+			continue
+		}
+		foods = append(foods, food)
+	}
+
+	fmt.Println("Foods:", foods) // add this line to log the food items being returned
+
+	if len(foods) == 0 {
+		c.JSON(http.StatusOK, gin.H{"foods": []models.Food{}})
+		return
+	}
+
+	rand.Seed(time.Now().UnixNano())
+	randomIndex := rand.Intn(len(foods))
+	food := foods[randomIndex]
+
+	fmt.Println("Food lala items:", food)
 
 	c.JSON(http.StatusOK, gin.H{"foods": []models.Food{food}})
 }
