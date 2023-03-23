@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import Navbar1 from './Navbar';
 import MyOrder from './MyOrder';
 import authAxios from './authAxios';
@@ -43,7 +42,7 @@ const handleSubmit = async (e) => {
     const url = "http://localhost:3000/food/random?" + new URLSearchParams(params);
 
     try {
-      const response = await axios.get(url);
+      const response = await authAxios.get(url);
       setFoods(response.data.foods);
       setOrder({
         category,
