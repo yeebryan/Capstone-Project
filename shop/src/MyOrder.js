@@ -2,6 +2,7 @@
 // so can change to MyPlaylist
 // !order ensure that order is defined 
 import React from 'react';
+import "./App.css";
 
 const MyOrder = ({ order }) => {
   if (!order || !order.food) {
@@ -9,8 +10,9 @@ const MyOrder = ({ order }) => {
   }
 
   return (
-    <div>
+    <div className='my-order-page'>
       <h2>My Order</h2>
+      <div>
       <p>Category: {order.category}</p>
       <p>Food Type: {order.foodType}</p>
       <p>Interval: {order.interval}</p>
@@ -18,10 +20,12 @@ const MyOrder = ({ order }) => {
       <p>Time: {order.time}</p>
       {order.food && (
         <>
-          <p><img src={order.food.imageUrl} alt={order.food.name} /></p>
+        <br/>
+          <p><img src={order.food.image.url} alt={order.food.name} /></p>
           <p>Selected Food: {order.food.name}</p>
         </>
       )}
+    </div>
     </div>
   );
 };

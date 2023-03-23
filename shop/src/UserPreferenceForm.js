@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Navbar1 from './Navbar';
 import MyOrder from './MyOrder';
+import authAxios from './authAxios';
+import withAuth from './withAuth';
 import "./App.css";
 
 
@@ -14,6 +16,7 @@ const UserPreferenceForm = ({ onSubmit, cartCount, onOpenCart }) => {
   const [loading, setLoading] = useState(false);
   const [foods, setFoods] = useState([]);
   const [order, setOrder] = useState({});
+  const [error, setError] = useState('');
 
 
 const handleSubmit = async (e) => {
@@ -25,6 +28,16 @@ const handleSubmit = async (e) => {
     };
     if (foodType) {
       params.foodType = foodType;
+    }
+
+    if (interval && startDate && time) {
+      const now = new Date();
+      const selectedDate = new Date(`${startDate} ${time}`);
+      if (selectedDate < now) {
+        setError('Start date and time must be in the future');
+        setLoading(false);
+        return;
+      }
     }
 
     const url = "http://localhost:3000/food/random?" + new URLSearchParams(params);
@@ -146,6 +159,7 @@ const handleSubmit = async (e) => {
             </div>
             <button type='submit'>Submit</button>
           </form>
+          {error && <p>{error}</p>}
           <div className='food-cards-container'>{renderFoodCards()}</div>
           <MyOrder order={order} />
         </div>
@@ -154,4 +168,4 @@ const handleSubmit = async (e) => {
   );
 };
 
-export default UserPreferenceForm;
+export default withAuth(UserPreferenceForm);
