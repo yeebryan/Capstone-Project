@@ -94,13 +94,16 @@ func FetchRandomFood(c *gin.Context) {
 	category := c.Query("category")
 	foodType := c.Query("foodType")
 
+	fmt.Println("categoryPLS", category)
+	fmt.Println("food typePLS", foodType)
+
 	var query bson.M
 	if category != "" && foodType != "" {
-		query = bson.M{"category": category, "food_type": foodType}
+		query = bson.M{"category": bson.M{"$regex": category, "$options": "i"}, "foodtype": bson.M{"$regex": foodType, "$options": "i"}}
 	} else if category != "" {
-		query = bson.M{"category": category}
+		query = bson.M{"category": bson.M{"$regex": category, "$options": "i"}}
 	} else if foodType != "" {
-		query = bson.M{"food_type": foodType}
+		query = bson.M{"foodtype": bson.M{"$regex": foodType, "$options": "i"}}
 	} else {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing category or foodType parameter"})
 		return
@@ -125,7 +128,7 @@ func FetchRandomFood(c *gin.Context) {
 		foods = append(foods, food)
 	}
 
-	fmt.Println("Foods:", foods) // add this line to log the food items being returned
+	fmt.Println("Foods FREAK:", foods) // add this line to log the food items being returned
 
 	if len(foods) == 0 {
 		c.JSON(http.StatusOK, gin.H{"foods": []models.Food{}})
@@ -136,7 +139,7 @@ func FetchRandomFood(c *gin.Context) {
 	randomIndex := rand.Intn(len(foods))
 	food := foods[randomIndex]
 
-	fmt.Println("Food lala items:", food)
+	fmt.Println("Food WULALA items:", food)
 
 	c.JSON(http.StatusOK, gin.H{"foods": []models.Food{food}})
 }

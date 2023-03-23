@@ -5,7 +5,7 @@ import (
 	"server/middleware"
 	"server/routes"
 
-	//"server/testdata"
+	// "server/testdata"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -77,8 +77,8 @@ func main() {
 	// router.DELETE("/order/delete/:id", routes.DeleteOrder)
 
 	//FOR TESTDATA
-	//testdata.DropTestData()
-	//testdata.InsertData()
+	// testdata.DropTestData()
+	// testdata.InsertData()
 
 	router.Run(":" + port)
 }

@@ -101,6 +101,7 @@ func InsertData() error {
 			Description: "Crab, avocado, and cucumber rolled in rice and seaweed",
 			Price:       8.99,
 			Image:       &models.ImageData{URL: "https://i.ibb.co/SNSjpw4/cali-roll.jpg"},
+			Category:    "Japanese",
 			FoodType:    "Sushi",
 		},
 		{
