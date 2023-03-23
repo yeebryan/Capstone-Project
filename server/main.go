@@ -47,21 +47,22 @@ func main() {
 	// USER USAGE
 	// router.POST("/cart/createPlaylist", routes.createPlaylist)
 
-	router.GET("/restaurants", routes.GetRestaurants)
-	// GET /restaurantByCuisine
-	router.GET("/restaurants/:restaurant_id", routes.GetFoodByRestaurantID) //need to test
-	// router.GET("/playlist/:user_id", routes.GetPlaylistByUserID)
-	router.GET("/cart/:user_id", routes.GetCartByUserID)
-	// router.GET("/user", routes.GetUserByID)
-	router.GET("/food/random", routes.FetchRandomFood)
+	{
+		authRequired.GET("/restaurants", routes.GetRestaurants)
+		// GET /restaurantByCuisine
+		authRequired.GET("/restaurants/:restaurant_id", routes.GetFoodByRestaurantID) //need to test
+		// router.GET("/playlist/:user_id", routes.GetPlaylistByUserID)
+		authRequired.GET("/cart/:user_id", routes.GetCartByUserID)
+		// router.GET("/user", routes.GetUserByID)
+		authRequired.GET("/food/random", routes.FetchRandomFood)
 
-	router.PUT("/restaurants/:food_id", routes.AddFoodItemToCart)
+		authRequired.PUT("/restaurants/:food_id", routes.AddFoodItemToCart)
 
-	router.GET("/playlists", routes.GetPremadePlaylists)
-	router.GET("/playlists/:playlist_id", routes.GetFoodByPlaylistID)
-	router.GET("/playlists/food/:category", routes.GetFoodByCategory)
-	router.POST("/playlists/:playlist_id/create/:user_id", routes.CreateUserPremadePlaylist) //?start_date={start_date}
-
+		authRequired.GET("/playlists", routes.GetPremadePlaylists)
+		authRequired.GET("/playlists/:playlist_id", routes.GetFoodByPlaylistID)
+		authRequired.GET("/playlists/food/:category", routes.GetFoodByCategory)
+		authRequired.POST("/playlists/:playlist_id/create/:user_id", routes.CreateUserPremadePlaylist) //?start_date={start_date}
+	}
 	// router.DELETE("/cart/:food_id", routes.DeleteCartFoodItem)
 	//get by id
 
