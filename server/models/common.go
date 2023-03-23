@@ -1,6 +1,11 @@
 package models
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"errors"
+	"strings"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type ImageData struct {
 	URL string `bson:"url" json:"url"`
@@ -16,7 +21,36 @@ type FoodItems struct {
 
 type State string
 
+type Interval string
+
 const (
+	//cart states
 	StateCompleted State = "completed"
-	StateInProcess State = "InProcess"
+	StateInProcess State = "inProcess"
+	//playlist states
+	StateOngoing State = "ongoing"
+	StatePaused  State = "paused"
+	//order states
+	StatePending   State = "pending"
+	StateDelivered State = "delivered"
+	//shared states
+	StateDeleted State = "deleted"
 )
+
+const (
+	Weekly    Interval = "weekly"
+	Bi_Weekly Interval = "biweekly"
+	Monthly   Interval = "monthly"
+)
+
+func IntervalType(input string) (Interval, error) {
+	switch strings.ToLower(input) {
+	case "weekly":
+		return Weekly, nil
+	case "bi-weekly":
+		return Bi_Weekly, nil
+	case "monthly":
+		return Monthly, nil
+	}
+	return "", errors.New("Interval not found")
+}
