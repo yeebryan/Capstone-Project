@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import Navbar1 from './Navbar';
-import MyOrder from './MyOrder';
+// import MyOrder from './MyOrder';
 import authAxios from './authAxios';
 import withAuth from './withAuth';
-import "./App.css";
+import { useNavigate } from 'react-router-dom';
+import "./UPF.css";
 
 
 const UserPreferenceForm = ({ onSubmit, cartCount, onOpenCart }) => {
-  const [category, setCategory] = useState('Western');
+  const [category, setCategory] = useState('');
   const [foodType, setFoodType] = useState('');
   const [interval, setInterval] = useState('Weekly');
   const [startDate, setStartDate] = useState('');
@@ -16,11 +17,37 @@ const UserPreferenceForm = ({ onSubmit, cartCount, onOpenCart }) => {
   const [foods, setFoods] = useState([]);
   const [order, setOrder] = useState({});
   const [error, setError] = useState('');
+  const [step, setStep] = useState(1); // for multi-step pro bar
+  const [submitted, setSubmitted] = useState(false); // track form submit
+  const [showError, setShowError] = useState(false);
+
+  const resetState = () => {
+    setError('');
+    setFoods([]);
+  }
+  
+  const navigate = useNavigate();
 
 
 const handleSubmit = async (e) => {
     e.preventDefault();
+
+    resetState();
+    setShowError(false);
+
+    if (!category && !foodType) {
+      setError('Please select either category or food type');
+      return;
+    }
+  
+    if (!interval || !startDate || !time) {
+      setError('Please fill in all required fields');
+      return;
+    }
+
     setLoading(true);
+    setSubmitted(true); // Add this line
+
 
     const params = {
       category,
@@ -28,8 +55,6 @@ const handleSubmit = async (e) => {
     if (foodType) {
       params.foodType = foodType;
     }
-
-    if (interval && startDate && time) {
       const now = new Date();
       const selectedDate = new Date(`${startDate} ${time}`);
       if (selectedDate < now) {
@@ -37,7 +62,7 @@ const handleSubmit = async (e) => {
         setLoading(false);
         return;
       }
-    }
+  
 
     const url = "http://localhost:3000/food/random?" + new URLSearchParams(params);
 
@@ -52,8 +77,10 @@ const handleSubmit = async (e) => {
         time,
         food: response.data.foods[0],
       });
+      setShowError(true); // Add this line
     } catch (error) {
       console.error(error);
+      setShowError(true); // Add this line
     } finally {
       setLoading(false);
     }
@@ -65,23 +92,32 @@ const handleSubmit = async (e) => {
     }
 
 
-    if (foods.length === 0) {
+    if (foods.length === 0 && submitted && showError) {
       return <p>No available foods found.</p>;
     }
 
     return foods.map((food) => (
       <div key={food.id} className='food-card'>
-        <img src={food.imageUrl} alt={food.name} />
+        <img src={food.image.url} alt={food.name} />
         <h3>{food.name}</h3>
         <p>{food.description}</p>
       </div>
     ));
   };
 
+  const handleProceed = () => {
+    // Navigate to another page
+    navigate('/myorder', { state: { order, foods }});
+  };
+
   return (
     <div className='user-preference-form'>
       <Navbar1 cartCount={cartCount} onOpenCart={onOpenCart} />
       <div className='uform-page'>
+                {/* Add a container for the title and progress indicator */}
+                <div className='title-progress-container'>
+          <h2 className='form-title'>User Preferences</h2>
+      </div>
         <div className='uform-container'>
           <form onSubmit={handleSubmit}>
             <div>
@@ -91,6 +127,7 @@ const handleSubmit = async (e) => {
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                 >
+                <option value="">Select a category</option>
                 <option value='Western'>Western</option>
                 <option value='Chinese'>Chinese</option>
                 <option value='Japanese'>Japanese</option>
@@ -107,6 +144,7 @@ const handleSubmit = async (e) => {
                   value={foodType}
                   onChange={(e) => setFoodType(e.target.value)}
                 >
+                <option value="">Select a food type</option>
                 <option value='Burger'>Burger</option>
                 <option value='Pizza'>Pizza</option>
                 <option value='Sushi'>Sushi</option>
@@ -144,6 +182,7 @@ const handleSubmit = async (e) => {
                   type='date'
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
+                  required
                 />
               </label>
             </div>
@@ -151,17 +190,27 @@ const handleSubmit = async (e) => {
               <label>
                 Time:
                 <input type='time'
+                  className='form-input-time time-input'
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
+                  required
                 />
               </label>
             </div>
             <button type='submit'>Submit</button>
           </form>
-          {error && <p>{error}</p>}
+          {!loading && foods.length === 0 && !showError ? (
+            <div className="initial-gif-container">
+              <img src="/imgs/happy.gif" alt="happy_panda" />
+            </div>
+          ): null}
           <div className='food-cards-container'>{renderFoodCards()}</div>
-          <MyOrder order={order} />
+          {/* <MyOrder order={order} /> */}
         </div>
+        <div className='button-container'>
+        <button className="proceed-button" onClick={handleProceed} disabled={error || !submitted}>Proceed</button>
+        </div>
+        {error && <p>{error}</p>}
       </div>
     </div>
   );

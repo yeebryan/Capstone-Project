@@ -1,0 +1,37 @@
+.my-order {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .summary-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
+    margin-top: 20px;
+  }
+  
+  .food-details {
+    display: flex;
+    align-items: center;
+  }
+  
+  .food-details img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+    border-radius: 50%;
+  }
+  
+  .order-details {
+    margin-top: 20px;
+  }
+  

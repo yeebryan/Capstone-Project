@@ -1,35 +1,62 @@
-// this will be where user can see their playlist
-// so can change to MyPlaylist
-// !order ensure that order is defined 
 import React from 'react';
-import "./App.css";
+import { useLocation, useNavigate } from 'react-router-dom';
+import './MyOrder.css';
+import Navbar1 from './Navbar';
 
-const MyOrder = ({ order }) => {
-  if (!order || !order.food) {
-    return <div>No order yet!</div>;
+const MyOrder = () => {
+  const location = useLocation();
+  const { order, foods } = location.state || { order: {}, foods: [] };
+  const navigate = useNavigate();
+
+
+  if (!order.food) {
+    return (
+      <div className="my-order">
+        <h2>No order details available</h2>
+      </div>
+    );
   }
+  
+  const handleProceed = () => {
+    // Navigate to another page
+    navigate('/checkout', { state: { order, foods }});
+  };
 
   return (
-    <div className='my-order-page'>
-      <h2>My Order</h2>
-      <div>
-      <p>Category: {order.category}</p>
-      <p>Food Type: {order.foodType}</p>
-      <p>Interval: {order.interval}</p>
-      <p>Start Date: {order.startDate}</p>
-      <p>Time: {order.time}</p>
-      {order.food && (
-        <>
-        <br/>
-          <p><img src={order.food.image.url} alt={order.food.name} /></p>
-          <p>Selected Food: {order.food.name}</p>
-        </>
-      )}
+    <div>
+    <Navbar1 />
+    <div className="my-order">
+      <h2>Your Order Summary</h2>
+      <div className="summary-card">
+        <h3>Food</h3>
+        <div className="food-details">
+          <img src={order.food.image.url} alt={order.food.name} />
+          <h4>{order.food.name}</h4>
+        </div>
+        <div className="order-details">
+          <p>
+            <strong>Category:</strong> {order.category}
+          </p>
+          <p>
+            <strong>Food Type:</strong> {order.foodType}
+          </p>
+          <p>
+            <strong>Interval:</strong> {order.interval}
+          </p>
+          <p>
+            <strong>Start Date:</strong> {order.startDate}
+          </p>
+          <p>
+            <strong>Time:</strong> {order.time}
+          </p>
+        </div>
+      </div>
     </div>
+    <div className='button-container'>
+        <button className="proceed-button" onClick={handleProceed}>Proceed</button>
     </div>
+</div>
   );
 };
 
 export default MyOrder;
-
-

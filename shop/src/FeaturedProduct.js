@@ -153,7 +153,7 @@ const PlaylistTile = () => {
       />
       <span className="tile-text-1">Introducing ...</span>
       <span className="tile-text">DIY PLAYLIST</span>
-      <p className='tile-para'>Click on me to begin!</p>
+      <span className='tile-para'>Click on me to begin!</span>
     </div>
   );
 };
