@@ -145,8 +145,9 @@ func CreateUserPremadePlaylist(c *gin.Context) {
 	}
 
 	startDate := c.Query("start_date")
-	if startDate == "" {
-		c.JSON(http.StatusInternalServerError, gin.H{"error getting interval duration": err.Error()})
+	date, err := time.Parse("2006-01-02", startDate)
+	if err == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting date": err.Error()})
 		return
 	}
 
@@ -167,7 +168,7 @@ func CreateUserPremadePlaylist(c *gin.Context) {
 	//playlist.FoodID
 	playlist.ID = primitive.NewObjectID()
 	playlist.UserID = userOID
-	playlist.StartDate = startDate
+	playlist.StartDate = date
 
 	_, insertErr := playlistCollection.InsertOne(ctx, playlist)
 	if insertErr != nil {
@@ -176,6 +177,127 @@ func CreateUserPremadePlaylist(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, "Inserted successfully!")
+}
+
+// delete a playlist given the playlist id
+func DeletePlaylist(c *gin.Context) {
+	playlistID := c.Params.ByName("playlist_id")
+	docID, _ := primitive.ObjectIDFromHex(playlistID)
+
+	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
+
+	_, err := playlistCollection.DeleteOne(ctx, bson.M{"_id": docID})
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, "Deleted playlist successfully!")
+}
+
+// create user DIY playlist
+func CreateUserDIYPlaylist(c *gin.Context) {
+	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
+
+	// get params
+	userID := c.Value("uid")
+	userOID, err := primitive.ObjectIDFromHex(userID.(string))
+	if err == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting user OID": err.Error()})
+		return
+	}
+
+	foodID := c.Query("food_id")
+	if foodID == "" {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "error getting food ID"})
+		return
+	}
+
+	foodOID, err := primitive.ObjectIDFromHex(foodID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting food OID": err.Error()})
+		return
+	}
+
+	startDate := c.Query("start_date")
+	date, err := time.Parse("2006-01-02", startDate)
+	if err == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting date": err.Error()})
+		return
+	}
+
+	interval := c.Query("interval")
+	intervalConv, err := models.IntervalType(interval)
+	if err == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting interval": err.Error()})
+		return
+	}
+
+	timeInput := c.Query("time")
+	timeParse, err := time.Parse("03:04 PM", timeInput)
+	if err == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "error getting time"})
+		return
+	}
+
+	playlistName := c.Query("playlist_name")
+	if err == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting playlist name": err.Error()})
+		return
+	}
+
+	// playlist creation
+	playlist := models.Playlist{
+		ID:             primitive.NewObjectID(),
+		Name:           playlistName,
+		FoodID:         []primitive.ObjectID{foodOID},
+		UserID:         userOID,
+		Status:         models.StateOngoing,
+		StartDate:      date,
+		DeliveryTiming: timeParse,
+		TimingInterval: intervalConv,
+	}
+
+	_, insertErr := playlistCollection.InsertOne(ctx, playlist)
+	if insertErr != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error adding playlist": insertErr.Error()})
+		return
+	}
+
+	// order creation
+	var food models.Food
+	err = foodCollection.FindOne(ctx, bson.M{"_id": foodOID}).Decode(&food)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error finding food by food ID": err.Error()})
+		return
+	}
+
+	order := models.Order{
+		ID: primitive.NewObjectID(),
+		Items: &[]models.FoodItems{
+			{
+				ID:       foodOID,
+				Name:     food.Name,
+				Quantity: 1,
+				Price:    food.Price,
+			},
+		},
+		UserID:         userOID,
+		Status:         models.StatePending,
+		StartDate:      date,
+		DeliveryTiming: timeParse,
+		CreatedAt:      time.Now(),
+	}
+
+	_, insertErr = orderCollection.InsertOne(ctx, order)
+	if insertErr != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error adding order": insertErr.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, "Inserted DIY playlist successfully!")
 }
 
 // // update the order

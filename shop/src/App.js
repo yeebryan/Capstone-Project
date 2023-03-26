@@ -7,6 +7,7 @@ import Login from './Login';
 import UserPreferenceForm from './UserPreferenceForm';
 import './App.css';
 import MyOrder from './MyOrder';
+import Playlist from './Playlist';
 
 
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/restaurants/:restaurant_id" element={<Product/>} />
         {/* <Route path="/about" element={<About/>} /> */}
         <Route path="/login" element={<Login/>} />
+        <Route path="/playlists/:playlist_id" element={<Playlist/>} />
         <Route path="/userform" element = {<UserPreferenceForm/>} />
         <Route path="/myorder" element = {<MyOrder/>} />
       </Routes>
