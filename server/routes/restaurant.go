@@ -68,6 +68,28 @@ func GetRestaurants(c *gin.Context) {
 	c.JSON(http.StatusOK, restaurants)
 }
 
+func GetRestaurantByCategory(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
+
+	category := c.Query("category")
+	//add validation
+
+	restaurants := []models.Restaurant{}
+	cursor, err := restaurantCollection.Find(ctx, bson.M{"category": bson.M{"$regex": category, "$options": "i"}})
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error finding food collection": err.Error()})
+		return
+	}
+
+	if err = cursor.All(ctx, &restaurants); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting restaurant cursor": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, restaurants)
+}
+
 // // get all orders by the waiter's name
 // func GetOrdersByWaiter(c *gin.Context) {
 
@@ -144,8 +166,12 @@ func AddFoodItemToCart(c *gin.Context) {
 	//if not found upsert new cart??
 	//status ok,nil
 	// userID := c.Value("uid")
-	userID, _ := primitive.ObjectIDFromHex("64120324ad2f446ce6114330")
-	log.Println(userID)
+	userID := c.Value("uid")
+	userOID, err := primitive.ObjectIDFromHex(userID.(string))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting user OID": err.Error()})
+		return
+	}
 	foodID := c.Params.ByName("food_id")
 	foodDocID, err := primitive.ObjectIDFromHex(foodID)
 	if err != nil {
@@ -158,7 +184,7 @@ func AddFoodItemToCart(c *gin.Context) {
 
 	var cart models.Cart
 
-	err = cartCollection.FindOne(ctx, bson.M{"user_id": userID, "state": models.StateInProcess}).Decode(&cart)
+	err = cartCollection.FindOne(ctx, bson.M{"user_id": userOID, "state": models.StateInProcess}).Decode(&cart)
 	if err == mongo.ErrNoDocuments {
 		//upsert cart
 		log.Println("found nothing")

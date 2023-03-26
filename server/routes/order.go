@@ -2,7 +2,6 @@ package routes
 
 import (
 	"context"
-	"log"
 	"net/http"
 	"server/database"
 	"time"
@@ -43,13 +42,11 @@ func GetOrderCurrentUser(c *gin.Context) {
 	defer cancel()
 
 	userID := c.Value("uid")
-	log.Println("userid: ", userID)
 	userOID, err := primitive.ObjectIDFromHex(userID.(string))
-	if err == nil {
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting user OID": err.Error()})
 		return
 	}
-	log.Println("useroid: ", userOID)
 	var result []bson.M
 
 	pipeline := []bson.M{
@@ -58,10 +55,8 @@ func GetOrderCurrentUser(c *gin.Context) {
 			"user_id": userOID},
 		},
 	}
-	log.Println(pipeline)
 	cursor, err := orderCollection.Aggregate(ctx, pipeline)
 
-	log.Println(cursor)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error finding orders by user ID": err.Error()})
 		return
@@ -71,6 +66,5 @@ func GetOrderCurrentUser(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting order cursor": err.Error()})
 		return
 	}
-	log.Println("went here", result)
 	c.JSON(http.StatusOK, result)
 }

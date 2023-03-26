@@ -146,7 +146,7 @@ func CreateUserPremadePlaylist(c *gin.Context) {
 
 	startDate := c.Query("start_date")
 	date, err := time.Parse("2006-01-02", startDate)
-	if err == nil {
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting date": err.Error()})
 		return
 	}
@@ -205,7 +205,7 @@ func CreateUserDIYPlaylist(c *gin.Context) {
 	// get params
 	userID := c.Value("uid")
 	userOID, err := primitive.ObjectIDFromHex(userID.(string))
-	if err == nil {
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting user OID": err.Error()})
 		return
 	}
@@ -224,27 +224,27 @@ func CreateUserDIYPlaylist(c *gin.Context) {
 
 	startDate := c.Query("start_date")
 	date, err := time.Parse("2006-01-02", startDate)
-	if err == nil {
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting date": err.Error()})
 		return
 	}
 
 	interval := c.Query("interval")
 	intervalConv, err := models.IntervalType(interval)
-	if err == nil {
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting interval": err.Error()})
 		return
 	}
 
 	timeInput := c.Query("time")
 	timeParse, err := time.Parse("03:04 PM", timeInput)
-	if err == nil {
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error getting time"})
 		return
 	}
 
 	playlistName := c.Query("playlist_name")
-	if err == nil {
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting playlist name": err.Error()})
 		return
 	}
