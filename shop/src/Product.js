@@ -71,12 +71,10 @@ const ProductItem = (
         data.map((item) => (
           <Card className="item-card" key={item.id}>
             <Card.Img variant="top" src={item.image.url} alt={item.image.url} />
-            <Card.Body>
             <div className="item-title">{item.name}</div>
             <div>{item.price}</div>
             <div>{item.description}</div>
               {console.log(`yo log this: ${item} & this ${item.name}`)}
-            </Card.Body>
             <div className="center">
             <AddToCartButton onClick={() => onAddToCart(item)} />
             </div>

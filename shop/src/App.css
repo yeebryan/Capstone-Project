@@ -234,14 +234,14 @@ button {
 
 .tile-para {
   position: absolute;
-  bottom: 1px;
+  bottom: -5px;
   left: 0;
   width: 100%;
-  height: 20px;
+  height: 40px;
   padding: 0 16px;
   background-color: transparent;
   color: #d61063;
-  font-size: 15px;
+  font-size: 18px;
   text-align: center;
   font-weight: bold;
 }
@@ -381,11 +381,116 @@ button {
 
 
 /* User Preference form */
-
-.uform-page {
-  padding: 100px;
+.uform-container {
+  display: flex;
+  flex-direction: row; /* Change to row */
+  align-items: flex-start; /* Align to the top */
+  justify-content: center; /* Center content horizontally */
+  padding: 20px;
+  gap: 2rem; /* Add space between form and food card */
 }
 
-.my-order-page {
-  padding: 50px;
+.title-progress-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.form-title {
+  margin-bottom: 1rem;
+}
+
+.progress-bar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 200px;
+}
+
+.progress-step {
+  width: 20px;
+  height: 20px;
+  background-color: lightgray;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+}
+
+.progress-step.active {
+  background-color: green;
+}
+
+
+
+form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+}
+
+form input,
+form select {
+  margin-top: 0.5rem;
+}
+
+.food-cards-container {
+  display: flex; /* Change from grid to flex */
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+@media screen and (max-width: 768px) {
+  .food-cards-container {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
+.food-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.food-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.food-card h3 {
+  margin: 1rem 0;
+}
+
+button[type='submit'] {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #d61063;
+  color: #fff;
+  cursor: pointer;
+}
+
+button[type='submit']:hover {
+  background-color: #e7eaed;
+}
+
+p {
+  padding: 5px;
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+form {
+  max-width: 500px; /* Set form max width */
 }

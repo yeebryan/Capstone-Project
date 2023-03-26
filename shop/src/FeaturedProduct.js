@@ -29,6 +29,7 @@ const FeaturedProduct = (props) => {
     const [cart, setCart] = useState([]);
     const [restaurants, setRestaurants] = useState([]);
     const [selectedCat, setSelectedCat] = useState(null);
+    const [FPplaylists, setFPplaylist] = useState([]);
 
 
 // rwd
@@ -78,6 +79,26 @@ const handleClickCat = async (category) => {
     const data = await response.json();
     setRestaurants(data);
   }
+
+
+// for Foodpanda Playlists
+useEffect(() =>{
+  fetchPlaylist();
+}, []);
+
+// fetch data from API (restaurants)
+const fetchPlaylist = () => {
+  axios
+      .get('http://localhost:3000/playlists')
+      .then((res) =>{
+          console.log(res); // response // response.data
+          setFPplaylist(res.data) // for storerestapi, take note it must be res.data.data because res.data is an object not an array // passing data into our setProducts function so that we can set our state to the data
+      })
+      .catch((err) => {
+          console.log(err);
+      })
+}
+
 
 // cart count, and keep track of item added
 const onAddToCart = (item) => {
@@ -153,45 +174,44 @@ const PlaylistTile = () => {
       />
       <span className="tile-text-1">Introducing ...</span>
       <span className="tile-text">DIY PLAYLIST</span>
-      <p className='tile-para'>Click on me to begin!</p>
+      <span className='tile-para'>Click on me to begin!</span>
     </div>
   );
 };
 
-  
-// carousel for pre-made playlists
-// const CarouselPlaylist = () => {
 
-//     return (
-//       <Carousel 
-//         className="first-carousel"
-//         responsive={settings}
-//         swipeable={true}
-//         draggable={true}
-//         showDots={false}
-//         ssr={true} // means rendering carousel on server-side
-//         infinite={false}
-//         autoPlay={true}
-//         autoPlaySpeed={10000}
-//         keyBoardControl={true}
-//         customTransition="all .5"
-//         transitionDuration={500}
-//         containerClass="carousel-container"
-//         //removeArrowOnDeviceType={["tablet", "mobile"]}
-//         dotListClass="custom-dot-list-style">
-//         {products.map((product) => (
-//           <div className='card-wrapper' key={product._id}>
-//             <Link to={`/restaurants/${product._id}`}>
-//               <img src={product.image.url} alt={product.image.url} />
-//             </Link>
-//             <div className='card-body' style={{ textAlign: 'center' }}>
-//               <h3>{product.name}</h3>
-//               <p>{product.description}</p>
-//             </div>
-//           </div>
-//       ))}
-//       </Carousel>
-// )}
+const CarouselPlaylist = () => {
+
+    return (
+      <Carousel 
+        className="first-carousel"
+        responsive={settings}
+        swipeable={true}
+        draggable={true}
+        showDots={false}
+        ssr={true} // means rendering carousel on server-side
+        infinite={false}
+        autoPlay={true}
+        autoPlaySpeed={10000}
+        keyBoardControl={true}
+        customTransition="all .5"
+        transitionDuration={500}
+        containerClass="carousel-container"
+        //removeArrowOnDeviceType={["tablet", "mobile"]}
+        dotListClass="custom-dot-list-style">
+        {FPplaylists.map((FPplaylist) => (
+          <div className='card-wrapper' key={FPplaylist._id}>
+            <Link to={`/playlists/${FPplaylist._id}`}>
+              <img src={FPplaylist.image.url} alt={FPplaylist.image.url} />
+            </Link>
+            <div className='card-body' style={{ textAlign: 'center' }}>
+              <h3>{FPplaylist.name}</h3>
+              <p>{FPplaylist.description}</p>
+            </div>
+          </div>
+      ))}
+      </Carousel>
+)}
 
 // 2nd carousel for featured restaurants
 const CarouselRestaurants = () => {
@@ -321,7 +341,7 @@ const ThreeColumnCard = ({ handleClickCat }) => {
           <div className='main-body'>
           <PlaylistTile/>
           <h3>Foodpanda Playlists</h3>
-          <Playlist />
+          <CarouselPlaylist />
           <h3>Featured Restaurants</h3>
           <CarouselRestaurants />
           <ThreeColumnCard handleClickCat={handleClickCat}/>

@@ -1,0 +1,167 @@
+/* Add this to the top of your CSS file */
+/* body {
+    font-family: 'Roboto', sans-serif;
+  } */
+  
+  .uform-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .title-progress-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .form-title {
+    font-size: 1.2rem; /* Reduce font size */
+  }
+  
+  form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Create a two-column layout */
+    grid-gap: 1rem; /* Add space between columns */
+    max-width: 500px;
+  }
+  
+  form label {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-title {
+    padding: 20px;
+    font-size: x-large;
+  }
+
+  .form-input-time {
+    width: 215%;
+  }
+  
+  form input,
+  form select {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .food-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .food-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  
+  .food-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  
+  .food-card h3 {
+    margin: 1rem 0;
+  }
+  
+  button[type='submit'] {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #d61063;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    grid-column: span 2; /* Make the submit button span both columns */
+    justify-self: center; /* Center the submit button */
+  }
+  
+  button[type='submit']:hover {
+    background-color: #e7eaed;
+    color: #333;
+  }
+  
+  p {
+    padding: 5px;
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Existing CSS for small devices and below */
+/* ... */
+
+/* Add media query for medium devices and above */
+@media screen and (min-width: 768px) {
+    .uform-container {
+      flex-direction: row; /* Display form and food cards side by side */
+    }
+  
+    form {
+      max-width: 50%; /* Set the max-width to 50% */
+      margin-right: 1rem; /* Add margin to the right of the form */
+    }
+  
+    .food-cards-container,
+    .initial-gif-container {
+      max-width: 50%; /* Set the max-width to 50% */
+    }
+  
+    .initial-gif-container img {
+      width: auto;
+      height: auto;
+      object-fit: cover;
+    }
+  }
+
+  .proceed-button {
+    display: block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #d61063;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 400px;
+  }
+  
+  .proceed-button:hover {
+    background-color: #e7eaed;
+    color: #333;
+  }
+  
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    flex-basis: 100%;
+    padding-right: 20px 0; /* Add this line */
+  }
+

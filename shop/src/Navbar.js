@@ -35,8 +35,10 @@ const Navbar1 = (props) => {
         </div>
         <Nav className="ms-auto">
           <Nav>
+            {props.showCartIcon !== false && (
             <Cart cartCount={props.cartCount} onOpenCart={props.onOpenCart} />
-          </Nav>
+            )}
+            </Nav>
   
           {user ? (
             <>
