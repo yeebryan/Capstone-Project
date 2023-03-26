@@ -243,9 +243,16 @@ func CreateUserDIYPlaylist(c *gin.Context) {
 		return
 	}
 
+	playlistName := c.Query("playlist_name")
+	if err == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting playlist name": err.Error()})
+		return
+	}
+
 	// playlist creation
 	playlist := models.Playlist{
 		ID:             primitive.NewObjectID(),
+		Name:           playlistName,
 		FoodID:         []primitive.ObjectID{foodOID},
 		UserID:         userOID,
 		Status:         models.StateOngoing,
