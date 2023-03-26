@@ -1,70 +1,100 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import {Link} from 'react-router-dom'
-import Carousel from "react-multi-carousel";
+import React, { useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import {useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import Navbar1 from "./Navbar";
+import { Card } from 'react-bootstrap';
 import "./App.css";
 
-// get playlist
 
+
+// PLAYLIST 
+// functional component
 
 const Playlist = () => {
+  const [data, setData] = useState([]); // set initial state (data) to an empty array [] not object {}
+  const { playlist_id } = useParams();
+  const [cartCount, setCartCount] = useState(0);
+  const [cart, setCart] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [playlistName, setPlaylistName] = useState("");
 
-    const [products, setProducts] = useState([]); // `products` is the current state // `setProducts` function that updates the state 
+  const navigate = useNavigate();
 
-    const settings = 
-    {
-    desktop: {breakpoint: { max: 3000, min: 600}, items: 5, slidesToSlide: 5},
-    tablet: {breakpoint: {max: 600, min: 480}, items: 5, slidesToSlide: 5},
-    mobile: {breakpoint: {max: 480, min: 0}, items: 2, slidesToSlide: 2}
-    }
+  const onProceedToCheckout = () => {
+    // Redirect to checkout page
+    navigate('/checkout');
+  }
 
-    useEffect(() =>{
-        fetchProducts();
-    }, []);
-    
-    // fetch data from API (restaurants)
-    const fetchProducts = () => {
-        axios
-            .get('http://localhost:3000/playlists')
-            .then((res) =>{
-                console.log(res); // response // response.data
-                setProducts(res.data) // for storerestapi, take note it must be res.data.data because res.data is an object not an array // passing data into our setProducts function so that we can set our state to the data
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
 
-    return (
-      <Carousel 
-        className="first-carousel"
-        responsive={settings}
-        swipeable={true}
-        draggable={true}
-        showDots={false}
-        ssr={true} // means rendering carousel on server-side
-        infinite={false}
-        autoPlay={true}
-        autoPlaySpeed={10000}
-        keyBoardControl={true}
-        customTransition="all .5"
-        transitionDuration={500}
-        containerClass="carousel-container"
-        //removeArrowOnDeviceType={["tablet", "mobile"]}
-        dotListClass="custom-dot-list-style">
-        {products.map((product) => (
-          <div className='card-wrapper' key={product._id}>
-            <Link to={`/playlists/${product._id}`}>
-              <img src={product.image.url} alt={product.image.url} />
-            </Link>
-            <div className='card-body' style={{ textAlign: 'center' }}>
-              <h3>{product.name}</h3>
-            </div>
-          </div>
-      ))}
-      </Carousel>
-)}
+// axios 
+  useEffect(() => {
+    console.log(`Fetching restaurant data for ID ${playlist_id}...`);
+
+    axios
+      .get(`http://localhost:3000/playlists/${playlist_id}`) // change from ?id=${id} to ${id} because API url is .com/products/1  // But couldn't map due to not being array
+      .then((res) => {
+        console.log(JSON.stringify(res)) 
+        setData(res.data);
+        setPlaylistName(res.data.playlistName)
+        console.log(`yo mr white: ${res.data.playlistName}`)
+
+      })
+      .catch((err) => console.log(err));
+  }, [playlist_id]);
+
+// cart count, and keep track of item added
+
+const onAddToCart = (item) => {
+  setCartCount(cartCount + 1);
+  setCart([...cart, item])
+  setTotal(total + item.price)
+}
+
+// open the cart
+
+/*const onOpenCart = () => {
+  setShowCart(true)
+}
+
+// close cart
+const onCloseCart = () => {
+  setShowCart(false);
+}
+
+// clear cart btn function - setState back to 0
+
+const clearCart = () => {
+  setCartCount(0); // the counter to 0 
+  setCart([]);
+  setShowCart(false);
+}
+*/
+
+const PlaylistItems = data.length > 0 && (
+  <div className="playlist-container" key={data.id}>
+      {data &&
+        data.map((item) => (
+          <Card className="item-card" key={item.id}>
+            <Card.Img variant="top" src={item.image.url} alt={item.image.url} />
+            <div className="item-title">{item.name}</div>
+            <div>{item.price}</div>
+            <div>{item.description}</div>
+              {console.log(`yo log this: ${item} & this ${item.name}`)}
+          </Card>
+        ))}
+  </div>
+);
+
+
+  return (
+    <div>
+          {/* <Navbar1 cartCount={props.cartCount} onOpenCart = {props.onOpenCart}/> */}
+      <h1>{playlistName}</h1>
+      <div className="playlist_item">{PlaylistItems}</div>
+      <button onClick={onProceedToCheckout}>Proceed to Checkout</button>
+    </div>
+  );
+  }
 
 export default Playlist;
-
-

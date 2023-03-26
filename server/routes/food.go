@@ -114,7 +114,7 @@ func FetchRandomFood(c *gin.Context) {
 	var foods []models.Food
 	cur, err := foodCollection.Find(context.Background(), query)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch food"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch food", "details": err.Error()})
 		return
 	}
 
@@ -128,7 +128,17 @@ func FetchRandomFood(c *gin.Context) {
 		foods = append(foods, food)
 	}
 
-	fmt.Println("Foods FREAK:", foods) // add this line to log the food items being returned
+	if err := cur.Err(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Cursor error", "details": err.Error()})
+		return
+	}
+
+	if err := cur.Close(context.Background()); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to close cursor", "details": err.Error()})
+		return
+	}
+
+	fmt.Println("Foods FREAK:", foods)
 
 	if len(foods) == 0 {
 		c.JSON(http.StatusOK, gin.H{"foods": []models.Food{}})

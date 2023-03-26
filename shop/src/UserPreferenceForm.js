@@ -77,9 +77,10 @@ const handleSubmit = async (e) => {
         time,
         food: response.data.foods[0],
       });
+      console.error(error.response.data);
       setShowError(true); // Add this line
     } catch (error) {
-      console.error(error);
+      console.error(error.response.data);
       setShowError(true); // Add this line
     } finally {
       setLoading(false);
