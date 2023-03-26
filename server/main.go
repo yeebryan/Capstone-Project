@@ -49,6 +49,8 @@ func main() {
 	router.GET("/restaurants/:restaurant_id", routes.GetFoodByRestaurantID) //need to test
 	router.GET("/playlists", routes.GetPremadePlaylists)
 
+	router.GET("/order", routes.GetOrders)
+	router.GET("/order/me", routes.GetOrderCurrentUser)
 	// USER USAGE
 	// router.POST("/cart/createPlaylist", routes.createPlaylist)
 

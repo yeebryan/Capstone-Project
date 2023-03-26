@@ -497,6 +497,7 @@ func InsertData() error {
 			PaymentMethod: "credit",
 			DeliveryTime:  time.Date(2022, 3, 22, 15, 0, 0, 0, time.UTC),
 			CreatedAt:     time.Date(2022, 3, 12, 8, 0, 0, 0, time.UTC),
+			Status:        models.StateCompleted,
 		},
 		{
 			ID:     primitive.NewObjectID(),
@@ -519,6 +520,7 @@ func InsertData() error {
 			PaymentMethod: "cash",
 			DeliveryTime:  time.Date(2022, 3, 13, 20, 0, 0, 0, time.UTC),
 			CreatedAt:     time.Date(2022, 3, 11, 18, 30, 0, 0, time.UTC),
+			Status:        models.StateCompleted,
 		},
 		{
 			ID:     primitive.NewObjectID(),
@@ -547,6 +549,7 @@ func InsertData() error {
 			PaymentMethod: "debit",
 			DeliveryTime:  time.Date(2022, 3, 14, 18, 0, 0, 0, time.UTC),
 			CreatedAt:     time.Date(2022, 3, 10, 10, 45, 0, 0, time.UTC),
+			Status:        models.StateCompleted,
 		},
 	}
 	// Insert each order into the collection
