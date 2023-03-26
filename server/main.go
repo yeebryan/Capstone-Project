@@ -59,12 +59,14 @@ func main() {
 		authRequired.GET("/cart/:user_id", routes.GetCartByUserID)
 		// router.GET("/user", routes.GetUserByID)
 		authRequired.GET("/food/random", routes.FetchRandomFood)
+		authRequired.POST("/food/random/create", routes.CreateUserDIYPlaylist)
 
 		authRequired.PUT("/restaurants/:food_id", routes.AddFoodItemToCart)
 
 		authRequired.GET("/playlists/:playlist_id", routes.GetFoodByPlaylistID)
 		authRequired.GET("/playlists/food/:category", routes.GetFoodByCategory)
 		authRequired.POST("/playlists/:playlist_id/create/:user_id", routes.CreateUserPremadePlaylist) //?start_date={start_date}
+		authRequired.POST("/playlists/delete/:playlist_id", routes.DeletePlaylist)
 	}
 
 	// router.DELETE("/cart/:food_id", routes.DeleteCartFoodItem)
