@@ -198,59 +198,66 @@ func DeletePlaylist(c *gin.Context) {
 }
 
 // create user DIY playlist
+
+type CreatePlaylistRequest struct {
+	UserID       string `json:"userId"`
+	PlaylistName string `json:"playlistName"`
+	Category     string `json:"category"`
+	FoodType     string `json:"foodType"`
+	Interval     string `json:"interval"`
+	StartDate    string `json:"startDate"`
+	Time         string `json:"time"`
+	FoodId       string `json:"foodId"`
+}
+
 func CreateUserDIYPlaylist(c *gin.Context) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
+	var request CreatePlaylistRequest
+	if err := c.BindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
+		return
+	}
+
 	// get params
-	userID := c.Value("uid")
-	userOID, err := primitive.ObjectIDFromHex(userID.(string))
+	userID := request.UserID
+	userOID, err := primitive.ObjectIDFromHex(userID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting user OID": err.Error()})
 		return
 	}
 
-	fmt.Println("Before foodID check")
-	foodID := c.Param("food_id")
-	if foodID == "" {
-		fmt.Printf("Food ID 123: %v\n", foodID)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "error getting food ID"})
-		return
-	}
-
+	foodID := request.FoodId
 	foodOID, err := primitive.ObjectIDFromHex(foodID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting food OID": err.Error()})
 		return
 	}
-	fmt.Println("After foodID check")
 
-	startDate := c.Query("start_date")
+	startDate := request.StartDate
 	date, err := time.Parse("2006-01-02", startDate)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting date": err.Error()})
 		return
 	}
 
-	interval := c.Query("interval")
-	intervalConv, err := models.IntervalType(interval)
+	interval := request.Interval
+	var intervalConv models.Interval // Replace "models.Interval" with the correct type from your code
+	intervalConv, err = models.IntervalType(interval)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting interval": err.Error()})
 		return
 	}
 
-	timeInput := c.Query("time")
-	timeParse, err := time.Parse("03:04 PM", timeInput)
+	timeInput := request.Time
+	timeParse, err := time.Parse("15:04", timeInput)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error getting time"})
 		return
 	}
 
-	playlistName := c.Query("playlist_name")
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error getting playlist name": err.Error()})
-		return
-	}
+	playlistName := request.PlaylistName
 
 	// playlist creation
 	playlist := models.Playlist{
