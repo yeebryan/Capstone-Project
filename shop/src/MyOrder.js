@@ -77,8 +77,7 @@ const MyOrder = () => {
             console.log('food ID 2:', order.foods);
             console.log('food ID 3:', order.foodId)
             console.log('food ID 3:', order.food.id)
-            const response = await authAxios.post('http://localhost:3000/food/random/create', {
-            userId: userId,
+            const response = await authAxios.post('http://localhost:3000/food/random/create', {            
             playlistName: playlistName,
             category: order.category,
             foodType: order.foodType,
