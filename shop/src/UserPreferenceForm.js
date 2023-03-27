@@ -80,7 +80,6 @@ const handleSubmit = async (e) => {
       console.error(error.response.data);
       setShowError(true); // Add this line
     } catch (error) {
-      console.error(error.response.data);
       setShowError(true); // Add this line
     } finally {
       setLoading(false);

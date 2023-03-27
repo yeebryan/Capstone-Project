@@ -3,6 +3,8 @@ import axios from 'axios'
 import { useLocation, useNavigate } from 'react-router-dom';
 import './MyOrder.css';
 import Navbar1 from './Navbar';
+import authAxios from './authAxios';
+import withAuth from './withAuth';
 
 const MyOrder = () => {
   const location = useLocation();
@@ -66,13 +68,21 @@ const MyOrder = () => {
     // saved to mongodb 
     const savePlaylist = async () => {
         try {
-          const response = await axios.post('/api/playlists', {
-            name: playlistName,
-            deliveryDates: deliveryDates,
+            const user = JSON.parse(localStorage.getItem('user'));
+            const userId = user.id;
+            console.log('user ID:', userId);
+            console.log('playlist Name:', playlistName);
+            console.log('order:', order);
+            console.log('food ID:', order.food._id);
+            console.log('food ID 2:', order.foods);
+            console.log('food ID 3:', order.foodId)
+            console.log('food ID 3:', order.food.id)
+            const response = await authAxios.post('http://localhost:3000/food/random/create', {
+            userId: userId,
+            playlistName: playlistName,
             order: order,
-            foods: foods,
+            foods: order.food.id,
           });
-      
           if (response.status === 200) {
             console.log('Playlist saved successfully');
           } else {
@@ -143,4 +153,4 @@ const MyOrder = () => {
   );
 };
 
-export default MyOrder;
+export default withAuth(MyOrder);
