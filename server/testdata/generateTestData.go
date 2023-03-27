@@ -495,9 +495,10 @@ func InsertData() error {
 			},
 			TotalPrice:    (foodData[0].Price * 2) + foodData[1].Price,
 			PaymentMethod: "credit",
-			DeliveryTime:  time.Date(2022, 3, 22, 15, 0, 0, 0, time.UTC),
-			CreatedAt:     time.Date(2022, 3, 12, 8, 0, 0, 0, time.UTC),
+			DeliveryTime:  "15:00",
 			Status:        models.StateCompleted,
+			CreatedAt:     time.Date(2022, 3, 12, 8, 0, 0, 0, time.UTC),
+			StartDate:     "2022-03-12",
 		},
 		{
 			ID:     primitive.NewObjectID(),
@@ -518,9 +519,10 @@ func InsertData() error {
 			},
 			TotalPrice:    foodData[2].Price + (foodData[3].Price * 2),
 			PaymentMethod: "cash",
-			DeliveryTime:  time.Date(2022, 3, 13, 20, 0, 0, 0, time.UTC),
-			CreatedAt:     time.Date(2022, 3, 11, 18, 30, 0, 0, time.UTC),
+			DeliveryTime:  "20:00",
 			Status:        models.StateCompleted,
+			CreatedAt:     time.Date(2022, 3, 11, 18, 30, 0, 0, time.UTC),
+			StartDate:     "2022-03-11",
 		},
 		{
 			ID:     primitive.NewObjectID(),
@@ -547,9 +549,10 @@ func InsertData() error {
 			},
 			TotalPrice:    foodData[4].Price + foodData[5].Price + (foodData[6].Price * 2),
 			PaymentMethod: "debit",
-			DeliveryTime:  time.Date(2022, 3, 14, 18, 0, 0, 0, time.UTC),
-			CreatedAt:     time.Date(2022, 3, 10, 10, 45, 0, 0, time.UTC),
+			DeliveryTime:  "18:00",
 			Status:        models.StateCompleted,
+			CreatedAt:     time.Date(2022, 3, 10, 10, 45, 0, 0, time.UTC),
+			StartDate:     "2022-03-10",
 		},
 	}
 	// Insert each order into the collection
