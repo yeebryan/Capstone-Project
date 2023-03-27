@@ -210,8 +210,10 @@ func CreateUserDIYPlaylist(c *gin.Context) {
 		return
 	}
 
-	foodID := c.Query("food_id")
+	fmt.Println("Before foodID check")
+	foodID := c.Param("food_id")
 	if foodID == "" {
+		fmt.Printf("Food ID 123: %v\n", foodID)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "error getting food ID"})
 		return
 	}
@@ -221,6 +223,7 @@ func CreateUserDIYPlaylist(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting food OID": err.Error()})
 		return
 	}
+	fmt.Println("After foodID check")
 
 	startDate := c.Query("start_date")
 	date, err := time.Parse("2006-01-02", startDate)
