@@ -80,8 +80,12 @@ const MyOrder = () => {
             const response = await authAxios.post('http://localhost:3000/food/random/create', {
             userId: userId,
             playlistName: playlistName,
-            order: order,
-            foods: order.food.id,
+            category: order.category,
+            foodType: order.foodType,
+            interval: order.interval,
+            startDate: order.startDate,
+            time: order.time,
+            foodId: order.food.id,
           });
           if (response.status === 200) {
             console.log('Playlist saved successfully');
