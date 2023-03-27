@@ -101,6 +101,7 @@ const MyOrder = () => {
     savePlaylist();
     // Navigate to another page - checkout
     navigate('/checkout', { state: { order, foods }});
+    console.log('you have saved!')
   };
 
 
