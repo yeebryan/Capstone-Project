@@ -182,14 +182,20 @@ func DeletePlaylist(c *gin.Context) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
-	_, err := playlistCollection.DeleteOne(ctx, bson.M{"_id": docID})
+	deleteResult, err := playlistCollection.DeleteOne(ctx, bson.M{"_id": docID})
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, "Deleted playlist successfully!")
+	if deleteResult.DeletedCount > 0 {
+		fmt.Printf("Deleted playlist with ID: %s\n", playlistID)
+		c.JSON(http.StatusOK, "Deleted playlist successfully!")
+	} else {
+		fmt.Printf("No playlist found with ID: %s\n", playlistID)
+		c.JSON(http.StatusNotFound, "No playlist found with the provided ID")
+	}
 }
 
 // create user DIY playlist
@@ -281,5 +287,8 @@ func CreateUserDIYPlaylist(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error adding order": insertErr.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, "Inserted DIY playlist successfully!")
+	c.JSON(http.StatusOK, gin.H{
+		"message":     "Inserted DIY playlist successfully!",
+		"playlist_id": playlist.ID.Hex(),
+	})
 }

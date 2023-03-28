@@ -70,7 +70,7 @@ func main() {
 		authRequired.GET("/playlists/:playlist_id", routes.GetFoodByPlaylistID)
 		authRequired.GET("/playlists/food/:category", routes.GetFoodByCategory)
 		authRequired.POST("/playlists/:playlist_id/create/:user_id", routes.CreateUserPremadePlaylist) //?start_date={start_date}
-		authRequired.POST("/playlists/delete/:playlist_id", routes.DeletePlaylist)
+		authRequired.DELETE("/playlists/delete/:playlist_id", routes.DeletePlaylist)
 	}
 
 	// router.DELETE("/cart/:food_id", routes.DeleteCartFoodItem)

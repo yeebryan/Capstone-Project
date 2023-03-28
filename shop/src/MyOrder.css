@@ -61,6 +61,17 @@
     object-fit: cover;
     border-radius: 50%;
   }
+
+  @media (max-width: 991px) {
+    .playlist-item {
+      flex-direction: column;
+    }
+  
+    .playlist-item img {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  }
   
   .playlist-item-details {
     margin-top: 10px;
@@ -69,4 +80,13 @@
   
   .button-container {
     padding: 30px;
+  }
+
+  .playlist-name {
+    display: block;
+    margin:auto;
+  }
+
+  h3 {
+    text-align: center;
   }

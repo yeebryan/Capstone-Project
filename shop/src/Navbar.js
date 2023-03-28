@@ -43,7 +43,7 @@ const Navbar1 = (props) => {
           {user ? (
             <>
         <NavDropdown title={<Navbar.Text className="me-4">Hello, {user.first_name}</Navbar.Text>} id="basic-nav-dropdown">
-                <NavDropdown.Item href="/myorder">My Orders</NavDropdown.Item>
+                <NavDropdown.Item href="/myplaylist">My Playlists</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
               </NavDropdown>

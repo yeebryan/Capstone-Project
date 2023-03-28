@@ -10,6 +10,8 @@ const MyOrder = () => {
   const location = useLocation();
   const { order, foods } = location.state || { order: {}, foods: [] };
   const [playlistName, setPlaylistName] = useState('');
+  const [playlist_id, setPlaylistId] = useState(null);
+
 
   const navigate = useNavigate();
 
@@ -70,14 +72,9 @@ const MyOrder = () => {
         try {
             const user = JSON.parse(localStorage.getItem('user'));
             const userId = user.id;
-            console.log('user ID:', userId);
-            console.log('playlist Name:', playlistName);
-            console.log('order:', order);
-            console.log('food ID:', order.food._id);
-            console.log('food ID 2:', order.foods);
-            console.log('food ID 3:', order.foodId)
-            console.log('food ID 3:', order.food.id)
-            const response = await authAxios.post('http://localhost:3000/food/random/create', {            
+            
+            const response = await authAxios.post('http://localhost:3000/food/random/create', {
+            userId: userId,
             playlistName: playlistName,
             category: order.category,
             foodType: order.foodType,
@@ -86,21 +83,43 @@ const MyOrder = () => {
             time: order.time,
             foodId: order.food.id,
           });
+          console.log('belwo is cool')
+          console.log(response.data); // Log the response data
+          console.log(response.data.message); // Log the response data
+          console.log(response.data.playlist_id); // Log the response data
+
+
+
           if (response.status === 200) {
             console.log('Playlist saved successfully');
+            setPlaylistId(response.data.playlist_id);
+            console.log(response.data.playlist_id)
+            return response.data.playlist_id; // Return the playlist_id
           } else {
             console.log('Error saving playlist');
           }
         } catch (error) {
           console.log('Error saving playlist:', error);
         }
+        return null; // Return null if an error occurs or the status is not 200
       };
       
-  const handleProceed = () => {
-    savePlaylist();
+  const handleProceed = async () => {
+    const playlistId = await savePlaylist();
     // Navigate to another page - checkout
-    navigate('/checkout', { state: { order, foods }});
-    console.log('you have saved!')
+    navigate('/checkout', { state: { 
+      order: order, 
+      deliveryDates: deliveryDates, 
+      playlist_id: playlistId,
+      }
+    });
+    console.log(playlistId);
+    console.log('you have saved!');
+    console.log('Navigating to Checkout with state:', {
+      order: order,
+      deliveryDates: deliveryDates,
+      playlist_id: playlistId,
+    });
   };
 
 
