@@ -72,7 +72,7 @@ const MyOrder = () => {
         try {
             const user = JSON.parse(localStorage.getItem('user'));
             const userId = user.id;
-
+            
             const response = await authAxios.post('http://localhost:3000/food/random/create', {
             userId: userId,
             playlistName: playlistName,

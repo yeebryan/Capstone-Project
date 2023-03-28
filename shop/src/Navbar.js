@@ -17,7 +17,7 @@ const Navbar1 = (props) => {
   };
 
   return (
-    <Navbar className="navbar-style justify-content-lg-between">
+    <Navbar className="navbar-style justify-content-lg-between white">
       <Container>
         <Navbar.Brand href="/">
           <img
