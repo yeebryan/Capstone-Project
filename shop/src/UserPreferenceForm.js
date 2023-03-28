@@ -112,7 +112,7 @@ const handleSubmit = async (e) => {
 
   return (
     <div className='user-preference-form'>
-      <Navbar1 cartCount={cartCount} onOpenCart={onOpenCart} />
+    <Navbar1 showCartIcon={false}/>
       <div className='uform-page'>
                 {/* Add a container for the title and progress indicator */}
                 <div className='title-progress-container'>

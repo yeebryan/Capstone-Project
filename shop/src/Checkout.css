@@ -1,0 +1,101 @@
+.checkout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.order-items-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.order-item img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.order-item-details p {
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.checkout-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding-bottom: 20px;
+  }
+  
+  .checkout-buttons button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .confirm-cancel-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    width: 300px;
+  }
+  
+  .confirm-cancel-modal h2 {
+    margin-top: 0;
+  }
+  
+  .confirm-cancel-modal p {
+    margin-bottom: 20px;
+  }
+  
+  .confirm-cancel-modal button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .payment-success-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    width: 300px;
+  }
+  
+  .payment-success-modal h2 {
+    margin-top: 0;
+  }
+  
+  .payment-success-modal button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+  }
+  
