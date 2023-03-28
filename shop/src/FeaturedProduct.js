@@ -75,9 +75,10 @@ const fetchProducts = () => {
 // click category
 const handleClickCat = async (category) => {
     setSelectedCat(category);
-    const response = await fetch(`http://localhost:3000/restaurants?category=${category}`);
+    const response = await fetch(`http://localhost:3000/restaurants/category/${category}`);
     const data = await response.json();
     setRestaurants(data);
+    
   }
 
 
@@ -206,7 +207,6 @@ const CarouselPlaylist = () => {
             </Link>
             <div className='card-body' style={{ textAlign: 'center' }}>
               <h3>{FPplaylist.name}</h3>
-              <p>{FPplaylist.description}</p>
             </div>
           </div>
       ))}
@@ -241,7 +241,6 @@ const CarouselRestaurants = () => {
           </Link>
           <div className='card-body' style={{ textAlign: 'center' }}>
             <h3>{product.name}</h3>
-            <p>{product.description}</p>
           </div>
         </div>
     ))}
@@ -276,7 +275,6 @@ const CarouselCategory = () => {
           </Link>
           <div className='card-body' style={{ textAlign: 'center' }}>
             <h3>{restaurant.name}</h3>
-            <p>{restaurant.description}</p>
           </div>
         </div>
     ))}
@@ -345,7 +343,7 @@ const ThreeColumnCard = ({ handleClickCat }) => {
           <h3>Featured Restaurants</h3>
           <CarouselRestaurants />
           <ThreeColumnCard handleClickCat={handleClickCat}/>
-          {selectedCat && (CarouselCategory)}
+          <CarouselCategory />
         </div>
           <Footer/>
         </div>
