@@ -70,11 +70,12 @@ func GetRestaurantByCategory(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
-	category := c.Query("category")
+	category := c.Params.ByName("category")
 	//add validation
 
 	restaurants := []models.Restaurant{}
-	cursor, err := restaurantCollection.Find(ctx, bson.M{"category": bson.M{"$regex": category, "$options": "i"}})
+	// cursor, err := restaurantCollection.Find(ctx, bson.M{"category": bson.M{"$regex": category, "$options": "i"}})
+	cursor, err := restaurantCollection.Find(ctx, bson.M{"category": bson.M{ "$eq" : category}})
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error finding food collection": err.Error()})

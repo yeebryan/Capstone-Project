@@ -86,7 +86,7 @@ const ProductItem = (
 
   return (
     <div>
-          {/* <Navbar1 cartCount={props.cartCount} onOpenCart = {props.onOpenCart}/> */}
+          <Navbar1 cartCount={props.cartCount} onOpenCart = {props.onOpenCart}/>
       <div className="product_item">{ProductItem}</div>
     </div>
   );
