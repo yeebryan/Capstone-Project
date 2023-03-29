@@ -319,6 +319,38 @@ func CreateUserDIYPlaylist(c *gin.Context) {
 	})
 }
 
+// retrieve user's playlist
+func GetUserPlaylists(c *gin.Context) {
+	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
+
+	userID := c.Query("userId")
+	if userID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing user ID parameter"})
+		return
+	}
+
+	userOID, err := primitive.ObjectIDFromHex(userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error converting user ID"})
+		return
+	}
+
+	cursor, err := playlistCollection.Find(ctx, bson.M{"user_id": userOID})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var playlists []models.Playlist
+	if err = cursor.All(ctx, &playlists); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, playlists)
+}
+
 // // update the order
 // func UpdateOrder(c *gin.Context) {
 

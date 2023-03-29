@@ -205,7 +205,7 @@ const CarouselPlaylist = () => {
               <img src={FPplaylist.image.url} alt={FPplaylist.image.url} />
             </Link>
             <div className='card-body' style={{ textAlign: 'center' }}>
-              <h3>{FPplaylist.name}</h3>
+              <h3 className='h3-playlist'>{FPplaylist.name}</h3>
               <p>{FPplaylist.description}</p>
             </div>
           </div>
@@ -240,7 +240,7 @@ const CarouselRestaurants = () => {
             <img src={product.image.url} alt={product.image.url} />
           </Link>
           <div className='card-body' style={{ textAlign: 'center' }}>
-            <h3>{product.name}</h3>
+            <h3 className='h3-playlist'>{product.name}</h3>
             <p>{product.description}</p>
           </div>
         </div>
@@ -275,7 +275,7 @@ const CarouselCategory = () => {
             <img src={restaurant.image.url} alt={restaurant.image.url} />
           </Link>
           <div className='card-body' style={{ textAlign: 'center' }}>
-            <h3>{restaurant.name}</h3>
+            <h3 className='h3-playlist'>{restaurant.name}</h3>
             <p>{restaurant.description}</p>
           </div>
         </div>

@@ -85,6 +85,7 @@
   .playlist-name {
     display: block;
     margin:auto;
+    margin-bottom: 20px;
   }
 
   h3 {

@@ -27,10 +27,9 @@ const (
 	//cart states
 	StateCompleted State = "completed"
 	StateInProcess State = "inProcess"
-	//playlist states
-	StateOngoing State = "ongoing"
-	StatePaused  State = "paused"
-	//order states
+	//playlist + order states
+	StateOngoing   State = "ongoing"
+	StatePaused    State = "paused"
 	StatePending   State = "pending"
 	StateDelivered State = "delivered"
 	//shared states
