@@ -13,8 +13,9 @@ const UserPlaylist = () => {
 
   const fetchPlaylists = async () => {
     try {
-      const response = await authAxios.get('http://localhost:3000/user/playlists');
+      const response = await authAxios.get('http://localhost:3000/playlists/user');
       setPlaylists(response.data);
+      console.log(response.data)
     } catch (error) {
       console.error('Error fetching playlists:', error);
     }
@@ -34,11 +35,11 @@ const UserPlaylist = () => {
       <div key={playlist._id} className="playlist-item">
         <h3>{playlist.name}</h3>
         <p>Status: {playlist.status}</p>
-        <button onClick={() => updatePlaylistStatus(playlist._id, 'paused')}>Pause</button>
+        {/* <button onClick={() => updatePlaylistStatus(playlist._id, 'paused')}>Pause</button>
         <button onClick={() => updatePlaylistStatus(playlist._id, 'stopped')}>Stop</button>
         <button onClick={() => updatePlaylistStatus(playlist._id, 'pending')}>Pending</button>
         <button onClick={() => updatePlaylistStatus(playlist._id, 'delivered')}>Delivered</button>
-        <button onClick={() => updatePlaylistStatus(playlist._id, 'completed')}>Completed</button>
+        <button onClick={() => updatePlaylistStatus(playlist._id, 'completed')}>Completed</button> */}
       </div>
     ));
   };
@@ -47,7 +48,7 @@ const UserPlaylist = () => {
     <div>
       <Navbar />
       <div className="user-playlists">
-        <h2>Your Playlists</h2>
+        <h2>Your Playlists & Order History</h2>
         <div className="playlists-container">{renderPlaylists()}</div>
       </div>
     </div>

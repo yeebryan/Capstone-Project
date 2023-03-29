@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar1 from './Navbar';
 import './Checkout.css';
 import withAuth from './withAuth';
@@ -13,10 +13,13 @@ const Checkout = () => {
   const [showConfirmCancel, setShowConfirmCancel] = useState(false);
 
   console.log('location.state:', location.state);
-
   console.log('order:', order);
   console.log('deliveryDates:', deliveryDates);
   console.log('playlist_id:', playlist_id);
+
+
+  const navigate = useNavigate();
+
   if (!order || !order.food) {
 
 
@@ -32,6 +35,9 @@ const Checkout = () => {
     setTimeout(() => {
       setShowPaymentSuccess(false);
     }, 3000);
+    // Navigate to another page
+    navigate('/userplaylist');
+    
   };
 
   const handleCancel = () => {
@@ -73,7 +79,10 @@ console.log('deliveryDates:', deliveryDates);
         <img src={order.food.image.url} alt={order.food.name} />
         <div className="order-item-details">
           <p>
-            <strong>Date:</strong> {date.toLocaleDateString()}
+            <strong>Food:</strong> {order.food.name}
+          </p>
+          <p>
+          <strong>Date:</strong> {date.toLocaleDateString()}
           </p>
           <p>
             <strong>Time:</strong> {order.time}

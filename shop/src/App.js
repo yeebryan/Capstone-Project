@@ -9,6 +9,7 @@ import './App.css';
 import MyOrder from './MyOrder';
 import Playlist from './Playlist';
 import Checkout from './Checkout';
+import UserPlaylist from './UserPlaylist';
 
 
 
@@ -25,6 +26,7 @@ function App() {
         <Route path="/userform" element = {<UserPreferenceForm/>} />
         <Route path="/myorder" element = {<MyOrder/>} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/userplaylist" element={<UserPlaylist/>} />
       </Routes>
     </div>
     </BrowserRouter>
