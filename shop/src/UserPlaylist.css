@@ -1,0 +1,74 @@
+.user-orders {
+    padding: 1rem;
+  }
+  
+  .user-orders table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+  }
+  
+  .user-orders th,
+  .user-orders td {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    text-align: left;
+  }
+  
+  .user-orders th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+  }
+  
+  .user-orders ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Responsive styles */
+  @media screen and (max-width: 767px) {
+    .user-orders table,
+    .user-orders thead,
+    .user-orders tbody,
+    .user-orders th,
+    .user-orders td,
+    .user-orders tr {
+      display: block;
+    }
+  
+    .user-orders thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+  
+    .user-orders tr {
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #ccc; /* Add a border between orders */
+      background-color: #fff; /* Set the default background color */
+    }
+  
+    .user-orders tr:nth-child(even) {
+      background-color: #f5f5f5; /* Set an alternating background color for even rows */
+    }
+  
+    .user-orders td {
+      border: none;
+      border-bottom: 1px solid #ccc;
+      position: relative;
+      padding-left: 50%;
+    }
+  
+    .user-orders td:before {
+      content: attr(data-label);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 45%;
+      padding: 0.5rem;
+      font-weight: bold;
+      text-align: left;
+    }
+  }
+  

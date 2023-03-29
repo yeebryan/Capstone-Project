@@ -34,11 +34,10 @@ const Checkout = () => {
     setShowPaymentSuccess(true);
     setTimeout(() => {
       setShowPaymentSuccess(false);
-    }, 3000);
-    // Navigate to another page
-    navigate('/userplaylist');
-    
+      navigate('/userplaylist');
+    }, 2000);
   };
+
 
   const handleCancel = () => {
     setShowConfirmCancel(true);
@@ -106,7 +105,8 @@ console.log('deliveryDates:', deliveryDates);
         </div>
         {showPaymentSuccess && (
           <div className="payment-success-modal">
-            <h2>Payment Success!</h2>
+            <img src="/imgs/kisspanda.gif" alt="Payment Success GIF" />
+            <p>Payment Successful!</p>
           </div>
         )}
         {showConfirmCancel && (

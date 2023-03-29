@@ -47,24 +47,22 @@ func main() {
 	// Routes that don't require authentication
 	router.GET("/restaurants", routes.GetRestaurants)
 	router.GET("/restaurants/:restaurant_id", routes.GetFoodByRestaurantID) //need to test
-	router.GET("/restaurants/category/:category", routes.GetRestaurantByCategory)
 	router.GET("/playlists", routes.GetPremadePlaylists)
 
-	//orders
+	router.GET("/restaurants/category/:category", routes.GetRestaurantByCategory)
 	router.GET("/order", routes.GetOrders)
-	authRequired.GET("/order/me", routes.GetOrderCurrentUser)
 	// USER USAGE
 	// router.POST("/cart/createPlaylist", routes.createPlaylist)
 
 	// Routes that require authentication
 
 	{
-		router.GET("/playlist/:user_id", routes.GetPlaylistByUserID)
+		// router.GET("/playlist/:user_id", routes.GetPlaylistByUserID)
 		authRequired.GET("/cart/:user_id", routes.GetCartByUserID)
 		// router.GET("/user", routes.GetUserByID)
 		authRequired.GET("/food/random", routes.FetchRandomFood)
 		authRequired.POST("/food/random/create", routes.CreateUserDIYPlaylist)
-
+		authRequired.GET("/order/me", routes.GetOrderCurrentUser)
 		authRequired.PUT("/restaurants/:food_id", routes.AddFoodItemToCart)
 
 		authRequired.GET("/playlists/:playlist_id", routes.GetFoodByPlaylistID)
@@ -72,6 +70,7 @@ func main() {
 		authRequired.POST("/playlists/:playlist_id/create/:user_id", routes.CreateUserPremadePlaylist) //?start_date={start_date}
 		authRequired.DELETE("/playlists/delete/:playlist_id", routes.DeletePlaylist)
 		authRequired.GET("/playlists/user", routes.GetUserPlaylists)
+		authRequired.GET("/playlist/me", routes.GetPlaylistsCurrentUser)
 
 	}
 

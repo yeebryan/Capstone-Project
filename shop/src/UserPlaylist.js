@@ -2,57 +2,83 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import authAxios from './authAxios';
+import './UserPlaylist.css';
 
-const UserPlaylist = () => {
-  const [playlists, setPlaylists] = useState([]);
+
+const UserOrders = () => {
+  const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchPlaylists();
+    fetchOrders();
   }, []);
 
-  const fetchPlaylists = async () => {
+  const fetchOrders = async () => {
     try {
-      const response = await authAxios.get('http://localhost:3000/playlists/user');
-      setPlaylists(response.data);
+      const storedUser = localStorage.getItem('user');
+      if (!storedUser) {
+        console.log('User not logged in');
+        return;
+      }
+
+      const user = JSON.parse(storedUser);
+      const userId = user.id;
+      console.log('userId:', userId);
+      const response = await authAxios.get(`http://localhost:3000/order/me`);
+      console.log('Response:', response);
+      setOrders(response.data);
       console.log(response.data)
     } catch (error) {
-      console.error('Error fetching playlists:', error);
+      console.error('Error fetching orders:', error);
     }
   };
 
-  const updatePlaylistStatus = async (playlist_id, newStatus) => {
-    try {
-      await authAxios.put(`http://localhost:3000/playlists/update/${playlist_id}`, { status: newStatus });
-      fetchPlaylists();
-    } catch (error) {
-      console.error('Error updating playlist status:', error);
-    }
+  const renderOrders = () => {
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Start Date</th>
+            <th>Delivery Time</th>
+            <th>Status</th>
+            <th>Items</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => (
+            <tr key={order._id}>
+              <td data-label="Order ID">{order._id}</td>
+              <td data-label="Start Date">{order.start_date}</td>
+              <td data-label="Delivery Time">{order.delivery_time}</td>
+              <td data-label="Status">{order.status}</td>
+              <td data-label="Items">
+                <ul>
+                  {order.Items.map((item) => (
+                    <li key={item.food_id}>
+                      {item.name} - {item.quantity} x ${item.price}
+                    </li>
+                  ))}
+                </ul>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
   };
-
-  const renderPlaylists = () => {
-    return playlists.map((playlist) => (
-      <div key={playlist._id} className="playlist-item">
-        <h3>{playlist.name}</h3>
-        <p>Status: {playlist.status}</p>
-        {/* <button onClick={() => updatePlaylistStatus(playlist._id, 'paused')}>Pause</button>
-        <button onClick={() => updatePlaylistStatus(playlist._id, 'stopped')}>Stop</button>
-        <button onClick={() => updatePlaylistStatus(playlist._id, 'pending')}>Pending</button>
-        <button onClick={() => updatePlaylistStatus(playlist._id, 'delivered')}>Delivered</button>
-        <button onClick={() => updatePlaylistStatus(playlist._id, 'completed')}>Completed</button> */}
-      </div>
-    ));
-  };
+  
 
   return (
     <div>
       <Navbar />
-      <div className="user-playlists">
-        <h2>Your Playlists & Order History</h2>
-        <div className="playlists-container">{renderPlaylists()}</div>
+      <div className="user-orders">
+        <h2>Your Orders</h2>
+        <div className="orders-container">{renderOrders()}</div>
       </div>
     </div>
   );
+  
 };
 
-export default UserPlaylist;
+export default UserOrders;
