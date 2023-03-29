@@ -145,11 +145,6 @@ func CreateUserPremadePlaylist(c *gin.Context) {
 	}
 
 	startDate := c.Query("start_date")
-	date, err := time.Parse("2006-01-02", startDate)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error getting date": err.Error()})
-		return
-	}
 
 	//get premade playlist
 	//--exclude those crossed []excludedFoodItems?
@@ -168,7 +163,7 @@ func CreateUserPremadePlaylist(c *gin.Context) {
 	//playlist.FoodID
 	playlist.ID = primitive.NewObjectID()
 	playlist.UserID = userOID
-	playlist.StartDate = date
+	playlist.StartDate = startDate
 
 	_, insertErr := playlistCollection.InsertOne(ctx, playlist)
 	if insertErr != nil {
@@ -204,9 +199,7 @@ func DeletePlaylist(c *gin.Context) {
 }
 
 // create user DIY playlist
-
 type CreatePlaylistRequest struct {
-	UserID       string `json:"userId"`
 	PlaylistName string `json:"playlistName"`
 	Category     string `json:"category"`
 	FoodType     string `json:"foodType"`
@@ -227,53 +220,34 @@ func CreateUserDIYPlaylist(c *gin.Context) {
 	}
 
 	// get params
-	userID := request.UserID
-	userOID, err := primitive.ObjectIDFromHex(userID)
+	userID := c.Value("uid")
+	userOID, err := primitive.ObjectIDFromHex(userID.(string))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting user OID": err.Error()})
 		return
 	}
 
-	foodID := request.FoodId
-	foodOID, err := primitive.ObjectIDFromHex(foodID)
+	foodOID, err := primitive.ObjectIDFromHex(request.FoodId)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting food OID": err.Error()})
 		return
 	}
 
-	startDate := request.StartDate
-	date, err := time.Parse("2006-01-02", startDate)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error getting date": err.Error()})
-		return
-	}
-
-	interval := request.Interval
-	var intervalConv models.Interval // Replace "models.Interval" with the correct type from your code
-	intervalConv, err = models.IntervalType(interval)
+	intervalConv, err := models.IntervalType(request.Interval)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error getting interval": err.Error()})
 		return
 	}
 
-	timeInput := request.Time
-	timeParse, err := time.Parse("15:04", timeInput)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "error getting time"})
-		return
-	}
-
-	playlistName := request.PlaylistName
-
 	// playlist creation
 	playlist := models.Playlist{
 		ID:             primitive.NewObjectID(),
-		Name:           playlistName,
+		Name:           request.PlaylistName,
 		FoodID:         []primitive.ObjectID{foodOID},
 		UserID:         userOID,
 		Status:         models.StateOngoing,
-		StartDate:      date,
-		DeliveryTiming: timeParse,
+		StartDate:      request.StartDate,
+		DeliveryTiming: request.Time,
 		TimingInterval: intervalConv,
 	}
 
@@ -301,11 +275,11 @@ func CreateUserDIYPlaylist(c *gin.Context) {
 				Price:    food.Price,
 			},
 		},
-		UserID:         userOID,
-		Status:         models.StatePending,
-		StartDate:      date,
-		DeliveryTiming: timeParse,
-		CreatedAt:      time.Now(),
+		UserID:       userOID,
+		Status:       models.StatePending,
+		StartDate:    request.StartDate,
+		DeliveryTime: request.Time,
+		CreatedAt:    time.Now(),
 	}
 
 	_, insertErr = orderCollection.InsertOne(ctx, order)

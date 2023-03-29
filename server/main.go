@@ -47,9 +47,9 @@ func main() {
 	// Routes that don't require authentication
 	router.GET("/restaurants", routes.GetRestaurants)
 	router.GET("/restaurants/:restaurant_id", routes.GetFoodByRestaurantID) //need to test
+	router.GET("/restaurants/category/:category", routes.GetRestaurantByCategory)
 	router.GET("/playlists", routes.GetPremadePlaylists)
 
-	router.GET("/restaurants/category", routes.GetRestaurantByCategory)
 	//orders
 	router.GET("/order", routes.GetOrders)
 	authRequired.GET("/order/me", routes.GetOrderCurrentUser)

@@ -75,9 +75,10 @@ const fetchProducts = () => {
 // click category
 const handleClickCat = async (category) => {
     setSelectedCat(category);
-    const response = await fetch(`http://localhost:3000/restaurants?category=${category}`);
+    const response = await fetch(`http://localhost:3000/restaurants/category/${category}`);
     const data = await response.json();
     setRestaurants(data);
+    
   }
 
 
@@ -345,7 +346,7 @@ const ThreeColumnCard = ({ handleClickCat }) => {
           <h3>Featured Restaurants</h3>
           <CarouselRestaurants />
           <ThreeColumnCard handleClickCat={handleClickCat}/>
-          {selectedCat && (CarouselCategory)}
+          <CarouselCategory />
         </div>
           <Footer/>
         </div>
