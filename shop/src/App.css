@@ -512,23 +512,50 @@ form {
   color:#000;
 }
 
-.premade_playlist_details_td {
-  padding:100px;
+.premade_playlist_details_tr {
+  padding:10px;
   text-align: center;
+  align-content: center;
 }
 
 .premade_playlist_details {
   display: flex;
-  padding-left: 700px;
-}
-
-.whole_webpage {
-  background-image: url(
-    "FP_Wallpaper.png");
-
-  background-size: 100%;
+  flex-direction: column;
+  align-items: center;
 }
 
 .white {
   background-color: #fff;
+}
+
+.playlist_item {
+  display: flex;
+}
+
+.playlist-container {
+  display: flex;
+}
+
+.time-playlist.time-playlist {
+  width:240%;
+}
+
+.uform-playlist.uform-playlist {
+  padding-left: 100px;
+}
+
+.footer-stuff {
+  justify-content: space-evenly;
+}
+
+.footer-table {
+  width:100%;
+}
+
+.footer-td {
+  text-align-last: left;
+}
+
+.footer-tdd {
+  text-align-last: right;
 }

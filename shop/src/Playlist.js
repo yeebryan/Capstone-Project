@@ -160,6 +160,15 @@ const PlaylistItems = data.length > 0 && (
   </div>
 );
 
+const playlistNames = data.length > 0 && ( 
+  <div key={data.id}>
+    {data &&
+        data.map(() => (
+          <h1>{data.name}</h1>
+        ))}
+  </div>
+);
+
 const renderFoodCards = () => {
 
   if (foods.length === 0 && submitted && showError) {
@@ -182,21 +191,21 @@ const handleProceed = () => {
 
 
   return (
-    <div className="whole_webpage">
+    <div>
           <Navbar1 cartCount={props.cartCount} onOpenCart = {props.onOpenCart}/>
       
-      <h1>{playlistName}</h1>
+      <h1>{playlistNames}</h1>
       <table className="premade_playlist_details">
-      <td className="premade_playlist_details_td">
+      <tr className="premade_playlist_details_tr">
       <div className="playlist_item">{PlaylistItems}</div>
-      </td>
-      <td className="premade_playlist_details_td">
+      </tr>
+      <tr className="premade_playlist_details_tr">
       <div className='user-preference-form'>
       <div className='uform-page'>
                 {/* Add a container for the title and progress indicator */}
                 <div className='title-progress-container'>
       </div>
-        <div className='uform-container'>
+        <div className='uform-container uform-playlist'>
           <form onSubmit={handleSubmit}>
             <div>
               <label>
@@ -226,7 +235,7 @@ const handleProceed = () => {
               <label>
                 Time:
                 <input type='time'
-                  className='form-input-time time-input'
+                  className='form-input-time time-input time-playlist'
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
                   required
@@ -243,7 +252,7 @@ const handleProceed = () => {
         {error && <p>{error}</p>}
       </div>
     </div>
-    </td>
+    </tr>
     </table>
     </div>
   );
