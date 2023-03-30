@@ -138,7 +138,7 @@ func FetchRandomFood(c *gin.Context) {
 		return
 	}
 
-	fmt.Println("Foods FREAK:", foods)
+	fmt.Println("Foods FREAKYU:", foods)
 
 	if len(foods) == 0 {
 		c.JSON(http.StatusOK, gin.H{"foods": []models.Food{}})

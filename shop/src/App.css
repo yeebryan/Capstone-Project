@@ -51,6 +51,12 @@ h3 {
   color:#d61063;
   font-size: 0.875rem;
   line-height: 1.8;
+  padding-top: 10px;
+}
+
+.h3-playlist {
+  color:#d61063;
+  font-size: 0.875rem;
 }
 
 /* PRODUCT PAGE STYLES */
@@ -194,6 +200,9 @@ button {
   overflow: hidden;
   position: relative;
   font-family: unset;
+  /* border-width: thick; */
+  border-color: #d61063;
+  padding-bottom: 10px;
 }
 
 .tile-image {
