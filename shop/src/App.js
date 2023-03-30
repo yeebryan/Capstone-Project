@@ -10,6 +10,7 @@ import MyOrder from './MyOrder';
 import Playlist from './Playlist';
 import Checkout from './Checkout';
 import UserPlaylist from './UserPlaylist';
+import MoreDetails from './MoreDetails';
 
 
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/myorder" element = {<MyOrder/>} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/userplaylist" element={<UserPlaylist/>} />
+        <Route path="/moredetails" element={<MoreDetails/>}/>
       </Routes>
     </div>
     </BrowserRouter>

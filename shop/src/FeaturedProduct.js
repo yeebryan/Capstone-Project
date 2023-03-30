@@ -174,7 +174,7 @@ const PlaylistTile = () => {
         className="tile-image"
       />
       <span className="tile-text-1">Introducing ...</span>
-      <span className="tile-text">DIY PLAYLIST</span>
+      <span className="tile-text">RANDOM PLAYLIST</span>
       <span className='tile-para'>Click on me to begin!</span>
     </div>
   );

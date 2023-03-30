@@ -295,29 +295,9 @@ func CreateUserDIYPlaylist(c *gin.Context) {
 	})
 }
 
-type PlaylistDB struct {
-	ID     primitive.ObjectID `bson:"_id"`
-	Name   string             `bson:"name"`
-	FoodID []struct {
-		Oid primitive.ObjectID `bson:"$oid"`
-	} `bson:"food_id"`
-	UserID struct {
-		Oid primitive.ObjectID `bson:"$oid"`
-	} `bson:"user_id"`
-	Status    string `bson:"status"`
-	StartDate struct {
-		Date time.Time `bson:"$date"`
-	} `bson:"start_date"`
-	DeliveryTiming struct {
-		Date struct {
-			NumberLong int64 `bson:"$numberLong,string"`
-		} `bson:"$date"`
-	} `bson:"delivery_timing"`
-	TimingInterval string `bson:"timing_interval"`
-}
-
 // retrieve user PLAYLIST DA one
 func GetPlaylistsCurrentUser(c *gin.Context) {
+	fmt.Println("GetPlaylistsCurrentUser called") // Add this log statement
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
@@ -346,6 +326,27 @@ func GetPlaylistsCurrentUser(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, result)
+}
+
+type PlaylistDB struct {
+	ID     primitive.ObjectID `bson:"_id"`
+	Name   string             `bson:"name"`
+	FoodID []struct {
+		Oid primitive.ObjectID `bson:"$oid"`
+	} `bson:"food_id"`
+	UserID struct {
+		Oid primitive.ObjectID `bson:"$oid"`
+	} `bson:"user_id"`
+	Status    string `bson:"status"`
+	StartDate struct {
+		Date time.Time `bson:"$date"`
+	} `bson:"start_date"`
+	DeliveryTiming struct {
+		Date struct {
+			NumberLong int64 `bson:"$numberLong,string"`
+		} `bson:"$date"`
+	} `bson:"delivery_timing"`
+	TimingInterval string `bson:"timing_interval"`
 }
 
 // retrieve user's playlist
