@@ -69,8 +69,9 @@ func main() {
 		authRequired.GET("/playlists/food/:category", routes.GetFoodByCategory)
 		authRequired.POST("/playlists/:playlist_id/create/:user_id", routes.CreateUserPremadePlaylist) //?start_date={start_date}
 		authRequired.DELETE("/playlists/delete/:playlist_id", routes.DeletePlaylist)
-		authRequired.GET("/playlists/user", routes.GetUserPlaylists)
+		// authRequired.GET("/playlists/user", routes.GetUserPlaylists)
 		authRequired.GET("/playlist/me", routes.GetPlaylistsCurrentUser)
+		authRequired.GET("/playlist/:playlistId/user/:userId", routes.GetSelectedPlaylist) // moredetails.js
 
 	}
 

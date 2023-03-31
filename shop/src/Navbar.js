@@ -30,7 +30,7 @@ const Navbar1 = (props) => {
         <div className="d-none d-lg-block">
           <Nav className="ml-auto">
             <Nav.Link href="/about">Playlist</Nav.Link>
-            <Nav.Link href="/">About Us</Nav.Link>
+            <Nav.Link href="/about">About Us</Nav.Link>
           </Nav>
         </div>
         <Nav className="ms-auto">

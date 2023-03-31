@@ -207,7 +207,6 @@ const CarouselPlaylist = () => {
             </Link>
             <div className='card-body' style={{ textAlign: 'center' }}>
               <h3 className='h3-playlist'>{FPplaylist.name}</h3>
-              <p>{FPplaylist.description}</p>
             </div>
           </div>
       ))}
@@ -242,7 +241,6 @@ const CarouselRestaurants = () => {
           </Link>
           <div className='card-body' style={{ textAlign: 'center' }}>
             <h3 className='h3-playlist'>{product.name}</h3>
-            <p>{product.description}</p>
           </div>
         </div>
     ))}
@@ -277,7 +275,6 @@ const CarouselCategory = () => {
           </Link>
           <div className='card-body' style={{ textAlign: 'center' }}>
             <h3 className='h3-playlist'>{restaurant.name}</h3>
-            <p>{restaurant.description}</p>
           </div>
         </div>
     ))}
