@@ -26,7 +26,17 @@ const UserPlaylist = () => {
 
 const pauseUnpausePlaylist = async (playlistId, currentStatus) => {
     try {
-      const updatedStatus = currentStatus === 'ongoing' ? 'paused' : 'ongoing';
+      let updatedStatus;
+      if (currentStatus === 'ongoing') {
+        updatedStatus = 'paused';
+      } else if (currentStatus === 'paused') {
+        updatedStatus = 'ongoing';
+      } else if (currentStatus === 'pending') {
+        updatedStatus = 'paused';
+      } else {
+        return; // If the status is neither 'ongoing', 'paused', nor 'pending', do nothing
+      }
+  
       const response = await authAxios.put(`http://localhost:3000/playlist/${playlistId}`, { status: updatedStatus });
       console.log('Response:', response);
       // Update the playlists state with the updated playlist
@@ -41,6 +51,7 @@ const pauseUnpausePlaylist = async (playlistId, currentStatus) => {
       console.error('Error updating playlist status:', error);
     }
   };
+  
   
 
 
@@ -57,8 +68,16 @@ const pauseUnpausePlaylist = async (playlistId, currentStatus) => {
       console.log('userId:', userId);
       const response = await authAxios.get(`http://localhost:3000/order/me`);
       console.log('Response:', response);
-      setOrders(response.data);
-      console.log(response.data)
+      const orders = response.data.map((order) => {
+        const interval = order.interval && order.interval.interval ? order.interval.interval : '';
+        console.log(interval)
+        return {
+          ...order,
+          interval: interval
+        };
+      });
+      setOrders(orders);
+      console.log(orders)
     } catch (error) {
       console.error('Error fetching orders:', error);
     }
@@ -133,17 +152,57 @@ const pauseUnpausePlaylist = async (playlistId, currentStatus) => {
           {playlists.map((playlist) => (
             <tr key={playlist._id}>
               <td data-label="Name">{playlist.name}</td>
-              <td data-label="Status">{playlist.status}</td>
+              <td data-label="Status">
+                {playlist.status === 'ongoing' ? 'ongoing' : 'paused'}
+              </td>
               <td data-label="Actions">
-                <button className="btn-secondary" onClick={() => pauseUnpausePlaylist(playlist._id, playlist.status)}>
+                <button
+                  className="btn-secondary"
+                  onClick={() => pauseUnpausePlaylist(playlist._id, playlist.status)}
+                >
                   {playlist.status === 'paused' ? 'Unpause' : 'Pause'}
                 </button>
-                <button className="btn-primary" onClick={() => viewPlaylist(playlist)}>View</button>
+                <button className="btn-primary" onClick={() => viewPlaylist(playlist)}>
+                  View
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+    );
+  };
+  
+  const Footer = () => {
+    return (
+      <footer className="bg-primary-500 text-white p-4">
+        <div className="container mx-auto">
+          <div className="flex flex-wrap items-center justify-between">
+            <table className="footer-table">
+              <tr className="footer-stuff">
+                <td className="footer-td">
+                <p className="text-sm">© 2023 Your Company. All rights reserved.</p>
+                </td>
+                <td className="footer-tdd">
+                  <a href="/" className="text-black hover:text-primary-100">
+                    Terms of Service
+                  </a> 
+                </td>
+                <td className="footer-tdd">
+                  <a href="/" className="text-black hover:text-primary-100">
+                    Privacy Policy
+                  </a>
+                </td>
+                <td className="footer-tdd">
+                  <a href="/" className="text-black hover:text-primary-100">
+                    Contact Us
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </footer>
     );
   };
   
@@ -160,6 +219,7 @@ const pauseUnpausePlaylist = async (playlistId, currentStatus) => {
         <button onClick={toggleOrdersVisibility}>V</button>
         <div className="orders-container hidden">{renderOrders()}</div>
       </div>
+      <Footer />
     </div>
   );
 };

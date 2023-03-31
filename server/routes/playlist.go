@@ -8,8 +8,6 @@ import (
 	"server/models"
 	"time"
 
-	log "github.com/sirupsen/logrus"
-
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"go.mongodb.org/mongo-driver/bson"
@@ -350,68 +348,81 @@ type PlaylistDB struct {
 }
 
 // retrieve user's playlist
-func GetUserPlaylists(c *gin.Context) {
+func getUserPlaylist(c *gin.Context) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
-	userID := c.Query("userId")
-	if userID == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing user ID parameter"})
+	playlistID := c.Param("playlistId")
+	playlistOID, err := primitive.ObjectIDFromHex(playlistID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error converting playlist ID"})
 		return
 	}
 
+	userID := c.Param("userId")
 	userOID, err := primitive.ObjectIDFromHex(userID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error converting user ID"})
 		return
 	}
 
-	cursor, err := playlistCollection.Find(ctx, bson.M{"user_id": userOID})
+	var playlistDB PlaylistDB
+	err = playlistCollection.FindOne(ctx, bson.M{"_id": playlistOID, "user_id": userOID}).Decode(&playlistDB)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	var playlistsDB []PlaylistDB
-	if err = cursor.All(ctx, &playlistsDB); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+	foodIDs := make([]primitive.ObjectID, len(playlistDB.FoodID))
+	for i, f := range playlistDB.FoodID {
+		foodIDs[i] = f.Oid
 	}
 
-	log.Info("PlaylistsDB: ", playlistsDB) // Log playlistsDB
-
-	playlists := make([]models.Playlist, len(playlistsDB))
-	counter := 0
-	for i, p := range playlistsDB {
-		foodIDs := make([]primitive.ObjectID, len(p.FoodID))
-		for j, f := range p.FoodID {
-			foodIDs[j] = f.Oid
-			counter++ // Increment the counter in each iteration
-
-		}
-
-		fmt.Println("Processed Playlists:", playlists) // Print processed playlists
-
-		playlists[i] = models.Playlist{
-			ID:             p.ID,
-			Name:           p.Name,
-			FoodID:         foodIDs,
-			UserID:         p.UserID.Oid,
-			Status:         models.State(p.Status),
-			StartDate:      p.StartDate.Date.Format(time.RFC3339),
-			DeliveryTiming: time.Unix(p.DeliveryTiming.Date.NumberLong/1000, 0).Format(time.RFC3339),
-			TimingInterval: models.Interval(p.TimingInterval),
-		}
+	playlist := models.Playlist{
+		ID:             playlistDB.ID,
+		Name:           playlistDB.Name,
+		FoodID:         foodIDs,
+		UserID:         playlistDB.UserID.Oid,
+		Status:         models.State(playlistDB.Status),
+		StartDate:      playlistDB.StartDate.Date.Format(time.RFC3339),
+		DeliveryTiming: time.Unix(playlistDB.DeliveryTiming.Date.NumberLong/1000, 0).Format(time.RFC3339),
+		TimingInterval: models.Interval(playlistDB.TimingInterval),
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"playlists":    playlists,
-		"userId":       userID,         // Debugging line
-		"userOID":      userOID,        // Debugging line
-		"playlistsLen": len(playlists), // Debugging line
-		"counter":      counter,        // Return the counter value
-
+		"playlist": playlist,
 	})
+}
+
+// moredetails.js
+
+func GetSelectedPlaylist(c *gin.Context) {
+	fmt.Println("GetSelectedPlaylist called")
+
+	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
+
+	playlistID := c.Param("playlistId")
+	playlistOID, err := primitive.ObjectIDFromHex(playlistID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting playlist OID": err.Error()})
+		return
+	}
+
+	userID := c.Param("userId")
+	userOID, err := primitive.ObjectIDFromHex(userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error getting user OID": err.Error()})
+		return
+	}
+
+	var result bson.M
+	err = playlistCollection.FindOne(ctx, bson.M{"_id": playlistOID, "user_id": userOID}).Decode(&result)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error finding playlist by user ID and playlist ID": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, result)
 }
 
 // // update the order
